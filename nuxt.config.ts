@@ -39,6 +39,7 @@ export default defineNuxtConfig({
       FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
       FIREBASE_MEASUREMENT_ID: process.env.FIREBASE_MEASUREMENT_ID,
     },
+    MONGO_URI: process.env.MONGO_URI || "mongodb://localhost:27017/teia-admin",
   },
 
   typescript: {
