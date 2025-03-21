@@ -1,7 +1,7 @@
-import Token from "./token";
-import User from "./user";
+import type Token from "./token";
+import type User from "./user";
 
 export default interface Auth {
-  token: Token;
+  token: string;
   user: User;
 }

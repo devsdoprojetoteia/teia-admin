@@ -2,12 +2,7 @@
   <v-app-bar flat style="width: 100%">
     <v-app-bar-title>
       <NuxtLink to="/" class="text-decoration-none d-flex align-center">
-        <img
-          v-if="provider.logo"
-          :src="filesURL + provider.logo"
-          class="logo"
-        />
-        <span class="ml-4 text-subtitle-1">{{ provider.name }}</span>
+        <img src="/img/logo.png" alt="Projeto teia" class="logo" />
       </NuxtLink>
     </v-app-bar-title>
     <template v-slot:append>
@@ -29,8 +24,11 @@
   </v-app-bar>
 </template>
 <script lang="ts" setup>
-const { logout } = useAuth();
 const { provider } = useProvider();
 const config = useRuntimeConfig();
 const filesURL = config.public.filesURL;
+function logout() {
+  useAuth().logout();
+  window.location.reload();
+}
 </script>

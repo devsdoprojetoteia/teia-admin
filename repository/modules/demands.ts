@@ -1,5 +1,5 @@
 import Demand from "~~/models/demand";
-import { FormValues } from "~~/models/dynamic-form";
+import type { FormValues } from "~~/models/dynamic-form";
 import HttpFactory from "../factory";
 
 class DemandsModule extends HttpFactory {

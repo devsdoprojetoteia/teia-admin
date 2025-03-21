@@ -1,6 +1,6 @@
 import { localize, setLocale } from "@vee-validate/i18n";
 import pt_BR from "@vee-validate/i18n/dist/locale/pt_BR.json";
-import AllRules from "@vee-validate/rules";
+import { all } from "@vee-validate/rules";
 import { defineRule, configure } from "vee-validate";
 import { defineNuxtPlugin } from "#app";
 export default defineNuxtPlugin((_nuxtApp) => {
@@ -13,8 +13,8 @@ export default defineNuxtPlugin((_nuxtApp) => {
       },
     }),
   });
-  Object.keys(AllRules).forEach((rule) => {
-    defineRule(rule, AllRules[rule]);
+  Object.keys(all).forEach((rule) => {
+    defineRule(rule, all[rule]);
   });
 
   setLocale("pt_BR");

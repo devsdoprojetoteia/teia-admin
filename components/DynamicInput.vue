@@ -8,7 +8,6 @@
     :label="props.label"
     :type="props.type || 'text'"
   >
-    {{ validate }}
     <ContentEditor
       v-if="componentType === 'content-editor'"
       :model-value="value || []"
@@ -28,6 +27,33 @@
       v-bind="field"
     />
 
+    <component
+      v-else-if="props.mask"
+      clearable
+      :is="componentType"
+      :model-value="value"
+      @update:model-value="handleInput"
+      v-bind="field"
+      v-mask="props.mask"
+      :type="inputType"
+      :label="props.label"
+      :error-messages="errorMessage"
+      variant="solo"
+      :rows="props.rows"
+      :auto-grow="props.autoGrow"
+      :readonly="props.readonly"
+      :max-rows="props.maxRows"
+      :items="props.items"
+      @change="handleChange"
+    >
+      <template v-slot:append-inner v-if="props.type === 'password'">
+        <Icon
+          @click="showPassword = !showPassword"
+          :color="showPassword ? 'success' : ''"
+          icon="mdi-eye"
+        />
+      </template>
+    </component>
     <component
       v-else
       clearable
@@ -58,8 +84,8 @@
 </template>
 <script setup lang="ts">
 import { Field } from "vee-validate";
-import { FormField } from "~~/models/dynamic-form";
-import { StringMap } from "~~/models/utils";
+import type { FormField } from "~~/models/dynamic-form";
+import type { StringMap } from "~~/models/utils";
 
 const { props, validate, name } = defineProps<{
   name: string;

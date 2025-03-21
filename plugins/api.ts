@@ -21,7 +21,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   };
 
   const apiFetcher = $fetch.create({
-    baseURL: nuxtApp.$config.public.apiURL,
+    baseURL: nuxtApp.$config.public.apiURL as string,
     headers,
     onRequest: (config) => {
       const authCookie = useCookie<Auth | null>("auth");

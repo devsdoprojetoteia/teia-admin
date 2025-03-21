@@ -1,6 +1,6 @@
 import HttpFactory from "../factory";
 import Customer from "../../models/customer";
-import CustomerSummary from "~~/models/customer-summary";
+import type CustomerSummary from "~~/models/customer-summary";
 
 class CustomersModule extends HttpFactory {
   async summary(id: string): Promise<CustomerSummary> {

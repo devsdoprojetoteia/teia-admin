@@ -1,10 +1,13 @@
 import HttpFactory from "../factory";
-import User from "../../models/user";
-import AuthResponse from "~~/models/auth";
+import type User from "../../models/user";
+import type Auth from "~~/models/auth";
 
 class AuthModule extends HttpFactory {
-  async authenticateWithFirebaseToken(token: string): Promise<AuthResponse> {
-    return await this.apiPost<AuthResponse>(`/v1/auth/firebase`, { token });
+  async login(phone: string, password: string): Promise<Auth> {
+    return await this.apiPost<Auth>(`/api/login`, { phone, password });
+  }
+  async register(name: string, phone: string, password: string): Promise<Auth> {
+    return await this.apiPost<Auth>(`/api/register`, { name, phone, password });
   }
 }
 

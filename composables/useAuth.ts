@@ -1,4 +1,4 @@
-import Auth from "~~/models/auth";
+import type Auth from "~~/models/auth";
 
 export const useAuth = () => {
   const auth = useState<Auth | null>("auth", () => null);
@@ -6,20 +6,26 @@ export const useAuth = () => {
 
   const { $api } = useNuxtApp();
 
-  const authenticateWithFirebaseToken = async (token: string) => {
-    const authResponse = await $api.auth.authenticateWithFirebaseToken(token);
+  const register = async (name: string, phone: string, password: string) => {
+    const authResponse = await $api.auth.register(name, phone, password);
+    return setAuth(authResponse);
+  };
+
+  const login = async (phone: string, password: string) => {
+    const authResponse = await $api.auth.login(phone, password);
     return setAuth(authResponse);
   };
 
   const setAuth = (authInfo: Auth | null): Auth | null => {
     auth.value = authInfo;
     authCookie.value = authInfo;
+    console.log("authInfo", authInfo);
+    console.log("auth", auth.value);
     return auth.value;
   };
 
   const logout = async () => {
     setAuth(null);
-    useRouter().replace({ path: "/" });
   };
 
   const isAuthenticated = computed(() => {
@@ -53,7 +59,8 @@ export const useAuth = () => {
     user,
     token,
     loadAuth,
-    authenticateWithFirebaseToken,
+    register,
+    login,
     logout,
     isAuthenticated,
     isProvider,

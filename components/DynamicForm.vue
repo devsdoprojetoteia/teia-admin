@@ -95,7 +95,7 @@
 </template>
 <script setup lang="ts">
 import { Form, useFormValues } from "vee-validate";
-import { FormProps, FormValues } from "../models/dynamic-form";
+import type { FormProps, FormValues } from "../models/dynamic-form";
 
 const { notifyError } = useNotify();
 

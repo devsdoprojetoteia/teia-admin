@@ -1,26 +1,19 @@
 <template>
   <Portal>
     <div>
-      <DynamicForm :form="form" v-if="customerId" />
-      <Alert v-else
-        >É necessário um código de cadastro para continuar. Por favor, entre em
-        contato com nossa equipe e peça o link de cadastro.</Alert
-      >
+      <DynamicForm :form="form" />
     </div>
     <div class="pt-12">
       <Button to="/entrar" class="mb-4" size="small">
         Já tenho cadastro
       </Button>
       <br />
-      <Button @click="loginWithGoogle" class="mb-4" size="small">
-        Fale conosco
-      </Button>
     </div>
   </Portal>
 </template>
 
 <script lang="ts" setup>
-import { FormProps, FormValues } from "~~/models/dynamic-form";
+import type { FormProps, FormValues } from "~~/models/dynamic-form";
 
 definePageMeta({
   layout: "public",
@@ -28,7 +21,6 @@ definePageMeta({
 
 // get url query param "cliente"
 const route = useRoute();
-const customerId = route.query.cliente;
 
 const form: FormProps = {
   steps: [
@@ -39,10 +31,11 @@ const form: FormProps = {
           label: "Seu nome completo",
           rules: "required",
         },
-        email: {
-          label: "E-mail",
-          type: "email",
-          rules: "required|email",
+        phone: {
+          label: "Telefone",
+
+          rules: "required",
+          mask: ["(##) ####-####", "(##) #####-####"],
         },
         password: {
           label: "Senha",
@@ -60,23 +53,25 @@ const form: FormProps = {
   submitLabel: "Continuar",
   wizard: true,
   onSubmit: async (values: FormValues) => {
-    const { login } = useFirebaseAuth();
-    const loginResult = await login(values.email, values.password);
-    if (loginResult) {
-      redirectSuccessLogin();
+    console.log("values", values);
+    // validate password confirmation
+    if (values.password !== values.password_confirmation) {
+      const { notifyError } = useNotify();
+      return notifyError("As senhas não conferem");
+    }
+    const { register } = useApiAuth();
+    const registerResult = await register(
+      values.name,
+      values.phone,
+      values.password
+    );
+    if (registerResult) {
+      redirectSuccessRegister();
     }
   },
 };
 
-const loginWithGoogle = async () => {
-  const { loginWithGoogle } = useFirebaseAuth();
-  const loginResult = await loginWithGoogle();
-  if (loginResult) {
-    redirectSuccessLogin();
-  }
-};
-
-const redirectSuccessLogin = () => {
-  return navigateTo({ name: "atendimento" });
+const redirectSuccessRegister = () => {
+  return navigateTo({ path: "/" });
 };
 </script>

@@ -1,16 +1,17 @@
 <template>
   <div>
     <!-- {{ provider }} -->
-    <Cover />
+    <!-- <Cover />
     <Presentation />
     <Services />
     <v-divider></v-divider>
-    <Portfolio />
+    <Portfolio /> -->
   </div>
 </template>
 <script setup lang="ts">
 definePageMeta({
-  layout: "public",
+  middleware: ["authenticated"],
+  layout: "provider",
 });
 
 const { provider } = useProvider();
