@@ -195,7 +195,7 @@ export default {
     },
     async loadDemands() {
       const params = { ...this.filters, customer: this.customer._id };
-      this.demands = await this.$axios.$get("/v1/demands", {
+      this.demands = await this.$axios.$get("/api/demands", {
         params,
       });
       if (this.hasDemandsInProgress && !this.hasPendingDemands) {
@@ -218,7 +218,7 @@ export default {
       this.loadSummary();
     },
     async removeDemand() {
-      await this.$axios.$delete(`/v1/demands/${this.activeDemand._id}`);
+      await this.$axios.$delete(`/api/demands/${this.activeDemand._id}`);
       this.closeDemand();
       this.loadDemands();
       this.loadSummary();

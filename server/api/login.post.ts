@@ -16,6 +16,6 @@ export default defineEventHandler(async (event) => {
       message: "Telefone ou senha inválidos",
     });
   }
-  const token = jwt.sign({ id: user._id }, SECRET_KEY, { expiresIn: "1y" });
+  const token = jwt.sign(user.publicData(), SECRET_KEY, { expiresIn: "1y" });
   return { token, user: user.publicData() };
 });

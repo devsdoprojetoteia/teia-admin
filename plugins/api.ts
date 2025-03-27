@@ -5,6 +5,7 @@ import ProvidersModule from "~~/repository/modules/providers";
 import CustomersModule from "~~/repository/modules/customers";
 import DemandsModule from "~~/repository/modules/demands";
 import type Auth from "~~/models/auth";
+import UsersModule from "~/repository/modules/users";
 
 /** ApiInstance interface provides us with good typing */
 interface IApiInstance {
@@ -12,6 +13,7 @@ interface IApiInstance {
   providers: ProvidersModule;
   customers: CustomersModule;
   demands: DemandsModule;
+  users: UsersModule;
   auth: AuthModule;
 }
 
@@ -25,12 +27,12 @@ export default defineNuxtPlugin((nuxtApp) => {
     headers,
     onRequest: (config) => {
       const authCookie = useCookie<Auth | null>("auth");
+      console.log("authCookie", authCookie);
       const token = authCookie.value?.token;
       if (token) {
-        config.options.headers = {
-          ...config.options.headers,
-          // Authorization: `${token.tokenType} ${token.accessToken}`,
-        };
+        if (config.options.headers instanceof Headers) {
+          config.options.headers.set("Authorization", `Bearer ${token}`);
+        }
       }
     },
   });
@@ -40,6 +42,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     providers: new ProvidersModule(apiFetcher),
     customers: new CustomersModule(apiFetcher),
     demands: new DemandsModule(apiFetcher),
+    users: new UsersModule(apiFetcher),
     auth: new AuthModule(apiFetcher),
   };
 

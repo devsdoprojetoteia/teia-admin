@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <!-- {{ provider }} -->
-    <!-- <Cover />
-    <Presentation />
-    <Services />
-    <v-divider></v-divider>
-    <Portfolio /> -->
+  <div class="px-3 py-6">
+    <v-btn to="/usuarios" block variant="elevated" size="large" color="success">
+      <Icon icon="mdi-account-multiple" start />
+      Usuários
+    </v-btn>
   </div>
 </template>
 <script setup lang="ts">
@@ -14,8 +12,7 @@ definePageMeta({
   layout: "provider",
 });
 
-const { provider } = useProvider();
 useHead({
-  title: provider.value?.description || provider.value?.name,
+  title: "Usuários",
 });
 </script>

@@ -149,14 +149,14 @@ export default {
       const form = { ...this.form };
       if (this.demand) {
         this.$axios
-          .$patch("/v1/demands/" + this.demand._id, form)
+          .$patch("/api/demands/" + this.demand._id, form)
           .then((demand) => {
             this.$notifier.success("Atualizado!");
             this.$emit("input", demand);
           });
       } else {
         this.$axios
-          .$post("/v1/demands", { ...form, customer: this.customer._id })
+          .$post("/api/demands", { ...form, customer: this.customer._id })
           .then((demand) => {
             this.$notifier.success("Salvo!");
             this.$emit("input", demand);

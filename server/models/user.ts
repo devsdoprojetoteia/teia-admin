@@ -5,6 +5,7 @@ export interface UserPublicData {
   id: string;
   name: string;
   phone: string;
+  role: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -13,6 +14,7 @@ interface IUser extends Document {
   phone: string;
   password: string;
   passwordResetCode?: string;
+  role: string;
   createdAt: Date;
   updatedAt: Date;
   comparePassword(password: string): Promise<boolean>;
@@ -23,6 +25,7 @@ const UserSchema = new Schema<IUser>(
   {
     name: { type: String, required: true },
     phone: { type: String, required: true, unique: true },
+    role: { type: String, required: true, default: "estudante" },
     password: { type: String, required: true },
     passwordResetCode: { type: String },
   },
@@ -42,6 +45,7 @@ UserSchema.methods.publicData = function () {
     id: this._id,
     name: this.name,
     phone: this.phone,
+    role: this.role,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
   } as UserPublicData;

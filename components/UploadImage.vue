@@ -48,15 +48,15 @@ export default {
     },
     label: {
       type: String,
-      default: 'Anexar foto',
+      default: "Anexar foto",
     },
     icon: {
       type: String,
-      default: 'mdi-image',
+      default: "mdi-image",
     },
     color: {
       type: String,
-      default: 'primary',
+      default: "primary",
     },
     disabled: {
       type: Boolean,
@@ -66,41 +66,41 @@ export default {
   data() {
     return {
       loading: false,
-    }
+    };
   },
   computed: {
     inputId() {
-      return Math.random().toString(36).substring(2, 15)
+      return Math.random().toString(36).substring(2, 15);
     },
   },
   methods: {
     uploadFiles(e) {
-      this.loading = true
-      const files = e.target.files || e.dataTransfer.files
+      this.loading = true;
+      const files = e.target.files || e.dataTransfer.files;
       for (let i = 0; i < files.length; i++) {
-        const file = files[i]
-        const formData = new FormData()
-        formData.append('file', file, file.name)
+        const file = files[i];
+        const formData = new FormData();
+        formData.append("file", file, file.name);
         this.$axios
-          .$post('/v1/uploads/images?prefix=' + this.prefix, formData, {
+          .$post("/api/uploads/images?prefix=" + this.prefix, formData, {
             headers: {
-              'Content-Type': 'multipart/form-data',
+              "Content-Type": "multipart/form-data",
             },
           })
           .then((uploaded) => {
-            this.$emit('input', uploaded.url)
-            this.loading = false
+            this.$emit("input", uploaded.url);
+            this.loading = false;
           })
           .catch((error) => {
-            this.$notifier.apiError(error)
-            this.loading = false
-          })
+            this.$notifier.apiError(error);
+            this.loading = false;
+          });
       }
     },
     upload() {
       // eslint-disable-next-line dot-notation
-      this.$refs['upload-image-input-' + this.inputId].click()
+      this.$refs["upload-image-input-" + this.inputId].click();
     },
   },
-}
+};
 </script>
