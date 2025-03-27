@@ -85,6 +85,10 @@ definePageMeta({
   layout: "authenticated",
 });
 
+useHead({
+  title: "Usuários",
+});
+
 const {
   users,
   loadUsers,

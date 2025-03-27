@@ -13,6 +13,6 @@ definePageMeta({
 });
 
 useHead({
-  title: "Usuários",
+  title: "Painel administrativo",
 });
 </script>

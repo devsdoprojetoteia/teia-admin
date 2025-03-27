@@ -45,4 +45,8 @@ async function copy(value: string) {
   await navigator.clipboard.writeText(value);
   notifySuccess("Email copiado!");
 }
+
+useHead({
+  title: "Teia",
+});
 </script>
