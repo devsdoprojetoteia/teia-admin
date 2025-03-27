@@ -3,7 +3,7 @@
     <v-app-bar flat style="width: 100%">
       <v-app-bar-title>
         <NuxtLink to="/" class="text-decoration-none d-flex align-center">
-          <img src="/img/logo.png" alt="Projeto teia" class="logo" />
+          <img src="/img/logo-horizontal.png" alt="Projeto teia" class="logo" />
         </NuxtLink>
       </v-app-bar-title>
       <template v-slot:append>
@@ -25,8 +25,7 @@
             > -->
           </div>
           <!-- <SwitchTheme /> -->
-          <v-btn to="/entrar" size="small" color="primary" variant="elevated">
-            <Icon start class="d-none d-lg-inline" icon="mdi-account-box" />
+          <v-btn to="/entrar" color="primary" variant="elevated" class="mr-3">
             Entrar
           </v-btn>
         </div>
@@ -44,7 +43,7 @@
     >
       <div class="text-center pt-6">
         <div>
-          <img src="/img/logo.png" alt="Projeto teia" class="logo" />
+          <img src="/img/logo-horizontal.png" alt="Projeto teia" class="logo" />
         </div>
       </div>
     </v-footer> -->
