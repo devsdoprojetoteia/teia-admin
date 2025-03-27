@@ -13,7 +13,7 @@ class UsersModule extends HttpFactory {
   }
 
   async create(data: FormValues): Promise<User> {
-    const json = await this.apiPost(`/api/users`, data);
+    const json = await this.apiPost(`/api/users/create`, data);
     return User.fromJson(json);
   }
 

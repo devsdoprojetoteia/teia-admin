@@ -33,30 +33,30 @@
             <div v-if="!hasUsers">
               <Alert message="Nenhuma conta aqui" />
             </div>
-            <template v-for="user in users">
-              <v-list-item
-                v-if="user.role === showStatus.value"
-                class="mb-4 pa-4"
-                elevation="0"
-                @click="openUser(user)"
-              >
-                <Text>{{ user.name }}</Text>
-                <div>
-                  <div class="d-flex justify-space-between align-start">
-                    <div>
-                      <Chip
-                        v-if="user.role"
-                        outlined
-                        size="small"
-                        class="text--secondary"
-                      >
-                        {{ user.roleLabel }}
-                      </Chip>
+            <v-list>
+              <template v-for="user in users">
+                <v-list-item
+                  v-if="user.role === showStatus.value"
+                  @click="openUser(user)"
+                >
+                  <Text>{{ user.name }}</Text>
+                  <div>
+                    <div class="d-flex justify-space-between align-start">
+                      <div>
+                        <Chip
+                          v-if="user.role"
+                          outlined
+                          size="small"
+                          class="text--secondary"
+                        >
+                          {{ user.roleLabel }}
+                        </Chip>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </v-list-item>
-            </template>
+                </v-list-item>
+              </template>
+            </v-list>
           </div>
           <Loading v-else />
         </v-card>
@@ -64,6 +64,7 @@
       <UserForm
         v-if="showAddUser"
         @created="userCreated"
+        @updated="userUpdated"
         @close="showAddUser = false"
       />
       <UserInfo
@@ -102,13 +103,10 @@ onMounted(async () => {
 });
 
 const userCreated = async (user: User) => {
-  showAddUser.value = false;
   await loadUsers();
-  openUser(user);
 };
 
 const userUpdated = async (user: User) => {
   await loadUsers();
-  openUser(user);
 };
 </script>

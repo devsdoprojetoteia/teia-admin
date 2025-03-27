@@ -13,6 +13,7 @@ import type { NotificationProps } from "~~/models/notification";
 
 const { createUser, updateUser } = useUsers();
 
+const auth = useAuth();
 const { user } = defineProps<{
   user?: User | null;
 }>();
@@ -23,17 +24,21 @@ const title = computed(() => {
   return user ? "Editar conta" : "Cadastrar conta";
 });
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["close", "created", "updated"]);
 
 const form: FormProps = {
   steps: [
     {
       fields: {
-        type: {
+        role: {
           label: "Tipo de conta",
           type: "select",
-          items: User.roles,
+          items:
+            auth.user.value?.role === "administrador"
+              ? User.roles
+              : User.roles.filter((role) => role.value == "estudante"),
           rules: "required",
+          default: "estudante",
         },
         name: {
           label: "Nome completo",
@@ -41,9 +46,18 @@ const form: FormProps = {
         },
         phone: {
           label: "Telefone",
-
           rules: "required",
           mask: ["(##) ####-####", "(##) #####-####"],
+        },
+        password: {
+          label: "Senha",
+          type: "password",
+          rules: "required",
+        },
+        passwordConfirmation: {
+          label: "Confirme sua senha",
+          type: "password",
+          rules: "required",
         },
       },
     },
@@ -52,13 +66,18 @@ const form: FormProps = {
   wizard: !user,
   onSubmit: async (values: FormValues) => {
     const { notifySuccess, notifyError } = useNotify();
+    if (values.password !== values.passwordConfirmation) {
+      return notifyError("As senhas não conferem");
+    }
     if (!user) {
       try {
         await createUser(values);
         notification.value = {
-          title: "Conta atualizada!",
+          title: "Conta cadastrada com sucesso",
+          subtitle: values.name.split(" ")[0] + " já pode acessar o sistema",
           onContinue: close,
         };
+        created();
       } catch (error) {
         notifyError(errorMessage(error));
       }
@@ -66,9 +85,10 @@ const form: FormProps = {
       try {
         await updateUser(user.id!, values);
         notification.value = {
-          title: "A conta foi atualizada!",
+          title: "A conta foi atualizada",
           onContinue: close,
         };
+        updated();
       } catch (error) {
         notifyError(errorMessage(error));
       }
@@ -78,5 +98,13 @@ const form: FormProps = {
 
 const close = () => {
   emit("close");
+};
+
+const created = () => {
+  emit("created");
+};
+
+const updated = () => {
+  emit("updated");
 };
 </script>
