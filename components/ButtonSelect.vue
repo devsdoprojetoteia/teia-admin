@@ -40,7 +40,6 @@ if (modelValue) {
 const selectItem = (item: any) => {
   const value = extractValue(item);
   selected.value = value;
-  console.log(value);
 
   emit("update:modelValue", value);
 };

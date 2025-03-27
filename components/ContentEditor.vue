@@ -206,8 +206,6 @@ const emitCalcStats = () => {
 watch(
   blocks,
   () => {
-    console.log("alterou");
-
     emitInput();
     emitCalcStats();
   },

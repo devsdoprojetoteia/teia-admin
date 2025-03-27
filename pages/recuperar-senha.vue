@@ -43,8 +43,6 @@ const forgotPasswordForm: FormProps = {
   submitLabel: "Continuar",
   wizard: true,
   onSubmit: async (values: FormValues) => {
-    console.log("values", values);
-    // validate password confirmation
     const { forgotPassword } = useApiAuth();
     const forgotPasswordResult = await forgotPassword(values.phone);
     if (forgotPasswordResult) {
@@ -80,7 +78,6 @@ const recoverPasswordForm = {
   submitLabel: "Recuperar",
   wizard: true,
   onSubmit: async (values: FormValues) => {
-    console.log("valuexxxs", values);
     const { notifyError, notifySuccess } = useNotify();
     if (values.password !== values.passwordConfirmation) {
       return notifyError("As senhas não conferem");

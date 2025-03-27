@@ -31,8 +31,6 @@ export const useAuth = () => {
   const setAuth = (authInfo: Auth | null): Auth | null => {
     auth.value = authInfo;
     authCookie.value = authInfo;
-    console.log("authInfo", authInfo);
-    console.log("auth", auth.value);
     return auth.value;
   };
 

@@ -27,7 +27,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     headers,
     onRequest: (config) => {
       const authCookie = useCookie<Auth | null>("auth");
-      console.log("authCookie", authCookie);
+
       const token = authCookie.value?.token;
       if (token) {
         if (config.options.headers instanceof Headers) {

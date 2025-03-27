@@ -136,8 +136,6 @@ async function onSubmit(values: any) {
 }
 
 function updated(values: any) {
-  console.log("updated");
-
   emit("updated", values as FormValues);
 }
 

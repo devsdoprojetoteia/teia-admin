@@ -58,8 +58,6 @@ const accept = computed(() => {
 
 const inputRef = ref(null);
 const selectFiles = () => {
-  console.log(inputRef);
-
   // click input
   inputRef.value!.click();
 };

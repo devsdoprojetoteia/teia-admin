@@ -53,7 +53,5 @@ const redirectSuccessLogin = () => {
   return navigateTo({ path: "/" });
 };
 
-const changed = (values: FormValues) => {
-  console.log("Changed values: ", values);
-};
+const changed = (values: FormValues) => {};
 </script>

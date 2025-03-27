@@ -7,10 +7,8 @@ const SECRET_KEY = process.env.SECRET_KEY || "YOUR_SECRET_KEY";
 
 export default (event: H3Event, requiredRoles: string[]) => {
   try {
-    console.log("event", event.node.req.headers);
     // Extract the Authorization header
     const authHeader = event.node.req.headers["authorization"];
-    console.log("authHeader", authHeader);
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       throw createError({
         statusCode: 401,
@@ -31,14 +29,10 @@ export default (event: H3Event, requiredRoles: string[]) => {
     }
 
     const decodedToken = jwt.verify(token, secretKey);
-    console.log("decodedToken", decodedToken);
-
     const authenticatedUser = User.fromJson(decodedToken);
 
     // Check if the user has the required roles
 
-    console.log("authenticatedUser", authenticatedUser);
-    console.log("requiredRoles", requiredRoles);
     if (!requiredRoles.includes(authenticatedUser.role)) {
       throw createError({
         statusCode: 403,

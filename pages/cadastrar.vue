@@ -53,7 +53,6 @@ const form: FormProps = {
   submitLabel: "Continuar",
   wizard: true,
   onSubmit: async (values: FormValues) => {
-    console.log("values", values);
     // validate password confirmation
     if (values.password !== values.passwordConfirmation) {
       const { notifyError } = useNotify();

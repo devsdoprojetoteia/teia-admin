@@ -16,8 +16,6 @@ export default defineEventHandler(async (event) => {
     });
   }
   const user = new User({ name, phone, password: hashSync(password, 10) });
-  console.log("user");
-  console.log(user);
 
   await user.save();
 

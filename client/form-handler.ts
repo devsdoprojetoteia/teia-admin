@@ -36,6 +36,5 @@ if (form) {
   form.addEventListener("submit", (event) => {
     event.preventDefault(); // Prevents the default form submission
     // Add your custom form submission logic here
-    console.log("Form submission prevented!");
   });
 }

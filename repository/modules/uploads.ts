@@ -10,10 +10,6 @@ class UploadsModule extends HttpFactory {
     const formData = new FormData();
     formData.append("file", uploadItem.file, uploadItem.file.name);
 
-    console.log("uploadItem", uploadItem);
-
-    console.log("formData", formData.get("file"));
-
     const json = await this.apiPost<{ url: string }>(
       `/api/uploads/${uploadItem.type}s`,
       formData,

@@ -22,8 +22,6 @@ export default function () {
       const auth = useAuth();
 
       const authResponse = await auth.login(phone, password);
-      console.log("authResponse");
-      console.log(authResponse);
       return !!authResponse;
     } catch (error: unknown) {
       const { notifyError } = useNotify();
