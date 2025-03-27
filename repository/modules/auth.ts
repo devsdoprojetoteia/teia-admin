@@ -9,6 +9,22 @@ class AuthModule extends HttpFactory {
   async register(name: string, phone: string, password: string): Promise<Auth> {
     return await this.apiPost<Auth>(`/api/register`, { name, phone, password });
   }
+
+  async forgotPassword(phone: string): Promise<boolean> {
+    return await this.apiPost<boolean>(`/api/forgot-password`, { phone });
+  }
+
+  async recoverPassword(
+    phone: string,
+    code: string,
+    password: string
+  ): Promise<boolean> {
+    return await this.apiPost<boolean>(`/api/recover-password`, {
+      phone,
+      code,
+      password,
+    });
+  }
 }
 
 export default AuthModule;

@@ -12,6 +12,7 @@ interface IUser extends Document {
   name: string;
   phone: string;
   password: string;
+  passwordResetCode?: string;
   createdAt: Date;
   updatedAt: Date;
   comparePassword(password: string): Promise<boolean>;
@@ -23,6 +24,7 @@ const UserSchema = new Schema<IUser>(
     name: { type: String, required: true },
     phone: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    passwordResetCode: { type: String },
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields

@@ -42,7 +42,7 @@ const form: FormProps = {
           type: "password",
           rules: "required",
         },
-        password_confirmation: {
+        passwordConfirmation: {
           label: "Confirme sua senha",
           type: "password",
           rules: "required",
@@ -55,7 +55,7 @@ const form: FormProps = {
   onSubmit: async (values: FormValues) => {
     console.log("values", values);
     // validate password confirmation
-    if (values.password !== values.password_confirmation) {
+    if (values.password !== values.passwordConfirmation) {
       const { notifyError } = useNotify();
       return notifyError("As senhas não conferem");
     }

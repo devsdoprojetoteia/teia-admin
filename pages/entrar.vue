@@ -3,8 +3,8 @@
     <h4 class="text-center mb-6">Informe seus dados para entrar</h4>
     <DynamicForm :form="form" @updated="changed" />
     <div class="pt-12">
-      <Button to="/cadastrar" class="mb-4" size="small"> Cadastre-se </Button>
-      <br />
+      <!-- <Button to="/cadastrar" class="mb-4" size="small"> Cadastre-se </Button>
+      <br /> -->
       <Button to="/recuperar-senha" class="mb-4" size="small">
         Recupere sua senha
       </Button>

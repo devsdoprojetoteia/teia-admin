@@ -16,6 +16,18 @@ export const useAuth = () => {
     return setAuth(authResponse);
   };
 
+  const forgotPassword = async (phone: string) => {
+    return await $api.auth.forgotPassword(phone);
+  };
+
+  const recoverPassword = async (
+    phone: string,
+    code: string,
+    password: string
+  ) => {
+    return await $api.auth.recoverPassword(phone, code, password);
+  };
+
   const setAuth = (authInfo: Auth | null): Auth | null => {
     auth.value = authInfo;
     authCookie.value = authInfo;
@@ -62,6 +74,8 @@ export const useAuth = () => {
     register,
     login,
     logout,
+    forgotPassword,
+    recoverPassword,
     isAuthenticated,
     isProvider,
     isCustomer,
