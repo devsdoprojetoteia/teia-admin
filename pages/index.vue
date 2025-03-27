@@ -9,7 +9,7 @@
 <script setup lang="ts">
 definePageMeta({
   middleware: ["authenticated"],
-  layout: "provider",
+  layout: "authenticated",
 });
 
 useHead({

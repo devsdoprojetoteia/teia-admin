@@ -82,7 +82,7 @@ import User from "~~/models/user";
 
 definePageMeta({
   middleware: ["authenticated"],
-  layout: "provider",
+  layout: "authenticated",
 });
 
 const {

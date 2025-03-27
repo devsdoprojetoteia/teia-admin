@@ -8,28 +8,11 @@
       </v-app-bar-title>
       <template v-slot:append>
         <div class="d-flex align-center">
-          <div class="d-none d-lg-block">
-            <!-- <v-btn
-              v-if="provider.about"
-              class="font-weight-light"
-              text
-              size="small"
-              href="#presentation"
-              >Sobre nós</v-btn
-            >
-            <v-btn class="font-weight-light" text size="small" href="#services"
-              >Serviços</v-btn
-            >
-            <v-btn class="font-weight-light" text size="small" href="#portfolio"
-              >Portfólio</v-btn
-            > -->
-          </div>
-          <!-- <SwitchTheme /> -->
+          <div class="d-none d-lg-block"></div>
           <v-btn to="/entrar" color="primary" variant="elevated" class="mr-3">
             Entrar
           </v-btn>
         </div>
-        <!-- <v-app-bar-naIcon></v-app-bar-naIcon> -->
       </template>
     </v-app-bar>
     <v-main>
@@ -50,7 +33,6 @@
   </v-app>
 </template>
 <script setup lang="ts">
-const { provider } = useProvider();
 const { $config } = useNuxtApp();
 const { notifySuccess } = useNotify();
 const filesURL = $config.public.filesURL;

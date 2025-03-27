@@ -42,14 +42,6 @@ export const useAuth = () => {
     return !!auth.value;
   });
 
-  const isProvider = computed(() => {
-    return auth.value?.user.role === "provider";
-  });
-
-  const isCustomer = computed(() => {
-    return auth.value?.user.role === "customer";
-  });
-
   const user = computed(() => {
     return auth.value?.user;
   });
@@ -75,7 +67,5 @@ export const useAuth = () => {
     forgotPassword,
     recoverPassword,
     isAuthenticated,
-    isProvider,
-    isCustomer,
   };
 };

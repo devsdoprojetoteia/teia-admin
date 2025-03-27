@@ -1,6 +1,6 @@
 <template>
   <v-app full-height>
-    <ProviderHeader />
+    <AuthenticatedHeader />
     <v-main>
       <NuxtPage />
     </v-main>
