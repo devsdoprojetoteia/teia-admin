@@ -9,52 +9,70 @@
       >
         <Icon start icon="mdi-plus" /> Adicionar conta
       </Button>
-      <v-row no-gutters class="mx-n1">
+      <v-row
+        no-gutters
+        class="mx-n1 mb-4"
+        v-if="auth.user.value?.role === 'administrador'"
+      >
+        <v-col cols="3" class="px-1">
+          <Button
+            :color="!filterRole ? 'success' : ''"
+            block
+            class="text-caption"
+            style="padding: 24px 8px; font-size: 10px"
+            @click="filterRole = ''"
+            size="x-small"
+          >
+            Todos
+          </Button>
+        </v-col>
         <v-col
           v-for="role in User.roles"
           :key="role.value"
-          cols="4"
+          cols="3"
           class="px-1"
         >
           <Button
             block
-            :color="showStatus.value === role.value ? 'primary' : ''"
+            :color="filterRole === role.value ? 'success' : ''"
             class="text-caption"
-            style="padding: 24px 8px"
-            @click="showStatus = role"
+            style="padding: 24px 8px; font-size: 10px"
+            @click="filterRole = role.value"
+            size="x-small"
           >
             {{ role.title }}
           </Button>
         </v-col>
       </v-row>
-      <div class="pt-4">
+      <div>
         <v-card>
-          <div v-if="users">
+          <div v-if="filteredUsers">
             <div v-if="!hasUsers">
               <Alert message="Nenhuma conta aqui" />
             </div>
             <v-list>
-              <template v-for="user in users">
-                <v-list-item
-                  v-if="user.role === showStatus.value"
-                  @click="openUser(user)"
-                >
-                  <Text>{{ user.name }}</Text>
-                  <div>
-                    <div class="d-flex justify-space-between align-start">
-                      <div>
-                        <Chip
-                          v-if="user.role"
-                          outlined
-                          size="small"
-                          class="text--secondary"
-                        >
-                          {{ user.roleLabel }}
-                        </Chip>
-                      </div>
+              <template v-for="(user, userIndex) in filteredUsers">
+                <v-list-item @click="openUser(user)">
+                  <div class="d-flex justify-space-between align-center py-1">
+                    <div>
+                      <Text>{{ user.name }}</Text>
+                      <br />
+                      <Text emphasis="medium" variant="small">
+                        {{ user.phone }}
+                      </Text>
                     </div>
+
+                    <Chip
+                      v-if="user.role"
+                      outlined
+                      size="small"
+                      class="text--secondary ml-3"
+                    >
+                      {{ user.roleLabel }}
+                    </Chip>
                   </div>
                 </v-list-item>
+                <v-divider v-if="userIndex < filteredUsers.length - 1" />
               </template>
             </v-list>
           </div>
@@ -89,6 +107,14 @@ useHead({
   title: "Usuários",
 });
 
+const filteredUsers = computed(() => {
+  if (filterRole.value) {
+    return users.value?.filter((user) => user.role === filterRole.value);
+  }
+  return users.value;
+});
+
+const auth = useAuth();
 const {
   users,
   loadUsers,
@@ -99,7 +125,7 @@ const {
   activeUser,
 } = useUsers();
 
-const showStatus = ref(User.roles[0]);
+const filterRole = ref("");
 
 // load users on mounted
 onMounted(async () => {

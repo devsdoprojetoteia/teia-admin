@@ -8,9 +8,7 @@ export default defineEventHandler(async (event) => {
   const query: { [key: string]: any } = {};
 
   if (authenticatedUser.role !== "administrador") {
-    if (authenticatedUser.role === "tutor") {
-      query["$or"] = [{ role: "tutor" }, { role: "estudante" }];
-    }
+    query.role = "estudante";
   }
 
   const users = await User.find(query);
