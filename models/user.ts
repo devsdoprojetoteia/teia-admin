@@ -46,9 +46,9 @@ export default class User implements IUser {
   }
 
   public static roles = [
-    { title: "Administrador", value: "administrador" },
-    { title: "Tutor", value: "tutor" },
-    { title: "Estudante", value: "estudante" },
+    { title: "Administrador", value: "administrador", color: "black" },
+    { title: "Tutor", value: "tutor", color: "blue" },
+    { title: "Estudante", value: "estudante", color: "success" },
   ];
 
   get roleItem() {
@@ -58,5 +58,10 @@ export default class User implements IUser {
   get roleLabel() {
     const role = this.roleItem;
     return role ? role.title : "";
+  }
+
+  get roleColor() {
+    const role = this.roleItem;
+    return role ? role.color : "";
   }
 }

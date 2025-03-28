@@ -1,16 +1,18 @@
 <template>
   <div>
     <v-container v-if="users">
-      <Text variant="h4">Contas</Text>
-      <Button
-        color="success"
-        @click="showAddUser = true"
-        block
-        size="large"
-        class="mb-8 mt-4"
-      >
-        <Icon start icon="mdi-plus" /> Adicionar conta
-      </Button>
+      <div class="d-flex justify-space-between align-center">
+        <Text variant="h4">Contas</Text>
+        <Button
+          color="success"
+          @click="showAddUser = true"
+          size="large"
+          class="mb-8 mt-4"
+          icon
+        >
+          <Icon icon="mdi-plus" />
+        </Button>
+      </div>
       <v-row
         no-gutters
         class="mx-n1 mb-4"
@@ -76,12 +78,7 @@
                       </Text>
                     </div>
 
-                    <Chip
-                      v-if="user.role"
-                      outlined
-                      size="small"
-                      class="text--secondary ml-3"
-                    >
+                    <Chip v-if="user.role" size="small" :color="user.roleColor">
                       {{ user.roleLabel }}
                     </Chip>
                   </div>

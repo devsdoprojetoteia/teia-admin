@@ -1,9 +1,9 @@
 <template>
   <div class="text-center">
-    <div>
-      <Icon v-bind="iconData" size="200" />
+    <div class="mb-3">
+      <Icon v-bind="iconData" size="120" />
     </div>
-    <Text variant="h4" v-if="title">
+    <Text variant="h5" v-if="title">
       {{ title }}
     </Text>
     <Text type="p" variant="subtitle-1" emphasis="medium" v-if="subtitle">
@@ -12,6 +12,7 @@
     <Text type="p" v-if="description">
       {{ description }}
     </Text>
+    <br />
     <Button @click="onContinue" v-if="onContinue" color="success">
       {{ buttonLabel || "Continuar" }}
     </Button>

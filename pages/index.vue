@@ -1,8 +1,7 @@
 <template>
-  <v-container class="px-3 py-6">
+  <v-container class="px-3 py-6 fill-height justify-center">
     <v-btn
       to="/contas"
-      block
       variant="elevated"
       size="large"
       color="success"

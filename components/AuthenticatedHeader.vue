@@ -35,6 +35,5 @@ function logout() {
   window.location.reload();
 }
 
-// computed
 const notStudent = computed(() => auth.user.value?.role !== "estudante");
 </script>

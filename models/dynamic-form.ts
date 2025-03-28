@@ -36,6 +36,7 @@ export interface FormField {
   autoGrow?: boolean;
   maxRows?: number;
   prefix?: string;
+  clearable?: boolean;
 }
 
 export interface FormValues {

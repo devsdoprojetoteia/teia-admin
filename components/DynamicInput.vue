@@ -29,7 +29,7 @@
 
     <component
       v-else-if="props.mask"
-      clearable
+      :clearable="attrs.clearable || props.clearable"
       :is="componentType"
       :model-value="value"
       @update:model-value="handleInput"
@@ -45,6 +45,7 @@
       :max-rows="props.maxRows"
       :items="props.items"
       @change="handleChange"
+      @click:clear="handleClear"
     >
       <template v-slot:append-inner v-if="props.type === 'password'">
         <Icon
@@ -56,7 +57,7 @@
     </component>
     <component
       v-else
-      clearable
+      :clearable="attrs.clearable != null || props.clearable"
       :is="componentType"
       :model-value="value"
       @update:model-value="handleInput"
@@ -71,6 +72,7 @@
       :max-rows="props.maxRows"
       :items="props.items"
       @change="handleChange"
+      @click:clear="handleClear"
     >
       <template v-slot:append-inner v-if="props.type === 'password'">
         <Icon
@@ -101,8 +103,7 @@ let initialValue: any = null;
 
 if (props.value != undefined) {
   initialValue = props.value;
-}
-if (props.default != undefined) {
+} else if (props.default != undefined) {
   initialValue = props.default;
 }
 
@@ -132,5 +133,10 @@ const componentType = computed(() => {
 
 const updateValue = (event: any) => {
   emit("update:modelValue", event.target.value);
+};
+
+const handleClear = () => {
+  console.log("clear");
+  emit("update:modelValue", "");
 };
 </script>
