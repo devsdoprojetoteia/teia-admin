@@ -21,6 +21,14 @@ class UsersModule extends HttpFactory {
     const json = await this.apiPut(`/api/users/${id}`, data);
     return User.fromJson(json);
   }
+
+  async delete(id: string): Promise<void> {
+    await this.apiDelete(`/api/users/${id}`);
+  }
+
+  async updatePassword(id: string, data: FormValues): Promise<void> {
+    await this.apiPut(`/api/users/password/${id}`, data);
+  }
 }
 
 export default UsersModule;

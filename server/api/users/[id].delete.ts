@@ -8,28 +8,29 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody(event);
 
-  const { name, phone, password } = body;
-  console.log(body);
+  const id = event.context.params!["id"];
 
-  const existingUser = await User.findOne({ phone });
-  if (existingUser) {
+  const query: {
+    [key: string]: string;
+  } = {
+    _id: id,
+  };
+
+  if (authenticatedUser.role !== "administrador") {
+    query.role = "estudante";
+  }
+
+  const user = await User.findOne(query);
+  if (!user) {
     throw createError({
       statusCode: 400,
-      message: "Este telefone já está registrado",
+      message: "Conta não encontrada",
     });
   }
-  const user = new User({ name, phone, password: hashSync(password, 10) });
 
-  if (authenticatedUser.role === "administrador") {
-    user.role = body.role;
-  } else {
-    user.role = "estudante";
-  }
-
-  await user.save();
+  await User.deleteOne({ _id: id });
 
   return {
     statusCode: 201,
-    body: user.publicData(),
   };
 });

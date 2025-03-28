@@ -1,10 +1,12 @@
 <template>
   <div>
     <v-container v-if="users">
+      <Text variant="h4">Contas</Text>
       <Button
         color="success"
         @click="showAddUser = true"
         block
+        size="large"
         class="mb-8 mt-4"
       >
         <Icon start icon="mdi-plus" /> Adicionar conta
@@ -44,13 +46,26 @@
           </Button>
         </v-col>
       </v-row>
+      <DynamicInput
+        name="search"
+        :props="{
+          label: 'Buscar',
+        }"
+        v-model="search"
+        label="Buscar"
+        placeholder="Digite o nome do usuário"
+        clearable
+        block
+        class="mb-4"
+        :validate="false"
+      />
       <div>
         <v-card>
           <div v-if="filteredUsers">
-            <div v-if="!hasUsers">
-              <Alert message="Nenhuma conta aqui" />
+            <div v-if="filteredUsers.length === 0" class="pa-4 text-center">
+              <Alert> Nenhuma conta encontrada </Alert>
             </div>
-            <v-list>
+            <v-list v-else>
               <template v-for="(user, userIndex) in filteredUsers">
                 <v-list-item @click="openUser(user)">
                   <div class="d-flex justify-space-between align-center py-1">
@@ -84,18 +99,28 @@
         @created="userCreated"
         @updated="userUpdated"
         @close="showAddUser = false"
+        :user="activeUser"
       />
       <UserInfo
         v-if="activeUser"
         :user="activeUser"
         @updated="userUpdated"
         @close="closeUser"
+        @edit="showAddUser = true"
+        @remove="removeUser"
+        @changePassword="showChangePassword = true"
       />
-      {{ activeUser }}
+      <ChangePasswordForm
+        v-if="activeUser && showChangePassword"
+        @updated="userUpdated"
+        @close="showChangePassword = false"
+        :user="activeUser"
+      />
     </v-container>
   </div>
 </template>
 <script lang="ts" setup>
+import slugify from "slugify";
 import User from "~~/models/user";
 
 definePageMeta({
@@ -104,14 +129,23 @@ definePageMeta({
 });
 
 useHead({
-  title: "Usuários",
+  title: "Contas",
 });
 
 const filteredUsers = computed(() => {
+  let list = users.value ?? [];
   if (filterRole.value) {
-    return users.value?.filter((user) => user.role === filterRole.value);
+    list = list.filter((user) => user.role === filterRole.value);
   }
-  return users.value;
+
+  if (search.value) {
+    list = list.filter((user) =>
+      slugify(user.name, { lower: true }).includes(
+        slugify(search.value, { lower: true })
+      )
+    );
+  }
+  return list;
 });
 
 const auth = useAuth();
@@ -123,9 +157,12 @@ const {
   openUser,
   closeUser,
   activeUser,
+  deleteUser,
 } = useUsers();
 
 const filterRole = ref("");
+const search = ref("");
+const showChangePassword = ref(false);
 
 // load users on mounted
 onMounted(async () => {
@@ -138,5 +175,15 @@ const userCreated = async (user: User) => {
 
 const userUpdated = async (user: User) => {
   await loadUsers();
+};
+
+const removeUser = async () => {
+  if (activeUser.value) {
+    await deleteUser(activeUser.value!.id!);
+    closeUser();
+    await loadUsers();
+    const { notifySuccess } = useNotify();
+    notifySuccess("Conta removida com sucesso");
+  }
 };
 </script>

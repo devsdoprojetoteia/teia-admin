@@ -28,6 +28,7 @@
     "mongoose": "^8.12.1",
     "pinia": "^3.0.1",
     "sass": "^1.86.0",
+    "slugify": "^1.6.6",
     "vee-validate": "^4.15.0",
     "vite-plugin-vuetify": "^2.1.0",
     "vue-easy-lightbox": "^1.19.0",

@@ -24,6 +24,7 @@
           <v-row class="my-0">
             <template v-for="(field, fieldName) in step.fields">
               <v-col
+                v-if="field.type !== 'hidden'"
                 :cols="field.cols || 12"
                 :lg="field.lgCols || 12"
                 class="py-0"

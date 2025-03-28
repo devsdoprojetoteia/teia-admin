@@ -43,6 +43,14 @@ const useUsers = () => {
     return await $api.users.update(id, data);
   };
 
+  const deleteUser = async (id: string) => {
+    return await $api.users.delete(id);
+  };
+
+  const updatePassword = async (id: string, data: FormValues) => {
+    return await $api.users.updatePassword(id, data);
+  };
+
   const closeUser = () => {
     router.push({
       path: route.path,
@@ -63,6 +71,8 @@ const useUsers = () => {
     closeUser,
     createUser,
     updateUser,
+    deleteUser,
+    updatePassword,
   };
 };
 export default useUsers;

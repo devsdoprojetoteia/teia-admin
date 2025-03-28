@@ -9,7 +9,7 @@
       v-if="auth.user.value?.role !== 'estudante'"
     >
       <Icon icon="mdi-account-multiple" start />
-      Usuários
+      Contas
     </v-btn>
     <div v-if="auth.user.value?.role === 'estudante'">
       <Alert color="error" icon="mdi-information">
