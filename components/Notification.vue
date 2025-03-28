@@ -13,7 +13,7 @@
       {{ description }}
     </Text>
     <br />
-    <Button @click="onContinue" v-if="onContinue" color="success">
+    <Button @click="onContinue" v-if="onContinue" color="primary">
       {{ buttonLabel || "Continuar" }}
     </Button>
   </div>

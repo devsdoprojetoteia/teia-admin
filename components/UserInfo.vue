@@ -8,14 +8,14 @@
     <br />
     <br />
     <Button size="small" @click="remove" class="mr-1 mb-1">Remover</Button>
-    <Button size="small" @click="edit" class="mr-1 mb-1" color="success"
+    <Button size="small" @click="edit" class="mr-1 mb-1" color="primary"
       >Editar</Button
     >
     <Button
       size="small"
       @click="changePassword"
       class="mr-1 mb-1"
-      color="success"
+      color="primary"
       >Alterar senha</Button
     >
   </Dialog>

@@ -46,7 +46,7 @@
           </div>
           <div>
             <Button
-              color="success"
+              color="primary"
               size="large"
               @click="
                 () => {
@@ -65,7 +65,7 @@
             <Button
               v-else-if="stepIndex === form.steps.length - 1"
               type="submit"
-              color="success"
+              color="primary"
               size="x-large"
               block
               :disabled="

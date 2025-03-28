@@ -4,7 +4,7 @@
       <div class="d-flex justify-space-between align-center">
         <Text variant="h4">Contas</Text>
         <Button
-          color="success"
+          color="primary"
           @click="showAddUser = true"
           size="large"
           class="mb-8 mt-4"
@@ -20,7 +20,7 @@
       >
         <v-col cols="3" class="px-1">
           <Button
-            :color="!filterRole ? 'success' : ''"
+            :color="!filterRole ? 'primary' : ''"
             block
             class="text-caption"
             style="padding: 24px 8px; font-size: 10px"
@@ -38,7 +38,7 @@
         >
           <Button
             block
-            :color="filterRole === role.value ? 'success' : ''"
+            :color="filterRole === role.value ? 'primary' : ''"
             class="text-caption"
             style="padding: 24px 8px; font-size: 10px"
             @click="filterRole = role.value"

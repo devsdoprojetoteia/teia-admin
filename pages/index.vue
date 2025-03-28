@@ -4,7 +4,7 @@
       to="/contas"
       variant="elevated"
       size="large"
-      color="success"
+      color="primary"
       v-if="auth.user.value?.role !== 'estudante'"
     >
       <Icon icon="mdi-account-multiple" start />
