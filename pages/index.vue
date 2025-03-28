@@ -1,7 +1,7 @@
 <template>
   <v-container class="px-3 py-6">
     <v-btn
-      to="/usuarios"
+      to="/contas"
       block
       variant="elevated"
       size="large"

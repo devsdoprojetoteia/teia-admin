@@ -53,7 +53,6 @@
         }"
         v-model="search"
         label="Buscar"
-        placeholder="Digite o nome do usuário"
         clearable
         block
         class="mb-4"

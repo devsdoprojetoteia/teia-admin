@@ -14,6 +14,9 @@
             </v-btn>
           </template>
           <v-list>
+            <v-list-item to="/contas" v-if="notStudent">
+              <v-list-item-title>Contas</v-list-item-title>
+            </v-list-item>
             <v-list-item @click="logout">
               <v-list-item-title>Sair</v-list-item-title>
             </v-list-item>
@@ -26,8 +29,12 @@
 <script lang="ts" setup>
 const config = useRuntimeConfig();
 const filesURL = config.public.filesURL;
+const auth = useAuth();
 function logout() {
-  useAuth().logout();
+  auth.logout();
   window.location.reload();
 }
+
+// computed
+const notStudent = computed(() => auth.user.value?.role !== "estudante");
 </script>
