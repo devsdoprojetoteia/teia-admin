@@ -11,6 +11,6 @@ export default defineEventHandler(async (event) => {
     query.role = "estudante";
   }
 
-  const users = await User.find(query);
+  const users = await User.find(query).sort({ name: 1 });
   return users;
 });
