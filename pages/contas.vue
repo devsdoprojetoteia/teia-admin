@@ -136,7 +136,7 @@ const filteredUsers = computed(() => {
 
   if (search.value) {
     list = list.filter((user) =>
-      slugify(user.name, { lower: true }).includes(
+      slugify(user.name + ' ' + user.phone, { lower: true }).includes(
         slugify(search.value, { lower: true })
       )
     );
