@@ -4,7 +4,7 @@ import HttpFactory from "../factory";
 
 class UsersModule extends HttpFactory {
   async list() {
-    const json = await this.apiGet<any[]>(`/api/users/list`);
+    const json = await this.apiGet<any[]>(`/api/users`);
     return User.fromJsonArray(json);
   }
   async get(id: string): Promise<User> {

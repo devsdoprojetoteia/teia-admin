@@ -3,11 +3,13 @@ import AuthModule from "~~/repository/modules/auth";
 import UploadsModule from "~~/repository/modules/uploads";
 import type Auth from "~~/models/auth";
 import UsersModule from "~/repository/modules/users";
+import CoursesModule from "~/repository/modules/courses";
 
 /** ApiInstance interface provides us with good typing */
 interface IApiInstance {
   uploads: UploadsModule;
   users: UsersModule;
+  courses: CoursesModule;
   auth: AuthModule;
 }
 
@@ -34,6 +36,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   const modules: IApiInstance = {
     uploads: new UploadsModule(apiFetcher),
     users: new UsersModule(apiFetcher),
+    courses: new CoursesModule(apiFetcher),
     auth: new AuthModule(apiFetcher),
   };
 

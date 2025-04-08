@@ -47,9 +47,9 @@ const form: FormProps = {
           value: user?.name ?? "",
         },
         phone: {
-          label: "Telefone",
-          rules: "required",
-          mask: ["(##) ####-####", "(##) #####-####"],
+          label: "Telefone (WhatsApp)",
+          rules: "required|length:15",
+          mask: ["(##) #####-####"],
           value: user?.phone ?? "",
         },
         password: {

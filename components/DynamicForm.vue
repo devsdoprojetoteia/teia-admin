@@ -22,17 +22,48 @@
             </Text>
           </div>
           <v-row class="my-0">
-            <template v-for="(field, fieldName) in step.fields">
+            <template v-for="(fieldData, fieldName) in step.fields">
               <v-col
-                v-if="field.type !== 'hidden'"
-                :cols="field.cols || 12"
-                :lg="field.lgCols || 12"
+                v-if="fieldData.type !== 'hidden'"
+                :cols="fieldData.cols || 12"
+                :lg="fieldData.lgCols || 12"
                 class="py-0"
               >
                 <div>
-                  <DynamicInput
+                  <Field
+                    v-if="fieldData.type === 'checkbox'"
                     :name="fieldName.toString()"
-                    :props="field"
+                    :props="fieldData"
+                    @update:model-value="handleInput"
+                    v-slot="data"
+                  >
+                    <v-checkbox
+                      :model-value="data.value"
+                      :label="fieldData.label"
+                      @update:model-value="data.handleInput"
+                      :name="fieldName.toString()"
+                      :color="data.value ? 'success' : 'grey'"
+                    />
+                  </Field>
+                  <Field
+                    v-else-if="fieldData.type === 'switch'"
+                    :name="fieldName.toString()"
+                    :props="fieldData"
+                    @update:model-value="handleInput"
+                    v-slot="data"
+                  >
+                    <v-switch
+                      :model-value="data.value"
+                      :label="fieldData.label"
+                      @update:model-value="data.handleInput"
+                      :name="fieldName.toString()"
+                      :color="data.value ? 'success' : 'grey'"
+                    />
+                  </Field>
+                  <DynamicInput
+                    v-else
+                    :name="fieldName.toString()"
+                    :props="fieldData"
                     :validate="!form.wizard || currentStep === stepIndex"
                   />
                 </div>
@@ -95,6 +126,7 @@
   </Form>
 </template>
 <script setup lang="ts">
+import { Field } from "vee-validate";
 import { Form, useFormValues } from "vee-validate";
 import type { FormProps, FormValues } from "../models/dynamic-form";
 
@@ -137,6 +169,7 @@ async function onSubmit(values: any) {
 }
 
 function updated(values: any) {
+  console.log("updated", values);
   emit("updated", values as FormValues);
 }
 
@@ -152,6 +185,10 @@ function next() {
 
 function previous() {
   currentStep.value--;
+}
+
+function handleInput(value: any) {
+  console.log("handleInputx", value);
 }
 </script>
 

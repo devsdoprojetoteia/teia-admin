@@ -32,10 +32,9 @@ const form: FormProps = {
           rules: "required",
         },
         phone: {
-          label: "Telefone",
-
-          rules: "required",
-          mask: ["(##) ####-####", "(##) #####-####"],
+          label: "Telefone (WhatsApp)",
+          rules: "required|length:15",
+          mask: ["(##) #####-####"],
         },
         password: {
           label: "Senha",

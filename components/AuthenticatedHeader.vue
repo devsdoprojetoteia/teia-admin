@@ -15,7 +15,10 @@
           </template>
           <v-list>
             <v-list-item to="/contas" v-if="notStudent">
-              <v-list-item-title>Contas</v-list-item-title>
+              <v-list-item-title>Gerenciar contas</v-list-item-title>
+            </v-list-item>
+            <v-list-item to="/cursos" v-if="notStudent">
+              <v-list-item-title>Gerenciar cursos</v-list-item-title>
             </v-list-item>
             <v-list-item @click="logout">
               <v-list-item-title>Sair</v-list-item-title>

@@ -16,6 +16,8 @@
     <Button @click="onContinue" v-if="onContinue" color="primary">
       {{ buttonLabel || "Continuar" }}
     </Button>
+    <br />
+    <br />
   </div>
 </template>
 <script setup lang="ts">

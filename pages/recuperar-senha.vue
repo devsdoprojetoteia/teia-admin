@@ -33,9 +33,9 @@ const forgotPasswordForm: FormProps = {
       description: "Informe seu telefone para recuperar a senha",
       fields: {
         phone: {
-          label: "Telefone",
-          rules: "required",
-          mask: ["(##) ####-####", "(##) #####-####"],
+          label: "Telefone (WhatsApp)",
+          rules: "required|length:15",
+          mask: ["(##) #####-####"],
         },
       },
     },

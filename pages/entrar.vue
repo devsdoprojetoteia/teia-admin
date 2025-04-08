@@ -25,10 +25,10 @@ const form: FormProps = {
     {
       fields: {
         phone: {
-          label: "Telefone",
+          label: "Telefone (WhatsApp)",
           type: "phone",
-          rules: "required",
-          mask: ["(##) ####-####", "(##) #####-####"],
+          rules: "required|length:15",
+          mask: ["(##) #####-####"],
         },
         password: {
           label: "Senha",
