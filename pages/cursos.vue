@@ -4,6 +4,7 @@
       <div class="d-flex justify-space-between align-center">
         <Text variant="h4">Cursos</Text>
         <Button
+          v-if="auth.user.value?.role === 'administrador'"
           color="primary"
           @click="showAddCourse = true"
           size="large"

@@ -1,6 +1,6 @@
 <template>
   <Dialog @close="close" :title="title">
-    <DynamicForm :form="form" v-if="!notification" log />
+    <DynamicForm :form="form" v-if="!notification" />
     <Notification v-bind="notification" v-if="notification" />
   </Dialog>
 </template>

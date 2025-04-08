@@ -1,13 +1,11 @@
 <template>
   <Dialog @close="close" title="Dados do curso">
-    <Text weight="bold">{{ course.name }}</Text>
-    <br />
-    <Text emphasis="low">{{ course.phone }}</Text>
-    <br />
-    <Text emphasis="medium" class="preserve-line-breaks">{{
-      course.description
-    }}</Text>
-    <br />
+    <div>
+      <Text weight="bold">{{ course.name }}</Text>
+    </div>
+    <div class="mb-3">
+      <Text emphasis="low">{{ course.phone }}</Text>
+    </div>
     <Chip
       v-if="course.published"
       class="mt-2"
@@ -21,14 +19,24 @@
     </Chip>
     <br />
     <br />
-    <Button size="small" @click="remove" class="mr-1 mb-1">Remover</Button>
-    <Button size="small" @click="edit" class="mr-1 mb-1" color="primary"
-      >Editar</Button
-    >
+    <div class="mb-3">
+      <Text class="preserve-line-breaks">{{ course.description }}</Text>
+    </div>
+
+    <div v-if="auth.user.value?.role === 'administrador'">
+      <Button size="small" @click="remove" class="mr-1 mb-1">Remover</Button>
+      <Button size="small" @click="edit" class="mr-1 mb-1" color="primary">
+        Editar
+      </Button>
+    </div>
   </Dialog>
 </template>
 <script lang="ts" setup>
 import Course from "~~/models/course";
+
+import { useAuth } from "~~/composables/useAuth";
+
+const auth = useAuth();
 
 const { course } = defineProps<{ course: Course }>();
 
