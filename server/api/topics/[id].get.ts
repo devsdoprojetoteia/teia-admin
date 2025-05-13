@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
   if (!id) {
     throw createError({
       statusCode: 400,
-      message: "Topic ID is required",
+      message: "ID do tópico é obrigatório",
     });
   }
 
@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
   if (!topic) {
     throw createError({
       statusCode: 404,
-      message: "Topic not found",
+      message: "Tópico não encontrado",
     });
   }
 

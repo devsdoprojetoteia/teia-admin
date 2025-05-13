@@ -30,7 +30,7 @@ const title = computed(() => {
   return course ? "Editar curso" : "Cadastrar curso";
 });
 
-const emit = defineEmits(["close", "created", "updated"]);
+const emit = defineEmits(["close", "created", "updated", "remove"]);
 
 const form: FormProps = {
   steps: [

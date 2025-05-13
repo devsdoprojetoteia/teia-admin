@@ -6,7 +6,6 @@ import User from "~~/server/models/user";
 export default defineEventHandler(async (event) => {
   const authenticatedUser = authorize(event, ["administrador", "tutor"]);
 
-
   const id = event.context.params!["id"];
 
   const query: {

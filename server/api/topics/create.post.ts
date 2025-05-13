@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
   if (!title || !content || !module) {
     throw createError({
       statusCode: 400,
-      message: "Title, content and module are required",
+      message: "Título, conteúdo e módulo são obrigatórios",
     });
   }
 
