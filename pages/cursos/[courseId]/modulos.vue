@@ -4,7 +4,7 @@
 
       <div class="d-flex justify-space-between align-center mb-8 mt-4">
         <div class="d-flex align-center">
-          <Button to="/" icon class="mr-2">
+          <Button to="/cursos" icon class="mr-2">
             <Icon icon="mdi-chevron-left" />
           </Button>
           <div>
