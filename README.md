@@ -1,42 +1,50 @@
-# Nuxt 3 Minimal Starter
+# Teia Admin
+<img src="./docs/assets/logo.svg" height="100px" />
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## Wiki
+- [Guia de instalação do projeto](./docs/Installation.md)
+- [Contratos da API Rest](./docs/API.md)
 
-## Setup
+## Apresentação
+O Projeto Teia consiste em um ecossistema de aplicações idealizado pelo [Lira | IPÊ](https://lira.ipe.org.br) e desenvolvido pelo [Terrakrya](https://www.terrakrya.com). Tendo como principal objetivo democratizar o acesso à informação para parceiros de Organicações de Base Comunitária da Amazônia. 
 
-Make sure to install the dependencies:
+Os principais pilares do projeto são:  
+1. Disponibilização de conteúdo adaptado para a linguagem da população local.
+2. Presença nos principais aplicativos de mensagens (já adotados pelas comunidades).
+3. Entrega de conteúdo da Trilha Formativa de maneira guiada através de um Chatbot.
+4. Otimizações na entrega de mídia para garantir um baixo consumo de dados.
+5. Desburocratização do processo de criação de cursos lessionados na web.
 
-```bash
-# yarn
-yarn install
+### Sobre o projeto
+O [Teia Admin](https://github.com/devsdoprojetoteia/teia-admin) é o backend do Teiabot. Responsável por gerir os acessos de usuários e o conteúdo disponibilizado na plataforma, seja através do próprio chatbot (de maneira guiada) ou na web (não guiada), por meio do [Portal Teia](https://teia.ipe.org.br).
 
-# npm
-npm install
+#### Funcionalidades disponíveis
+- ✅ Gerenciamento de Sessão/Login
+- ✅ CRUD de Alunos
+- ✅ CRUD de Administradores
+- ✅ CRUD de Cursos
 
-# pnpm
-pnpm install
-```
+#### Próximos passos
+- ⌛ CRUD de Jornadas do Chatbot
+- ⌛ Integração com Mensageiro
+- ⌛ Montagem dinâmica do Portal do Aluno
+- ⌛ CRUD de Progresso do aluno
+- ⌛ CRUD de Conteúdo do módulo
+- ⌛ CRUD de Módulos do curso
+- ⌛ CRUD de Exercícios do conteúdo
+- ⌛ PWA do Portal do Aluno
+- ⌛ CRUD de Respostas dos exercícios
+- ⌛ CRUD de Tutores
+- ⌛ CRUD de Atendentes de Suporte
+- ⌛ CRUD de Chamados de Suporte
+- ⌛ CRUD de Comentários do conteúdo
+- ⌛ Exportação de Relatórios
+- ⌛ Agendamento de Jobs
+- ⌛ Envio de e-mails
 
-## Development Server
+## Parceiros & colaboradores
+- [Mover-se na Web](https://moverse.ceweb.br)
+- [Lira | IPÊ](https://lira.ipe.org.br)
+- [Terrakrya](https://www.terrakrya.com)
 
-Start the development server on http://localhost:3000
-
-```bash
-npm run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-npm run build
-```
-
-Locally preview production build:
-
-```bash
-npm run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+![](./docs/assets/colaboradores.svg)
