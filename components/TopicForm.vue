@@ -2,9 +2,6 @@
   <Dialog @close="close" :title="title">
     <div v-if="!notification">
       <DynamicForm :form="form" />
-      <div class="text-center pt-5">
-        <Button v-if="topic" size="small" @click="remove" class="mr-1 mb-1">Remover tópico</Button>
-      </div>
     </div>
     <Notification v-bind="notification" v-if="notification" />
   </Dialog>
@@ -29,7 +26,7 @@ const title = computed(() => {
   return topic ? "Editar tópico" : "Cadastrar tópico";
 });
 
-const emit = defineEmits(["close", "created", "updated", "remove"]);
+const emit = defineEmits(["close", "created", "updated"]);
 
 const form: FormProps = {
   steps: [
@@ -97,9 +94,5 @@ const updated = () => {
   emit("updated");
 };
 
-const remove = () => {
-  if (confirm("Deseja realmente remover este tópico?")) {
-    emit("remove");
-  }
-};
+
 </script> 

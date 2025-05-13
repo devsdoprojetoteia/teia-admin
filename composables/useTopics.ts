@@ -1,13 +1,13 @@
 import Topic from "~~/models/topic";
 import type { FormValues } from "~~/models/dynamic-form";
-
+import Module from "~~/models/module";
 const useTopics = () => {
   const { $api } = useNuxtApp();
   const route = useRoute();
   const router = useRouter();
 
   let topics = useState<Topic[] | null>("topics");
-  let showAddTopic = useState<Boolean>("showAddTopic", () => false);
+  let showAddTopic = useState<Module | null>("showAddTopic", () => null);
   let activeTopic = useState<Topic | null>("activeTopic", () => null);
 
   const loadTopics = async (moduleId: string) => {

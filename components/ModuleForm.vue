@@ -48,6 +48,11 @@ const form: FormProps = {
           value: module?.description ?? "",
           type: "textarea",
         },
+        order: {
+          label: "Ordem",
+          type: "text",
+          value: module?.order?.toString() ?? "0",
+        },
       },
     },
   ],
@@ -57,7 +62,7 @@ const form: FormProps = {
     const { notifySuccess, notifyError } = useNotify();
     if (!module) {
       try {
-        await createModule({ ...values, course: course?.id });
+        await createModule({ ...values, course: course?.id, order: parseInt(values.order) });
         notification.value = {
           title: "Módulo cadastrado com sucesso",
           onContinue: close,
@@ -68,7 +73,7 @@ const form: FormProps = {
       }
     } else {
       try {
-        await updateModule(module.id!, values);
+        await updateModule(module.id!, { ...values, order: parseInt(values.order) });
         notification.value = {
           title: "O módulo foi atualizado",
           onContinue: close,

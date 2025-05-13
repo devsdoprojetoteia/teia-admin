@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
 
   const moduleId = event.context.params!["id"];
   const body = await readBody(event);
-  const { name, description, course } = body;
+  const { name, description, course, order } = body;
 
   const module = await Module.findById(moduleId);
   if (!module) {
@@ -20,6 +20,7 @@ export default defineEventHandler(async (event) => {
   if (name !== undefined) module.name = name;
   if (description !== undefined) module.description = description;
   if (course !== undefined) module.course = course;
+  if (order !== undefined) module.order = order;
 
   await module.save();
 

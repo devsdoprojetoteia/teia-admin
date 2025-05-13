@@ -27,27 +27,28 @@
               <Alert> Nenhum módulo encontrado </Alert>
             </div>
             <div v-else>
-              <template v-for="(module, moduleIndex) in filteredModules">
-                <v-card  class="mb-4">
+              <template v-for="(module, moduleIndex) in filteredModules.sort((a, b) => a.order - b.order)">
+                <v-card class="mb-4">
                   <v-card-title>
-                    <Text>{{ module.name }}</Text>
+                    <Text>{{ module.order }} - {{ module.name }}</Text>
                   </v-card-title>
                   <v-card-text>
                     <Text emphasis="medium">{{ module.description }}</Text>
                     <!-- lista de topicos gestão de tópicos -->
-                    <div class="mt-4" v-if="module.topics && module.topics.length > 0" >
+                    <div class="mt-4" v-if="module.topics && module.topics.length > 0">
                       <div class="topics-list">
-                        <div v-for="(topic, topicIndex) in module.topics.sort((a, b) => a.order - b.order)" :key="topic.id" 
-                             class="topic-item pa-3 mb-2 rounded-lg bg-grey-lighten-4">
+                        <div v-for="(topic, topicIndex) in module.topics.sort((a, b) => a.order - b.order)"
+                          :key="topic.id" class="topic-item pa-3 mb-2 rounded-lg bg-grey-lighten-4">
                           <div class="d-flex justify-space-between align-center">
                             <div class="d-flex align-center">
-                              <div class="bg-white rounded-circle d-flex justify-center align-center mr-2" style="width: 30px; height: 30px;">
+                              <div class="bg-white rounded-circle d-flex justify-center align-center mr-2"
+                                style="width: 30px; height: 30px;">
                                 {{ topic.order }}
                               </div>
                               <Text class="font-weight-medium">{{ topic.title }}</Text>
                             </div>
                             <div class="d-flex">
-                              <Button color="primary" size="small" @click="editTopic(topic)" class="mr-1" variant="text">
+                              <Button color="primary" size="small" @click="editTopic(topic)" variant="text">
                                 <Icon icon="mdi-pencil" />
                               </Button>
                               <Button color="error" size="small" @click="removeTopic(topic)" variant="text">
@@ -58,12 +59,11 @@
                         </div>
                       </div>
                     </div>
-                    <TopicForm v-if="activeTopic || showAddTopic" @close="closeTopicForm" :module="module" :topic="activeTopic" @updated="topicUpdated" @created="topicCreated" @remove="removeTopic" />
+                    <TopicForm v-if="activeTopic && activeTopic.module === module.id" @close="closeTopicForm" :module="module" :topic="activeTopic"
+                      @updated="topicUpdated" @remove="removeTopic" />
                   </v-card-text>
                   <v-divider></v-divider>
                   <v-card-actions>
-                    <!-- divider -->
-                    
                     <Button color="primary" @click="editModule(module)">
                       <Icon icon="mdi-pencil" class="mr-2" />
                       Editar
@@ -74,16 +74,18 @@
                     </Button>
                   </v-card-actions>
                 </v-card>
-                
+
               </template>
             </div>
           </div>
           <Loading v-else />
         </div>
       </div>
-      
+
       <ModuleForm v-if="showAddModule || activeModule" @created="moduleCreated" @updated="moduleUpdated"
         @close="closeForm" :module="activeModule" :course="course" @remove="removeModule" />
+      <TopicForm v-if="showAddTopic" @close="closeTopicForm" :module="showAddTopic" @created="topicCreated" />
+
 
     </v-container>
   </div>
@@ -176,8 +178,7 @@ const removeModule = async () => {
 };
 
 const addTopic = (module: Module) => {
-  showAddTopic.value = true;
-  
+  showAddTopic.value = module;
 };
 
 const closeForm = () => {
@@ -186,7 +187,7 @@ const closeForm = () => {
 };
 
 const closeTopicForm = () => {
-  showAddTopic.value = false;
+  showAddTopic.value = null;
   activeTopic.value = null;
 };
 
