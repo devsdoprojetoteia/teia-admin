@@ -56,6 +56,8 @@
         @updated="moduleUpdated"
         @close="showAddModule = false"
         :module="activeModule"
+        :course-id="route.params.courseId"
+        :course-name="course?.name"
       />
       <ModuleInfo
         v-if="activeModule"

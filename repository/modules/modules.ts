@@ -19,6 +19,10 @@ class ModulesModule extends HttpFactory {
   }
 
   async update(id: string, data: FormValues): Promise<Module> {
+    if (data.courseId) {
+      data.course = data.courseId;
+      delete data.courseId;
+    }
     const json = await this.apiPut(`/api/modules/${id}`, data);
     return Module.fromJson(json);
   }

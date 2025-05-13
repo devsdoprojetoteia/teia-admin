@@ -40,6 +40,10 @@ const useModules = () => {
   };
 
   const updateModule = async (id: string, data: FormValues) => {
+    if (data.courseId) {
+      data.course = data.courseId;
+      delete data.courseId;
+    }
     return await $api.modules.update(id, data);
   };
 

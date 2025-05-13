@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   const { name, description, courseId } = body;
 
-  const module = new Module({ name, description, courseId });
+  const module = new Module({ name, description, course: courseId });
 
   await module.save();
 
