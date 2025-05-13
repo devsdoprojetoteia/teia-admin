@@ -1,6 +1,6 @@
 <template>
   <Dialog @close="close" :title="title">
-    
+
     <div v-if="!notification">
       <DynamicForm :form="form" />
     </div>
@@ -94,4 +94,4 @@ const updated = () => {
 };
 
 
-</script> 
+</script>
