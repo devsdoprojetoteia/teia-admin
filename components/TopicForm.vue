@@ -1,5 +1,6 @@
 <template>
   <Dialog @close="close" :title="title">
+    
     <div v-if="!notification">
       <DynamicForm :form="form" />
     </div>
@@ -39,10 +40,8 @@ const form: FormProps = {
         },
         content: {
           label: "Conteúdo do tópico",
-          value: topic?.content ?? "",
-          type: "textarea",
-          rows: 5,
-          autoGrow: true,
+          type: "editor",
+          value: topic?.content ?? [],
         },
         order: {
           label: "Ordem",

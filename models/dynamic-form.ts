@@ -24,7 +24,7 @@ export interface FormField {
   rules?: any;
   mask?: string | string[];
   customRules?: any;
-  value?: string | boolean;
+  value?: string | boolean | any[];
   default?: any;
   cols?: number;
   lgCols?: number;

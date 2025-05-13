@@ -1,214 +1,187 @@
 <template>
-  <div>
-    <template v-for="(block, index) in blocks">
-      <div v-if="block.type === 'text'" :key="'text-' + index" class="mb-6">
-        <TextEditor
-          v-if="editable"
-          v-model="block.content"
-          @input="emitCalcStats"
-          :label="label"
-        />
-        <div v-else v-html="block.content" />
+  <div class="content-editor">
+
+
+    <div v-for="(item, index) in modelValue" :key="index" class="content-item mb-4">
+      <div v-if="item.type === 'text'" class="bg-white">
+        <client-only>
+          <QuillEditor v-model:content="item.content" :options="editorOptions" contentType="html"
+            @update:content="onEditorChange($event, index)" class="h-100" />
+        </client-only>
       </div>
-      <div
-        v-else-if="block.type === 'video'"
-        :key="'video-' + index"
-        class="mb-6 text-center"
-      >
-        <video :src="filesURL + block.content" controls style="max-width: 100%">
-          Seu navegador não consegue carregar este vídeo.
-        </video>
-        <v-textarea
-          v-if="
-            editable && block.caption != null && block.caption !== undefined
-          "
-          v-model="block.caption"
-          rows="1"
-          auto-grow
-          label="Legenda do vídeo"
-          hide-details="auto"
-        />
-        <div v-else-if="block.caption">
-          <i
-            ><small>{{ block.caption }}</small></i
-          >
+      <div v-else-if="item.type === 'image'" class="image-upload pa-2 border rounded">
+        <input type="file" accept="image/*" @change="handleImageUpload($event, index)" />
+        <img v-if="item.content" :src="item.content" class="mt-2" style="max-width: 100%; max-height: 200px;" />
+      </div>
+      <div v-else-if="item.type === 'video'" class="video-upload pa-2 border rounded">
+        <input type="file" accept="video/*" @change="handleVideoUpload($event, index)" />
+        <video v-if="item.content" :src="item.content" controls class="mt-2"
+          style="max-width: 100%; max-height: 200px;" />
+      </div>
+      <div v-else-if="item.type === 'audio'" class="audio-upload pa-2 border rounded">
+        <input type="file" accept="audio/*" @change="handleAudioUpload($event, index)" />
+        <audio v-if="item.content" :src="item.content" controls class="mt-2" />
+      </div>
+      <div v-else-if="item.type === 'document'" class="document-upload pa-2 border rounded">
+        <input type="file" @change="handleDocumentUpload($event, index)" />
+        <div v-if="item.content" class="mt-2">
+          <a :href="item.content" target="_blank">Ver documento</a>
         </div>
       </div>
-      <div
-        v-else-if="block.type === 'audio'"
-        :key="'audio-' + index"
-        class="mb-6"
-      >
-        <audio :src="filesURL + block.content" controls style="max-width: 100%">
-          Seu navegador não consegue carregar este áudio.
-        </audio>
-        <v-textarea
-          v-if="
-            editable && block.caption != null && block.caption !== undefined
-          "
-          v-model="block.caption"
-          rows="1"
-          auto-grow
-          label="Legenda do áudio"
-          hide-details="auto"
-        />
-        <div v-else-if="block.caption">
-          <i
-            ><small>{{ block.caption }}</small></i
-          >
+      <div class="d-flex justify-space-between align-center mb-2 pt-1">
+        <div class="d-flex">
+          <Button color="error" size="small" @click="removeContent(index)" variant="tonal">
+            <Icon icon="mdi-delete" />
+            Remover {{ getContentTypeLabel(item.type) }}
+          </Button>
         </div>
       </div>
-      <div
-        v-else-if="block.type === 'file'"
-        :key="'file-' + index"
-        class="mb-6 text-center"
-      >
-        <v-btn
-          v-if="block.content"
-          :href="filesURL + block.content"
-          target="_blank"
-          color="primary"
-          block
-          large
-        >
-          <v-icon left>mdi-attachment</v-icon>
-          Baixar Arquivo
-        </v-btn>
-        <v-textarea
-          v-if="
-            editable && block.caption != null && block.caption !== undefined
-          "
-          v-model="block.caption"
-          rows="1"
-          auto-grow
-          label="Legenda do arquivo"
-          hide-details="auto"
-        />
-        <div v-else-if="block.caption">
-          <i
-            ><small>{{ block.caption }}</small></i
-          >
-        </div>
-      </div>
-      <!-- <div
-        v-if="editable"
-        :key="'remove-' + index"
-        class="text-center mb-10 mt-n3"
-      >
-        <v-btn dark x-small @click="blocks.splice(index, 1)">
-          <v-icon left x-small>mdi-delete</v-icon>
-          Remover {{ blockTypes[block.type] }}
-        </v-btn>
-        <v-btn
-          v-if="
-            block.type !== 'text' &&
-            block.caption !== null &&
-            block.caption !== undefined
-          "
-          dark
-          x-small
-          @click="block.caption = undefined"
-        >
-          <v-icon left x-small>mdi-delete</v-icon>
-          Remover legenda
-        </v-btn>
-        <v-btn
-          v-if="
-            block.type !== 'text' &&
-            (block.caption === null || block.caption === undefined)
-          "
-          dark
-          x-small
-          @click="block.caption = ''"
-        >
-          <v-icon left x-small>mdi-closed-caption-outline</v-icon>
-          Adicionar legenda
-        </v-btn>
-      </div> -->
-    </template>
-    <div class="mb-6" v-if="images && images.length">
-      <Gallery :images="images" />
     </div>
-    <div v-if="editable" class="mb-6">
-      <Upload
-        v-for="uploadType in uploadTypes"
-        :type="uploadType"
-        :prefix="prefix"
-        @uploaded="
-          (item) =>
-            blocks.push({
-              type: uploadType,
-              content: item,
-            })
-        "
-      />
+    <div class=" mb-4">
+
+      <Button v-for="type in contentTypes" :key="type.value" size="small"
+        :color="selectedType === type.value ? 'primary' : undefined" class="mr-2 mb-2" @click="addContent(type.value)">
+        <Icon :icon="type.icon" class="mr-2" />
+        {{ type.label }}
+      </Button>
+
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
-interface ContentEditorProps {
-  modelValue?: any[];
-  editable?: boolean;
-  labels?: Record<string, { icon: string; label: string }>;
-  prefix?: string;
-  label?: string;
+import { ref } from 'vue'
+import type { IContentItem } from '~/models/topic'
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css'
+
+const props = defineProps<{
+  modelValue: IContentItem[]
+}>()
+
+const emit = defineEmits(['update:modelValue'])
+
+const contentTypes = [
+  { value: 'text', label: 'Texto', icon: 'mdi-format-text' },
+  { value: 'image', label: 'Imagem', icon: 'mdi-image' },
+  { value: 'video', label: 'Vídeo', icon: 'mdi-video' },
+  { value: 'audio', label: 'Áudio', icon: 'mdi-music' },
+  { value: 'document', label: 'Documento', icon: 'mdi-file-document' },
+]
+
+const selectedType = ref('text')
+
+const editorOptions = {
+  theme: 'snow',
+  modules: {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],
+      ['blockquote', 'code-block'],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      ['link'],
+      ['clean']
+    ]
+  }
 }
 
-const uploadTypes = ["image", "video", "audio", "file"] as const;
+const getContentTypeLabel = (type: string) => {
+  return contentTypes.find(t => t.value === type)?.label || type
+}
 
-const props = withDefaults(defineProps<ContentEditorProps>(), {
-  editable: true,
-});
+const updateContent = () => {
+  emit('update:modelValue', [...props.modelValue])
+}
 
-const emit = defineEmits<{
-  (event: "update:modelValue", value: any): void;
-  (event: "calcStats", value: void): void;
-}>();
+const onEditorChange = (content: string, index: number) => {
+  const newContent = [...props.modelValue]
+  newContent[index].content = content
+  emit('update:modelValue', newContent)
+}
 
-const { $config } = useNuxtApp();
-const filesURL = $config.public.filesURL;
+const addContent = (type: string) => {
+  const newContent = [...props.modelValue]
+  newContent.push({
+    type: type as IContentItem['type'],
+    content: '',
+    order: newContent.length
+  })
+  emit('update:modelValue', newContent)
+}
 
-const blockTypes = {
-  image: "Imagem",
-  video: "Vídeo",
-  audio: "Áudio",
-  file: "Arquivo",
-} as Record<string, string>;
+const removeContent = (index: number) => {
+  const newContent = [...props.modelValue]
+  newContent.splice(index, 1)
+  // Update order numbers
+  newContent.forEach((item, idx) => {
+    item.order = idx
+  })
+  emit('update:modelValue', newContent)
+}
 
-const blocks = ref(props.modelValue ? [...props.modelValue] : []);
+const handleImageUpload = async (event: Event, index: number) => {
+  const file = (event.target as HTMLInputElement).files?.[0]
+  if (file) {
+    // Here you would typically upload the file to your server
+    // and get back a URL. For now, we'll use a data URL
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const newContent = [...props.modelValue]
+      newContent[index].content = e.target?.result as string
+      emit('update:modelValue', newContent)
+    }
+    reader.readAsDataURL(file)
+  }
+}
 
-const images = computed(() =>
-  blocks.value
-    .filter((block) => block.type === "image")
-    .map((block) => block.content)
-);
+const handleVideoUpload = async (event: Event, index: number) => {
+  const file = (event.target as HTMLInputElement).files?.[0]
+  if (file) {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const newContent = [...props.modelValue]
+      newContent[index].content = e.target?.result as string
+      emit('update:modelValue', newContent)
+    }
+    reader.readAsDataURL(file)
+  }
+}
 
-const addText = () => {
-  blocks.value.push({
-    type: "text",
-    content: "",
-  });
-};
+const handleAudioUpload = async (event: Event, index: number) => {
+  const file = (event.target as HTMLInputElement).files?.[0]
+  if (file) {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const newContent = [...props.modelValue]
+      newContent[index].content = e.target?.result as string
+      emit('update:modelValue', newContent)
+    }
+    reader.readAsDataURL(file)
+  }
+}
 
-onMounted(() => {
-  if (blocks.value.length === 0) addText();
-});
-
-const emitInput = () => {
-  emit("update:modelValue", blocks.value);
-};
-
-const emitCalcStats = () => {
-  emit("calcStats");
-};
-
-// watch blocks
-watch(
-  blocks,
-  () => {
-    emitInput();
-    emitCalcStats();
-  },
-  { deep: true }
-);
+const handleDocumentUpload = async (event: Event, index: number) => {
+  const file = (event.target as HTMLInputElement).files?.[0]
+  if (file) {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const newContent = [...props.modelValue]
+      newContent[index].content = e.target?.result as string
+      emit('update:modelValue', newContent)
+    }
+    reader.readAsDataURL(file)
+  }
+}
 </script>
+
+<style>
+.content-editor {
+  .text-editor {
+    min-height: 200px;
+  }
+
+  .ql-editor {
+    min-height: 150px;
+  }
+}
+</style>

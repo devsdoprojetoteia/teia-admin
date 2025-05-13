@@ -1,7 +1,13 @@
+export interface IContentItem {
+  type: 'text' | 'image' | 'video' | 'audio' | 'document';
+  content: string;
+  order: number;
+}
+
 interface ITopic {
   id?: string;
   title: string;
-  content: string;
+  content: IContentItem[];
   module: string;
   order: number;
   createdAt: Date;
@@ -11,7 +17,7 @@ interface ITopic {
 export default class Topic implements ITopic {
   id?: string;
   title: string;
-  content: string;
+  content: IContentItem[];
   module: string;
   order: number;
   createdAt: Date;
@@ -20,7 +26,7 @@ export default class Topic implements ITopic {
   constructor({ id, title, content, module, order, createdAt, updatedAt }: ITopic) {
     this.id = id;
     this.title = title;
-    this.content = content;
+    this.content = content || [];
     this.module = module;
     this.order = order;
     this.createdAt = createdAt;
@@ -31,7 +37,7 @@ export default class Topic implements ITopic {
     return new Topic({
       id: json._id,
       title: json.title,
-      content: json.content,
+      content: json.content || [],
       module: json.module,
       order: json.order,
       createdAt: new Date(json.createdAt),
