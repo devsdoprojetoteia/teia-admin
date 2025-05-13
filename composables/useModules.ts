@@ -25,7 +25,7 @@ const useModules = () => {
     return modules.value !== null && modules.value.length > 0;
   });
 
-  const openModule = (module: Module) => {
+  const editModule = (module: Module) => {
     router.push({
       path: route.path,
       query: {
@@ -67,7 +67,7 @@ const useModules = () => {
     showAddModule,
     hasModules,
     loadModules,
-    openModule,
+    editModule,
     closeModule,
     createModule,
     updateModule,

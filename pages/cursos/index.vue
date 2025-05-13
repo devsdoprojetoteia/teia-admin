@@ -68,13 +68,13 @@
                     <Text emphasis="medium">{{ course.description }}</Text>
                   </v-card-text>
                   <v-card-actions>
-                    <Button color="primary" :to="`/cursos/${course.id}/modulos`">
-                      <Icon icon="mdi-view-list" class="mr-2" />
-                      Gerenciar módulos
-                    </Button>
                     <Button color="primary" @click="editCourse(course)">
                       <Icon icon="mdi-pencil" class="mr-2" />
                       Editar
+                    </Button>
+                    <Button color="primary" :to="`/cursos/${course.id}/modulos`">
+                      <Icon icon="mdi-view-list" class="mr-2" />
+                      Gerenciar módulos
                     </Button>
                   </v-card-actions>
                 </v-card>

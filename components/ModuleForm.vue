@@ -3,8 +3,10 @@
     <div v-if="course && !notification" class="mb-2">
       <Text variant="h6">{{ course.name }}</Text>
       <DynamicForm :form="form"  />
+      <div class="text-center pt-5">
+        <Button v-if="module" size="small" @click="remove" class="mr-1 mb-1">Remover módulo</Button>
+      </div>
     </div>
-    
     <Notification v-bind="notification" v-if="notification" />
   </Dialog>
 </template>
@@ -30,7 +32,7 @@ const title = computed(() => {
   return module ? "Editar módulo" : "Cadastrar módulo";
 });
 
-const emit = defineEmits(["close", "created", "updated"]);
+const emit = defineEmits(["close", "created", "updated", "remove"]);
 
 const form: FormProps = {
   steps: [
@@ -82,4 +84,11 @@ const form: FormProps = {
 const close = () => {
   emit("close");
 };
+
+const remove = () => {
+  if (confirm("Deseja realmente remover este módulo?")) {
+    emit("remove");
+  }
+};
+
 </script>

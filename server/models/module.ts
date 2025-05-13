@@ -16,8 +16,17 @@ const ModuleSchema = new Schema<IModule>(
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
+
+ModuleSchema.virtual("topics", {
+  ref: "Topic",
+  localField: "_id",
+  foreignField: "module",
+  justOne: false,
+});
 
 const Module = model<IModule>("Module", ModuleSchema);
 

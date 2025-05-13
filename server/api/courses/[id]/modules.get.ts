@@ -13,6 +13,6 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const modules = await Module.find({ course: courseId }).sort({ name: 1 });
+  const modules = await Module.find({ course: courseId }).sort({ name: 1 }).populate("topics");
   return modules;
 }); 
