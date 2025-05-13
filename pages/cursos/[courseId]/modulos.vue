@@ -2,7 +2,7 @@
   <div>
     <v-container>
       <div class="d-flex justify-space-between align-center">
-        <Text variant="h4">Módulos</Text>
+        <Text variant="h4">Módulos do curso {{ course?.name }}</Text>
         <Button
           color="primary"
           @click="showAddModule = true"
@@ -72,6 +72,7 @@
 <script lang="ts" setup>
 import slugify from "slugify";
 import useModules from "~/composables/useModules";
+import type Course from "~/models/course";
 import Module from "~~/models/module";
 
 definePageMeta({
@@ -82,6 +83,8 @@ definePageMeta({
 useHead({
   title: "Módulos",
 });
+
+const route = useRoute();
 
 const filteredModules = computed(() => {
   let list = modules.value ?? [];
@@ -106,10 +109,15 @@ const {
   deleteModule,
 } = useModules();
 
+const { getCourse } = useCourses();
+
 const search = ref("");
+
+const course = ref<Course | null>(null);
 
 // load modules on mounted
 onMounted(async () => {
+  course.value = await getCourse(route.params.courseId as string);
   await loadModules();
 });
 

@@ -18,7 +18,7 @@ const useModules = () => {
   });
 
   const loadModules = async () => {
-    modules.value = await $api.modules.list();
+    modules.value = await $api.modules.list(route.params.courseId as string);
   };
 
   const hasModules = computed(() => {

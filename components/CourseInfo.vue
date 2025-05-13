@@ -28,6 +28,14 @@
       <Button size="small" @click="edit" class="mr-1 mb-1" color="primary">
         Editar
       </Button>
+      <Button
+        size="small"
+        :to="'/cursos/' + course.id + '/modulos'"
+        class="mr-1 mb-1"
+        color="primary"
+      >
+        Gerenciar módulos
+      </Button>
     </div>
   </Dialog>
 </template>

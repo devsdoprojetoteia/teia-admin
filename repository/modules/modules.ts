@@ -3,8 +3,8 @@ import type { FormValues } from "~~/models/dynamic-form";
 import HttpFactory from "../factory";
 
 class ModulesModule extends HttpFactory {
-  async list() {
-    const json = await this.apiGet<any[]>(`/api/modules`);
+  async list(courseId: string): Promise<Module[]> {
+    const json = await this.apiGet<any[]>(`/api/courses/${courseId}/modules`);
     return Module.fromJsonArray(json);
   }
 

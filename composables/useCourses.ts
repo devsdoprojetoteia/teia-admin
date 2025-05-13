@@ -35,6 +35,11 @@ const useCourses = () => {
     });
   };
 
+  const getCourse = async (id: string) => {
+    const course = await $api.courses.get(id);
+    return course;
+  };
+
   const createCourse = async (data: FormValues) => {
     return await $api.courses.create(data);
   };
@@ -65,6 +70,7 @@ const useCourses = () => {
     loadCourses,
     openCourse,
     closeCourse,
+    getCourse,
     createCourse,
     updateCourse,
     deleteCourse,
