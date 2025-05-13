@@ -98,33 +98,10 @@ export const processPDF = async (file: Buffer, filename: string, docsPath: strin
   const tempPath = join(docsPath, filename)
   await writeFile(tempPath, file)
 
-  const pdfImage = new PDFImage(tempPath)
-  const previewImage = await pdfImage.convertPage(0)
-
-  // Create and upload thumbnail
-  const thumbBuffer = await sharp(previewImage)
-    .resize(400, 400, {
-      fit: 'cover',
-      withoutEnlargement: true
-    })
-    .toBuffer()
-  const thumbKey = `images/thumbs/${filename.replace('.pdf', '.png')}`
-  const thumbUrl = await uploadToS3(thumbBuffer, thumbKey, 'image/png')
-
-  // Create and upload average size
-  const averageBuffer = await sharp(previewImage)
-    .resize(1920, null, {
-      withoutEnlargement: true
-    })
-    .toBuffer()
-  const averageKey = `images/averages/${filename.replace('.pdf', '.png')}`
-  const averageUrl = await uploadToS3(averageBuffer, averageKey, 'image/png')
 
   return {
     type: 'document',
     title: filename.replace(/\.[^/.]+$/, ''),
-    url,
-    thumb: thumbUrl,
-    average: averageUrl
+    url
   }
 } 

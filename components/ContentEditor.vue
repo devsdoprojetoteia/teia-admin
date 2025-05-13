@@ -39,9 +39,18 @@
       </div>
       <div class="d-flex justify-space-between align-center mb-2 pt-1">
         <div class="d-flex">
-          <Button color="error" size="x-small" @click="removeContent(index)" variant="tonal">
+          <Button color="error" size="x-small" @click="removeContent(index)" variant="tonal" class="mr-2">
             <Icon icon="mdi-delete" />
             Remover {{ getContentTypeLabel(item.type) }}
+          </Button>
+        </div>
+        <div class="d-flex">
+          <Button size="x-small" variant="tonal" class="mr-1" :disabled="index === 0" @click="moveContent(index, 'up')">
+            <Icon icon="mdi-chevron-up" />
+          </Button>
+          <Button size="x-small" variant="tonal" :disabled="index === modelValue.length - 1"
+            @click="moveContent(index, 'down')">
+            <Icon icon="mdi-chevron-down" />
           </Button>
         </div>
       </div>
@@ -222,6 +231,23 @@ const getFileSize = (url: string) => {
 
 const isPDF = (url: string) => {
   return url.toLowerCase().endsWith('.pdf')
+}
+
+const moveContent = (index: number, direction: 'up' | 'down') => {
+  const newContent = [...props.modelValue]
+  const newIndex = direction === 'up' ? index - 1 : index + 1
+
+  // Swap items
+  const temp = newContent[index]
+  newContent[index] = newContent[newIndex]
+  newContent[newIndex] = temp
+
+  // Update order numbers
+  newContent.forEach((item, idx) => {
+    item.order = idx
+  })
+
+  emit('update:modelValue', newContent)
 }
 </script>
 
