@@ -42,9 +42,16 @@ O [Teia Admin](https://github.com/devsdoprojetoteia/teia-admin) é o backend do 
 - ⌛ Agendamento de Jobs
 - ⌛ Envio de e-mails
 
+#### Documentação
+[Atores](./docs/atores.md)
+[Casos de Uso](./docs/casos_de_uso.md)
+[Divisão de módulos](./docs/divisão_de_módulos.md)
+
+
 ## Parceiros & colaboradores
 - [Mover-se na Web](https://moverse.ceweb.br)
 - [Lira | IPÊ](https://lira.ipe.org.br)
 - [Terrakrya](https://www.terrakrya.com)
 
 ![](./docs/assets/colaboradores.svg)
+
