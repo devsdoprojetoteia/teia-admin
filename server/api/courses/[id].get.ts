@@ -23,8 +23,5 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  return {
-    statusCode: 201,
-    body: course,
-  };
+  return course;
 });

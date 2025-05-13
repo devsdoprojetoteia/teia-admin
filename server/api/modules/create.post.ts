@@ -6,9 +6,9 @@ export default defineEventHandler(async (event) => {
   const authenticatedUser = authorize(event, ["administrador"]);
 
   const body = await readBody(event);
-  const { name, description, courseId } = body;
+  const { name, description, course } = body;
 
-  const module = new Module({ name, description, course: courseId });
+  const module = new Module({ name, description, course });
 
   await module.save();
 

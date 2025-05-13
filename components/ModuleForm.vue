@@ -1,9 +1,10 @@
 <template>
   <Dialog @close="close" :title="title">
-    <div v-if="courseName" class="mb-2">
-      <Text variant="h6">Curso: {{ courseName }}</Text>
+    <div v-if="course && !notification" class="mb-2">
+      <Text variant="h6">{{ course.name }}</Text>
+      <DynamicForm :form="form"  />
     </div>
-    <DynamicForm :form="form" v-if="!notification" />
+    
     <Notification v-bind="notification" v-if="notification" />
   </Dialog>
 </template>
@@ -12,14 +13,15 @@
 import useModules from "~/composables/useModules";
 import type { FormProps, FormValues } from "~/models/dynamic-form";
 import Module from "~/models/module";
+import Course from "~/models/course";
 import type { NotificationProps } from "~~/models/notification";
 
 const { createModule, updateModule } = useModules();
 
-const { module, courseId, courseName } = defineProps<{
+const { module, course } = defineProps<{
   module?: Module | null;
-  courseId?: string;
-  courseName?: string;
+  course?: Course | null;
+  
 }>();
 
 const notification: Ref<NotificationProps | null> = ref(null);
@@ -53,7 +55,7 @@ const form: FormProps = {
     const { notifySuccess, notifyError } = useNotify();
     if (!module) {
       try {
-        await createModule({ ...values, course: courseId, courseId });
+        await createModule({ ...values, course: course?.id });
         notification.value = {
           title: "Módulo cadastrado com sucesso",
           onContinue: close,

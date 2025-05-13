@@ -1,29 +1,25 @@
 <template>
   <div>
     <v-container>
-      <div class="d-flex justify-space-between align-center">
-        <Text variant="h4">Módulos do curso {{ course?.name }}</Text>
-        <Button
-          color="primary"
-          @click="showAddModule = true"
-          size="large"
-          class="mb-8 mt-4"
-          icon
-        >
+
+      <div class="d-flex justify-space-between align-center mb-8 mt-4">
+        <div class="d-flex align-center">
+          <Button to="/" icon class="mr-2">
+            <Icon icon="mdi-chevron-left" />
+          </Button>
+          <div>
+            <Text variant="h4" class="mb-0">Módulos</Text>
+            <Text>{{ course?.name }}</Text>
+          </div>
+
+        </div>
+        <Button color="primary" @click="showAddModule = true" size="large" class="mb-8 mt-4" icon>
           <Icon icon="mdi-plus" />
         </Button>
       </div>
 
-      <DynamicInput
-        name="search"
-        :props="{ label: 'Buscar' }"
-        v-model="search"
-        label="Buscar"
-        clearable
-        block
-        class="mb-4"
-        :validate="false"
-      />
+      <DynamicInput name="search" :props="{ label: 'Buscar' }" v-model="search" label="Buscar" clearable block
+        class="mb-4" :validate="false" />
       <div>
         <v-card>
           <div v-if="filteredModules">
@@ -50,23 +46,9 @@
           <Loading v-else />
         </v-card>
       </div>
-      <ModuleForm
-        v-if="showAddModule"
-        @created="moduleCreated"
-        @updated="moduleUpdated"
-        @close="showAddModule = false"
-        :module="activeModule"
-        :course-id="route.params.courseId"
-        :course-name="course?.name"
-      />
-      <ModuleInfo
-        v-if="activeModule"
-        :module="activeModule"
-        @updated="moduleUpdated"
-        @close="closeModule"
-        @edit="showAddModule = true"
-        @remove="removeModule"
-      />
+      <ModuleForm v-if="showAddModule || activeModule" @created="moduleCreated" @updated="moduleUpdated"
+        @close="closeForm" :module="activeModule" :course="course" />
+
     </v-container>
   </div>
 </template>
@@ -115,11 +97,12 @@ const { getCourse } = useCourses();
 
 const search = ref("");
 
-const course = ref<Course | null>(null);
+const course = ref<Course | undefined>(undefined);
 
 // load modules on mounted
 onMounted(async () => {
   course.value = await getCourse(route.params.courseId as string);
+  console.log(course.value);
   await loadModules();
 });
 
@@ -139,5 +122,9 @@ const removeModule = async () => {
     const { notifySuccess } = useNotify();
     notifySuccess("Módulo removido com sucesso");
   }
+};
+const closeForm = () => {
+  showAddModule.value = false;
+  closeModule();
 };
 </script>

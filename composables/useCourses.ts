@@ -25,8 +25,8 @@ const useCourses = () => {
     return courses.value !== null && courses.value.length > 0;
   });
 
-  const openCourse = (course: Course) => {
-    router.push({
+  const editCourse = async (course: Course) => {
+    await router.push({
       path: route.path,
       query: {
         ...route.query,
@@ -68,7 +68,7 @@ const useCourses = () => {
     showAddCourse,
     hasCourses,
     loadCourses,
-    openCourse,
+    editCourse,
     closeCourse,
     getCourse,
     createCourse,

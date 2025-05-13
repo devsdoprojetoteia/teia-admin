@@ -1,6 +1,12 @@
 <template>
   <Dialog @close="close" :title="title">
-    <DynamicForm :form="form" v-if="!notification" />
+    <div v-if="!notification">
+      <DynamicForm :form="form" />
+      <div class="text-center pt-4">
+        <Button v-if="course" size="small" @click="remove" class="mr-1 mb-1">Remover curso</Button>
+      </div>
+    </div>
+
     <Notification v-bind="notification" v-if="notification" />
   </Dialog>
 </template>
@@ -95,4 +101,13 @@ const created = () => {
 const updated = () => {
   emit("updated");
 };
+
+const remove = () => {
+  // eslint-disable-next-line no-alert
+  if (confirm("Deseja realmente remover este curso?")) {
+    // eslint-disable-next-line no-alert
+    emit("remove");
+  }
+};
+
 </script>

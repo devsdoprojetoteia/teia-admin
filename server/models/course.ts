@@ -19,8 +19,18 @@ const CourseSchema = new Schema<ICourse>(
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true },
   }
 );
+
+CourseSchema.virtual("modules", {
+  ref: "Module",
+  localField: "_id",
+  foreignField: "course",
+  justOne: false,
+});
+
 const Course = model<ICourse>("Course", CourseSchema);
 
 export default Course;
