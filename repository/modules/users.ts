@@ -7,10 +7,6 @@ class UsersModule extends HttpFactory {
     const json = await this.apiGet<any[]>(`/api/users`);
     return User.fromJsonArray(json);
   }
-  async get(id: string): Promise<User> {
-    const json = await this.apiGet(`/api/users/${id}`);
-    return User.fromJson(json);
-  }
 
   async create(data: FormValues): Promise<User> {
     const json = await this.apiPost(`/api/users/create`, data);

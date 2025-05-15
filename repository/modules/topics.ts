@@ -8,11 +8,6 @@ class TopicsModule extends HttpFactory {
     return Topic.fromJsonArray(json);
   }
 
-  async get(id: string): Promise<Topic> {
-    const json = await this.apiGet(`/api/topics/${id}`);
-    return Topic.fromJson(json);
-  }
-
   async create(data: FormValues): Promise<Topic> {
     const json = await this.apiPost(`/api/topics/create`, data);
     return Topic.fromJson(json);
