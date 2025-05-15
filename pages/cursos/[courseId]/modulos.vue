@@ -8,8 +8,8 @@
             <Icon icon="mdi-chevron-left" />
           </Button>
           <div>
-            <Text variant="h4" class="mb-0">Módulos</Text>
-            <Text>{{ course?.name }}</Text>
+            <Text variant="h4" class="mb-0">{{ course?.name }}</Text>
+            <Text>Gestão de módulos</Text>
           </div>
 
         </div>
@@ -59,8 +59,8 @@
                         </div>
                       </div>
                     </div>
-                    <TopicForm v-if="activeTopic && activeTopic.module === module.id" @close="closeTopicForm" :module="module" :topic="activeTopic"
-                      @updated="topicUpdated" @remove="removeTopic" />
+                    <TopicForm v-if="activeTopic && activeTopic.module === module.id" @close="closeTopicForm"
+                      :module="module" :topic="activeTopic" @updated="topicUpdated" @remove="removeTopic" />
                   </v-card-text>
                   <v-divider></v-divider>
                   <v-card-actions>
