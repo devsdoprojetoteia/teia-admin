@@ -230,6 +230,26 @@ Nenhum.
 ]
 ```
 
+### Obter Curso
+```
+GET https://teia-admin-2rphc.ondigitalocean.app/api/courses/[id]
+```
+**Parâmetros:**  
+Nenhum.
+
+**Retorno:**  
+```json
+{
+  "id": "string",
+  "name": "string",
+  "description": "string",
+  "phone": "string",
+  "published": "boolean",
+  "createdAt": "Date",
+  "updatedAt": "Date"
+}
+```
+
 ### Criar Curso
 ```
 POST https://teia-admin-2rphc.ondigitalocean.app/api/courses/create
@@ -583,16 +603,14 @@ FormData com o arquivo no campo 'file'
 {
   "type": "document",
   "title": "string",
-  "url": "string",
-  "thumb": "string",
-  "average": "string"
+  "url": "string"
 }
 ```
 
 **Observações:**
 - Todos os endpoints de upload aceitam arquivos via FormData
 - O campo do arquivo deve ser nomeado como 'file'
-- Para imagens e documentos, são geradas versões em miniatura (thumb) e tamanho médio (average)
+- Para imagens, são geradas versões em miniatura (thumb) e tamanho médio (average)
 - Os arquivos são armazenados no S3 e as URLs retornadas são públicas
 - Tipos de arquivo aceitos:
   - Imagem: image/*
