@@ -1,4 +1,4 @@
-import { processPDF, documentsPath, uploadToS3 } from '~/server/utils/upload'
+import { documentsPath, uploadToS3 } from '~/server/utils/upload'
 
 export default defineEventHandler(async (event) => {
   const files = await readMultipartFormData(event)
@@ -15,9 +15,6 @@ export default defineEventHandler(async (event) => {
 
   const docsPath = await documentsPath()
 
-  if (mimeType === 'application/pdf') {
-    return await processPDF(file.data, filename, docsPath)
-  }
 
   // Handle other document types
   const key = `documents/${filename}`

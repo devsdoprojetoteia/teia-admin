@@ -90,18 +90,3 @@ export const processImage = async (file: Buffer, filename: string, mimeType: str
     average: averageUrl
   }
 }
-
-export const processPDF = async (file: Buffer, filename: string, docsPath: string) => {
-  const key = `documents/${filename}`
-  const url = await uploadToS3(file, key, 'application/pdf')
-
-  const tempPath = join(docsPath, filename)
-  await writeFile(tempPath, file)
-
-
-  return {
-    type: 'document',
-    title: filename.replace(/\.[^/.]+$/, ''),
-    url
-  }
-} 
