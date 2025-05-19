@@ -13,6 +13,18 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const modules = await Module.find({ course: courseId }).sort({ order: 1 }).populate("topics");
-  return modules;
+  const modules = await Module.find({ course: courseId }).sort({ order: 1 })
+
+  // populate topics
+  const modulesWithTopics = await Promise.all(
+    modules.map(async (module) => {
+      const topics = await Topic.find({ module: module._id }).sort({ order: 1 });
+      return {
+        ...module.toObject(),
+        topics
+      };
+    })
+  );
+
+  return modulesWithTopics;
 }); 

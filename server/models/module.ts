@@ -1,4 +1,5 @@
 import { Schema, model, Document } from "mongoose";
+import Topic from "./topic";
 
 interface IModule extends Document {
   name: string;
@@ -22,13 +23,6 @@ const ModuleSchema = new Schema<IModule>(
     toObject: { virtuals: true },
   }
 );
-
-ModuleSchema.virtual("topics", {
-  ref: "Topic",
-  localField: "_id",
-  foreignField: "module",
-  justOne: false,
-});
 
 const Module = model<IModule>("Module", ModuleSchema);
 
