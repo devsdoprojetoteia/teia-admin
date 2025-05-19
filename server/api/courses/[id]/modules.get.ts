@@ -1,7 +1,6 @@
 import { defineEventHandler, createError } from "h3";
 import authorize from "~/server/utils/authorize";
-import Module from "~~/server/models/module";
-import Topic from "~~/server/models/topic"; // usado para carregar o model do topic que vai ser usado no populate
+import { Module, Topic } from "~/server/models";
 
 export default defineEventHandler(async (event) => {
   const authenticatedUser = authorize(event, ["administrador", "tutor"]);
