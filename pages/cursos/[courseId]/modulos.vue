@@ -8,8 +8,8 @@
             <Icon icon="mdi-chevron-left" />
           </Button>
           <div>
-            <Text variant="h4" class="mb-0">{{ course?.name }}</Text>
-            <Text>Gestão de módulos</Text>
+            <Text variant="h6" class="mb-0">{{ course?.name }}</Text>
+            <Text emphasis="medium">Gestão de módulos</Text>
           </div>
 
         </div>
@@ -29,10 +29,15 @@
             <div v-else>
               <template v-for="(module, moduleIndex) in filteredModules.sort((a, b) => a.order - b.order)">
                 <v-card class="mb-4">
-                  <v-card-title>
-                    <div class="d-flex justify-space-between align-center">
-                      <Text>{{ module.order }} - {{ module.name }}</Text>
-                      <div class="d-flex">
+
+                  <v-card-text>
+                    <v-row no-gutters class="mb-3">
+                      <v-col cols="12" sm="8">
+                        <div>
+                          <strong>{{ module.order }} - {{ module.name }}</strong>
+                        </div>
+                      </v-col>
+                      <v-col cols="12" sm="4" class="d-flex justify-sm-end mt-2 mt-sm-0">
                         <Button size="x-small" variant="tonal" class="mr-1"
                           :disabled="moduleIndex === 0 || loadingStates[`module-${module.id}-up`]"
                           @click="reorderModule(module, 'up')">
@@ -45,45 +50,46 @@
                           <Icon v-if="!loadingStates[`module-${module.id}-down`]" icon="mdi-chevron-down" />
                           <Icon v-else icon="mdi-loading" class="mdi-spin" />
                         </Button>
-                      </div>
-                    </div>
-                  </v-card-title>
-                  <v-card-text>
+                      </v-col>
+                    </v-row>
                     <Text emphasis="medium">{{ module.description }}</Text>
                     <!-- lista de topicos gestão de tópicos -->
                     <div class="mt-4" v-if="module.topics && module.topics.length > 0">
                       <div class="topics-list">
                         <div v-for="(topic, topicIndex) in module.topics.sort((a, b) => a.order - b.order)"
                           :key="topic.id" class="topic-item pa-3 mb-2 rounded-lg bg-grey-lighten-4">
-                          <div class="d-flex justify-space-between align-center">
-                            <div class="d-flex align-center">
+                          <v-row>
+                            <v-col cols="12" sm="8" class="d-flex align-center">
                               <div class="bg-white rounded-circle d-flex justify-center align-center mr-2"
                                 style="width: 30px; height: 30px;">
                                 {{ topic.order }}
                               </div>
                               <Text class="font-weight-medium">{{ topic.title }}</Text>
-                            </div>
-                            <div class="d-flex">
-                              <Button size="x-small" variant="tonal" class="mr-1"
-                                :disabled="topicIndex === 0 || loadingStates[`topic-${topic.id}-up`]"
-                                @click="reorderTopic(topic, 'up')">
-                                <Icon v-if="!loadingStates[`topic-${topic.id}-up`]" icon="mdi-chevron-up" />
-                                <Icon v-else icon="mdi-loading" class="mdi-spin" />
-                              </Button>
-                              <Button size="x-small" variant="tonal" class="mr-1"
-                                :disabled="topicIndex === module.topics.length - 1 || loadingStates[`topic-${topic.id}-down`]"
-                                @click="reorderTopic(topic, 'down')">
-                                <Icon v-if="!loadingStates[`topic-${topic.id}-down`]" icon="mdi-chevron-down" />
-                                <Icon v-else icon="mdi-loading" class="mdi-spin" />
-                              </Button>
-                              <Button color="primary" size="small" @click="editTopic(topic)" variant="text">
-                                <Icon icon="mdi-pencil" />
-                              </Button>
-                              <Button color="error" size="small" @click="removeTopic(topic)" variant="text">
-                                <Icon icon="mdi-delete" />
-                              </Button>
-                            </div>
-                          </div>
+                            </v-col>
+                            <v-col cols="12" sm="4" class="d-flex justify-sm-end pt-0 pt-md-4">
+                              <div class="d-flex align-center">
+                                <Button size="x-small" variant="tonal" class="mr-1"
+                                  :disabled="topicIndex === 0 || loadingStates[`topic-${topic.id}-up`]"
+                                  @click="reorderTopic(topic, 'up')">
+                                  <Icon v-if="!loadingStates[`topic-${topic.id}-up`]" icon="mdi-chevron-up" />
+                                  <Icon v-else icon="mdi-loading" class="mdi-spin" />
+                                </Button>
+                                <Button size="x-small" variant="tonal" class="mr-1"
+                                  :disabled="topicIndex === module.topics.length - 1 || loadingStates[`topic-${topic.id}-down`]"
+                                  @click="reorderTopic(topic, 'down')">
+                                  <Icon v-if="!loadingStates[`topic-${topic.id}-down`]" icon="mdi-chevron-down" />
+                                  <Icon v-else icon="mdi-loading" class="mdi-spin" />
+                                </Button>
+                                <Button color="primary" size="x-small" @click="editTopic(topic)" variant="tonal"
+                                  class="mr-1">
+                                  <Icon icon="mdi-pencil" />
+                                </Button>
+                                <Button color="error" size="x-small" @click="removeTopic(topic)" variant="tonal">
+                                  <Icon icon="mdi-delete" />
+                                </Button>
+                              </div>
+                            </v-col>
+                          </v-row>
                         </div>
                       </div>
                     </div>
