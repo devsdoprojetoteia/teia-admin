@@ -2,7 +2,7 @@
   <Dialog @close="close" :title="title">
     <div v-if="course && !notification" class="mb-2">
       <Text variant="h6">{{ course.name }}</Text>
-      <DynamicForm :form="form"  />
+      <DynamicForm :form="form" />
       <div class="text-center pt-5">
         <Button v-if="module" size="small" @click="remove" class="mr-1 mb-1">Remover módulo</Button>
       </div>
@@ -23,7 +23,7 @@ const { createModule, updateModule } = useModules();
 const { module, course } = defineProps<{
   module?: Module | null;
   course?: Course | null;
-  
+
 }>();
 
 const notification: Ref<NotificationProps | null> = ref(null);
@@ -45,13 +45,8 @@ const form: FormProps = {
         },
         description: {
           label: "Descrição do módulo",
-          value: module?.description ?? "",
           type: "textarea",
-        },
-        order: {
-          label: "Ordem",
-          type: "text",
-          value: module?.order?.toString() ?? "0",
+          value: module?.description ?? "",
         },
       },
     },
@@ -62,7 +57,7 @@ const form: FormProps = {
     const { notifySuccess, notifyError } = useNotify();
     if (!module) {
       try {
-        await createModule({ ...values, course: course?.id, order: parseInt(values.order) });
+        await createModule({ ...values, course: course.id });
         notification.value = {
           title: "Módulo cadastrado com sucesso",
           onContinue: close,
@@ -73,7 +68,7 @@ const form: FormProps = {
       }
     } else {
       try {
-        await updateModule(module.id!, { ...values, order: parseInt(values.order) });
+        await updateModule(module.id!, values);
         notification.value = {
           title: "O módulo foi atualizado",
           onContinue: close,

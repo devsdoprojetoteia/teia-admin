@@ -7,6 +7,7 @@ interface IContentItem {
 }
 
 interface ITopic extends Document {
+  _id: Schema.Types.ObjectId;
   title: string;
   content: IContentItem[];
   module: Schema.Types.ObjectId;

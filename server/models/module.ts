@@ -1,7 +1,8 @@
 import { Schema, model, Document } from "mongoose";
-import Topic from "./topic";
+
 
 interface IModule extends Document {
+  _id: Schema.Types.ObjectId;
   name: string;
   description?: string;
   course: Schema.Types.ObjectId;

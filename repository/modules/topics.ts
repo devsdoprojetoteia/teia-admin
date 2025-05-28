@@ -21,6 +21,10 @@ class TopicsModule extends HttpFactory {
   async delete(id: string): Promise<void> {
     await this.apiDelete(`/api/topics/${id}`);
   }
+
+  async reorder(topicId: string, direction: 'up' | 'down'): Promise<void> {
+    await this.apiPost(`/api/topics/reorder`, { topicId, direction });
+  }
 }
 
 export default TopicsModule; 

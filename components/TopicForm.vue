@@ -43,11 +43,6 @@ const form: FormProps = {
           type: "editor",
           value: topic?.content ?? [],
         },
-        order: {
-          label: "Ordem",
-          type: "text",
-          value: topic?.order?.toString() ?? "0",
-        },
       },
     },
   ],
@@ -57,7 +52,7 @@ const form: FormProps = {
     const { notifySuccess, notifyError } = useNotify();
     if (!topic) {
       try {
-        await createTopic({ ...values, module: module.id, order: parseInt(values.order), content: values.content.filter((item: any) => item.content) });
+        await createTopic({ ...values, module: module.id, content: values.content.filter((item: any) => item.content) });
         notification.value = {
           title: "Tópico cadastrado com sucesso",
           onContinue: close,
@@ -68,7 +63,7 @@ const form: FormProps = {
       }
     } else {
       try {
-        await updateTopic(topic.id!, { ...values, order: parseInt(values.order), content: values.content.filter((item: any) => item.content) });
+        await updateTopic(topic.id!, { ...values, content: values.content.filter((item: any) => item.content) });
         notification.value = {
           title: "O tópico foi atualizado",
           onContinue: close,

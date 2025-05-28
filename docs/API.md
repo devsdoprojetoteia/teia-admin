@@ -4,7 +4,7 @@
 
 ### Listar Usuários
 ```
-GET https://teia-admin-2rphc.ondigitalocean.app/api/users
+GET https://teia.ipe.org.br/api/users
 ```
 **Parâmetros:**  
 Nenhum.
@@ -25,7 +25,7 @@ Nenhum.
 
 ### Criar Usuário
 ```
-POST https://teia-admin-2rphc.ondigitalocean.app/api/users/create
+POST https://teia.ipe.org.br/api/users/create
 ```
 **Parâmetros:**  
 ```json
@@ -51,7 +51,7 @@ POST https://teia-admin-2rphc.ondigitalocean.app/api/users/create
 
 ### Atualizar Usuário
 ```
-PUT https://teia-admin-2rphc.ondigitalocean.app/api/users/[id]
+PUT https://teia.ipe.org.br/api/users/[id]
 ```
 **Parâmetros:**  
 ```json
@@ -76,7 +76,7 @@ PUT https://teia-admin-2rphc.ondigitalocean.app/api/users/[id]
 
 ### Alterar Senha do Usuário
 ```
-PUT https://teia-admin-2rphc.ondigitalocean.app/api/users/password/[id]
+PUT https://teia.ipe.org.br/api/users/password/[id]
 ```
 **Parâmetros:**  
 ```json
@@ -99,7 +99,7 @@ PUT https://teia-admin-2rphc.ondigitalocean.app/api/users/password/[id]
 
 ### Deletar Usuário
 ```
-DELETE https://teia-admin-2rphc.ondigitalocean.app/api/users/[id]
+DELETE https://teia.ipe.org.br/api/users/[id]
 ```
 **Parâmetros:**  
 Nenhum.
@@ -115,7 +115,7 @@ Nenhum.
 
 ### Registrar Usuário
 ```
-POST https://teia-admin-2rphc.ondigitalocean.app/api/register
+POST https://teia.ipe.org.br/api/register
 ```
 **Parâmetros:**  
 ```json
@@ -143,7 +143,7 @@ POST https://teia-admin-2rphc.ondigitalocean.app/api/register
 
 ### Login
 ```
-POST https://teia-admin-2rphc.ondigitalocean.app/api/login
+POST https://teia.ipe.org.br/api/login
 ```
 **Parâmetros:**  
 ```json
@@ -170,7 +170,7 @@ POST https://teia-admin-2rphc.ondigitalocean.app/api/login
 
 ### Esqueci a Senha
 ```
-POST https://teia-admin-2rphc.ondigitalocean.app/api/forgot-password
+POST https://teia.ipe.org.br/api/forgot-password
 ```
 **Parâmetros:**  
 ```json
@@ -188,7 +188,7 @@ POST https://teia-admin-2rphc.ondigitalocean.app/api/forgot-password
 
 ### Recuperar Senha
 ```
-POST https://teia-admin-2rphc.ondigitalocean.app/api/recover-password
+POST https://teia.ipe.org.br/api/recover-password
 ```
 **Parâmetros:**  
 ```json
@@ -210,7 +210,7 @@ POST https://teia-admin-2rphc.ondigitalocean.app/api/recover-password
 
 ### Listar Cursos
 ```
-GET https://teia-admin-2rphc.ondigitalocean.app/api/courses
+GET https://teia.ipe.org.br/api/courses
 ```
 **Parâmetros:**  
 Nenhum.
@@ -232,7 +232,7 @@ Nenhum.
 
 ### Obter Curso
 ```
-GET https://teia-admin-2rphc.ondigitalocean.app/api/courses/[id]
+GET https://teia.ipe.org.br/api/courses/[id]
 ```
 **Parâmetros:**  
 Nenhum.
@@ -252,7 +252,7 @@ Nenhum.
 
 ### Criar Curso
 ```
-POST https://teia-admin-2rphc.ondigitalocean.app/api/courses/create
+POST https://teia.ipe.org.br/api/courses/create
 ```
 **Parâmetros:**  
 ```json
@@ -279,7 +279,7 @@ POST https://teia-admin-2rphc.ondigitalocean.app/api/courses/create
 
 ### Atualizar Curso
 ```
-PUT https://teia-admin-2rphc.ondigitalocean.app/api/courses/[id]
+PUT https://teia.ipe.org.br/api/courses/[id]
 ```
 **Parâmetros:**  
 ```json
@@ -306,7 +306,7 @@ PUT https://teia-admin-2rphc.ondigitalocean.app/api/courses/[id]
 
 ### Deletar Curso
 ```
-DELETE https://teia-admin-2rphc.ondigitalocean.app/api/courses/[id]
+DELETE https://teia.ipe.org.br/api/courses/[id]
 ```
 **Parâmetros:**  
 Nenhum.
@@ -322,7 +322,7 @@ Nenhum.
 
 ### Listar Módulos de um Curso
 ```
-GET https://teia-admin-2rphc.ondigitalocean.app/api/courses/[id]/modules
+GET https://teia.ipe.org.br/api/courses/[id]/modules
 ```
 **Parâmetros:**  
 Nenhum.
@@ -344,7 +344,7 @@ Nenhum.
 
 ### Obter Módulo
 ```
-GET https://teia-admin-2rphc.ondigitalocean.app/api/modules/[id]
+GET https://teia.ipe.org.br/api/modules/[id]
 ```
 **Parâmetros:**  
 Nenhum.
@@ -364,7 +364,7 @@ Nenhum.
 
 ### Criar Módulo
 ```
-POST https://teia-admin-2rphc.ondigitalocean.app/api/modules/create
+POST https://teia.ipe.org.br/api/modules/create
 ```
 **Parâmetros:**  
 ```json
@@ -391,7 +391,7 @@ POST https://teia-admin-2rphc.ondigitalocean.app/api/modules/create
 
 ### Atualizar Módulo
 ```
-PUT https://teia-admin-2rphc.ondigitalocean.app/api/modules/[id]
+PUT https://teia.ipe.org.br/api/modules/[id]
 ```
 **Parâmetros:**  
 ```json
@@ -418,7 +418,7 @@ PUT https://teia-admin-2rphc.ondigitalocean.app/api/modules/[id]
 
 ### Deletar Módulo
 ```
-DELETE https://teia-admin-2rphc.ondigitalocean.app/api/modules/[id]
+DELETE https://teia.ipe.org.br/api/modules/[id]
 ```
 **Parâmetros:**  
 Nenhum.
@@ -431,11 +431,30 @@ Nenhum.
 }
 ```
 
+### Reordenar Módulo
+```
+POST https://teia.ipe.org.br/api/modules/reorder
+```
+**Parâmetros:**  
+```json
+{
+  "moduleId": "string",
+  "direction": "string (up | down)"
+}
+```
+
+**Retorno:**  
+```json
+{
+  "success": true
+}
+```
+
 ## Tópicos
 
 ### Listar Tópicos de um Módulo
 ```
-GET https://teia-admin-2rphc.ondigitalocean.app/api/topics?module=[moduleId]
+GET https://teia.ipe.org.br/api/topics?module=[moduleId]
 ```
 **Parâmetros:**  
 Nenhum.
@@ -457,7 +476,7 @@ Nenhum.
 
 ### Obter Tópico
 ```
-GET https://teia-admin-2rphc.ondigitalocean.app/api/topics/[id]
+GET https://teia.ipe.org.br/api/topics/[id]
 ```
 **Parâmetros:**  
 Nenhum.
@@ -477,7 +496,7 @@ Nenhum.
 
 ### Criar Tópico
 ```
-POST https://teia-admin-2rphc.ondigitalocean.app/api/topics/create
+POST https://teia.ipe.org.br/api/topics/create
 ```
 **Parâmetros:**  
 ```json
@@ -504,7 +523,7 @@ POST https://teia-admin-2rphc.ondigitalocean.app/api/topics/create
 
 ### Atualizar Tópico
 ```
-PUT https://teia-admin-2rphc.ondigitalocean.app/api/topics/[id]
+PUT https://teia.ipe.org.br/api/topics/[id]
 ```
 **Parâmetros:**  
 ```json
@@ -530,7 +549,7 @@ PUT https://teia-admin-2rphc.ondigitalocean.app/api/topics/[id]
 
 ### Deletar Tópico
 ```
-DELETE https://teia-admin-2rphc.ondigitalocean.app/api/topics/[id]
+DELETE https://teia.ipe.org.br/api/topics/[id]
 ```
 **Parâmetros:**  
 Nenhum.
@@ -542,11 +561,30 @@ Nenhum.
 }
 ```
 
+### Reordenar Tópico
+```
+POST https://teia.ipe.org.br/api/topics/reorder
+```
+**Parâmetros:**  
+```json
+{
+  "topicId": "string",
+  "direction": "string (up | down)"
+}
+```
+
+**Retorno:**  
+```json
+{
+  "success": true
+}
+```
+
 ## Uploads
 
 ### Upload de Imagem
 ```
-POST https://teia-admin-2rphc.ondigitalocean.app/api/upload/image
+POST https://teia.ipe.org.br/api/upload/image
 ```
 **Parâmetros:**  
 FormData com o arquivo no campo 'file'
@@ -563,7 +601,7 @@ FormData com o arquivo no campo 'file'
 
 ### Upload de Vídeo
 ```
-POST https://teia-admin-2rphc.ondigitalocean.app/api/upload/video
+POST https://teia.ipe.org.br/api/upload/video
 ```
 **Parâmetros:**  
 FormData com o arquivo no campo 'file'
@@ -578,7 +616,7 @@ FormData com o arquivo no campo 'file'
 
 ### Upload de Áudio
 ```
-POST https://teia-admin-2rphc.ondigitalocean.app/api/upload/audio
+POST https://teia.ipe.org.br/api/upload/audio
 ```
 **Parâmetros:**  
 FormData com o arquivo no campo 'file'
@@ -593,7 +631,7 @@ FormData com o arquivo no campo 'file'
 
 ### Upload de Documento
 ```
-POST https://teia-admin-2rphc.ondigitalocean.app/api/upload/document
+POST https://teia.ipe.org.br/api/upload/document
 ```
 **Parâmetros:**  
 FormData com o arquivo no campo 'file'
