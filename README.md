@@ -47,6 +47,8 @@ O [Teia Admin](https://github.com/devsdoprojetoteia/teia-admin) é o backend do 
 [Casos de Uso](./docs/casos_de_uso.md)
 [Divisão de módulos](./docs/divisão_de_módulos.md)
 
+## Design (UX/UI)
+[Figma](https://www.figma.com/design/nMztAvNEU8KpG0HocEu4sk/Portal-TEIA?node-id=0-1&p=f&t=lVjwHLjAovrlAtKa-0)
 
 ## Parceiros & colaboradores
 - [Mover-se na Web](https://moverse.ceweb.br)
