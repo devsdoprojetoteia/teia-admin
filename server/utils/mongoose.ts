@@ -4,9 +4,7 @@ const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/teia";
 
 export const connectToDatabase = async () => {
   console.log("Connecting to MongoDB");
-  console.log("MONGO_URI", MONGO_URI);
-  console.log("mongoose.connection.readyState", mongoose.connection.readyState);
-
+  console.log("mongoose.connection.readyState", mongoose.connection.readyState );
   if (mongoose.connection.readyState === 0) {
     try {
       await mongoose.connect(MONGO_URI);

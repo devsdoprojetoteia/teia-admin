@@ -17,9 +17,9 @@ export default defineNuxtConfig({
 
   modules: ["@pinia/nuxt"],
   plugins: [
-    "~/plugins/masks.ts",
-    "~/plugins/mongoose.ts"
+    "~/plugins/masks.ts"
   ],
+
 
   runtimeConfig: {
     // The private keys which are only available server-side
