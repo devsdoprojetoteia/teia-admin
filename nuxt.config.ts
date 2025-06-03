@@ -20,6 +20,19 @@ export default defineNuxtConfig({
     "~/plugins/masks.ts"
   ],
 
+  nitro: {
+    routeRules: {
+      '/api/**': {
+        cors: true,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+          'Access-Control-Allow-Credentials': 'true'
+        }
+      }
+    }
+  },
 
   runtimeConfig: {
     // The private keys which are only available server-side
