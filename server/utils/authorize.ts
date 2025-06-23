@@ -4,6 +4,7 @@ import authenticated from "~/middleware/authenticated";
 import User from "~/models/user";
 
 const SECRET_KEY = process.env.SECRET_KEY || "YOUR_SECRET_KEY";
+const BOT_TOKEN = process.env.BOT_TOKEN || "YOUR_BOT_TOKEN";
 
 export default (event: H3Event, requiredRoles: string[]) => {
   try {
@@ -18,6 +19,16 @@ export default (event: H3Event, requiredRoles: string[]) => {
 
     // Extract the token from the header
     const token = authHeader.split(" ")[1];
+
+    if (token === BOT_TOKEN) {
+      return User.fromJson({
+        _id: "67e4b0affa1f7e923d689728",
+        name: "ChatBot",
+        phone: "(99) 99999-9999",
+        role: "administrador",
+        password: "",
+      });
+    }
 
     // Verify the token
     const secretKey = SECRET_KEY; // Ensure you have this set in your environment variables
