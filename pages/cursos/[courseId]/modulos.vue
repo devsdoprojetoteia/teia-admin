@@ -13,9 +13,15 @@
           </div>
 
         </div>
-        <Button color="primary" @click="showAddModule = true" size="large" class="mb-8 mt-4" icon>
-          <Icon icon="mdi-plus" />
-        </Button>
+        <div>
+          <Button color="primary" @click="showCourseProgress = true" v-if="userCourseProgress" size="large"
+            class="mb-8 mt-4 mr-2" icon>
+            <Icon icon="mdi-chart-box-outline" />
+          </Button>
+          <Button color="primary" @click="showAddModule = true" size="large" class="mb-8 mt-4" icon>
+            <Icon icon="mdi-plus" />
+          </Button>
+        </div>
       </div>
 
       <DynamicInput name="search" :props="{ label: 'Buscar' }" v-model="search" label="Buscar" clearable block
@@ -34,7 +40,7 @@
                     <v-row no-gutters class="mb-3">
                       <v-col cols="12" sm="8">
                         <div>
-                          <strong>{{ module.order }} - {{ module.name }}</strong>
+                          <strong>{{ module.name }}</strong>
                         </div>
                       </v-col>
                       <v-col cols="12" sm="4" class="d-flex justify-sm-end mt-2 mt-sm-0">
@@ -60,10 +66,6 @@
                           :key="topic.id" class="topic-item pa-3 mb-2 rounded-lg bg-grey-lighten-4">
                           <v-row>
                             <v-col cols="12" sm="8" class="d-flex align-center">
-                              <div class="bg-white rounded-circle d-flex justify-center align-center mr-2"
-                                style="width: 30px; height: 30px;">
-                                {{ topic.order }}
-                              </div>
                               <Text class="font-weight-medium">{{ topic.title }}</Text>
                             </v-col>
                             <v-col cols="12" sm="4" class="d-flex justify-sm-end pt-0 pt-md-4">
@@ -120,7 +122,7 @@
         @close="closeForm" :module="activeModule" :course="course" @remove="removeModule" />
       <TopicForm v-if="showAddTopic" @close="closeTopicForm" :module="showAddTopic" @created="topicCreated" />
 
-
+      <CourseProgress v-if="showCourseProgress && course" @close="closeCourseProgress" :course="course!" />
     </v-container>
   </div>
 </template>
@@ -168,11 +170,12 @@ const {
   deleteModule,
 } = useModules();
 
-const { getCourse } = useCourses();
+const { getCourse, loadUserCourseProgress, userCourseProgress } = useCourses();
 
 const search = ref("");
 
 const course = ref<Course | undefined>(undefined);
+const showCourseProgress = ref(false);
 
 const {
   topics,
@@ -196,6 +199,7 @@ onMounted(async () => {
   course.value = await getCourse(route.params.courseId as string);
   console.log(course.value);
   await loadModules();
+  await loadUserCourseProgress(route.params.courseId as string);
 });
 
 const moduleCreated = async (module: Module) => {
@@ -275,5 +279,11 @@ const reorderTopic = async (topic: Topic, direction: 'up' | 'down') => {
     const loadingKey = `topic-${topic.id}-${direction}`;
     loadingStates.value[loadingKey] = false;
   }
+
+};
+
+
+const closeCourseProgress = () => {
+  showCourseProgress.value = false;
 };
 </script>

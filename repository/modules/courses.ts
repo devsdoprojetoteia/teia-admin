@@ -1,4 +1,5 @@
 import Course from "~~/models/course";
+import UserCourseProgress from "~~/models/user-course-progress";
 import type { FormValues } from "~~/models/dynamic-form";
 import HttpFactory from "../factory";
 
@@ -24,6 +25,11 @@ class CoursesModule extends HttpFactory {
 
   async delete(id: string): Promise<void> {
     await this.apiDelete(`/api/courses/${id}`);
+  }
+
+  async progress(id: string): Promise<UserCourseProgress[]> {
+    const json = await this.apiGet<any[]>(`/api/courses/${id}/progress`);
+    return UserCourseProgress.fromJsonArray(json);
   }
 }
 

@@ -1,3 +1,4 @@
+import type UserCourseProgress from "~/models/user-course-progress";
 import Course from "~~/models/course";
 import type { FormValues } from "~~/models/dynamic-form";
 
@@ -8,6 +9,7 @@ const useCourses = () => {
 
   let courses = useState<Course[] | null>("courses");
   let showAddCourse = useState<Boolean>("showAddCourse", () => false);
+  let userCourseProgress = useState<UserCourseProgress[]>("userCourseProgress", () => []);
 
   let activeCourse = computed(() => {
     const courseId = route.query.course;
@@ -19,6 +21,11 @@ const useCourses = () => {
 
   const loadCourses = async () => {
     courses.value = await $api.courses.list();
+  };
+
+  const loadUserCourseProgress = async (courseId: string) => {
+    userCourseProgress.value = [];
+    userCourseProgress.value = await $api.courses.progress(courseId);
   };
 
   const hasCourses = computed(() => {
@@ -74,6 +81,8 @@ const useCourses = () => {
     createCourse,
     updateCourse,
     deleteCourse,
+    loadUserCourseProgress,
+    userCourseProgress,
   };
 };
 export default useCourses;
