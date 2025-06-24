@@ -23,14 +23,14 @@ O [Teia Admin](https://github.com/devsdoprojetoteia/teia-admin) é o backend do 
 - ✅ CRUD de Alunos
 - ✅ CRUD de Administradores
 - ✅ CRUD de Cursos
+- ✅ CRUD de Conteúdo do módulo
+- ✅ CRUD de Módulos do curso
 
 #### Próximos passos
 - ⌛ CRUD de Jornadas do Chatbot
 - ⌛ Integração com Mensageiro
 - ⌛ Montagem dinâmica do Portal do Aluno
 - ⌛ CRUD de Progresso do aluno
-- ⌛ CRUD de Conteúdo do módulo
-- ⌛ CRUD de Módulos do curso
 - ⌛ CRUD de Exercícios do conteúdo
 - ⌛ PWA do Portal do Aluno
 - ⌛ CRUD de Respostas dos exercícios
