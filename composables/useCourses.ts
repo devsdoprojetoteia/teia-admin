@@ -69,6 +69,11 @@ const useCourses = () => {
     });
   };
 
+  const getPublishedCourses = async () => {
+    const courses = await $api.courses.listPublished();
+    return courses;
+  };
+
   return {
     courses,
     activeCourse,
@@ -83,6 +88,7 @@ const useCourses = () => {
     deleteCourse,
     loadUserCourseProgress,
     userCourseProgress,
+    getPublishedCourses,
   };
 };
 export default useCourses;

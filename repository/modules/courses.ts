@@ -8,6 +8,10 @@ class CoursesModule extends HttpFactory {
     const json = await this.apiGet<any[]>(`/api/courses`);
     return Course.fromJsonArray(json);
   }
+  async listPublished() {
+    const json = await this.apiGet<any[]>(`/api/courses/list-published`);
+    return Course.fromJsonArray(json);
+  }
   async get(id: string): Promise<Course> {
     const json = await this.apiGet(`/api/courses/${id}`);
     return Course.fromJson(json);
