@@ -70,6 +70,6 @@ const form: FormProps = {
 };
 
 const redirectSuccessRegister = () => {
-  return navigateTo({ path: "/" });
+  return navigateTo({ path: "/painel" });
 };
 </script>

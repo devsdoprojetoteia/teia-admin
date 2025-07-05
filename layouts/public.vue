@@ -9,8 +9,8 @@
       <template v-slot:append>
         <div class="d-flex align-center">
           <div class="d-none d-lg-block"></div>
-          <v-btn to="/entrar" color="primary" variant="elevated" class="mr-3">
-            Entrar
+          <v-btn to="/painel" color="primary" variant="text" class="mr-3">
+            Painel
           </v-btn>
         </div>
       </template>

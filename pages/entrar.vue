@@ -50,8 +50,8 @@ const form: FormProps = {
 };
 
 const redirectSuccessLogin = () => {
-  return navigateTo({ path: "/" });
+  return navigateTo({ path: "/painel" });
 };
 
-const changed = (values: FormValues) => {};
+const changed = (values: FormValues) => { };
 </script>

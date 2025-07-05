@@ -3,36 +3,20 @@
     <v-container v-if="courses">
       <div class="d-flex justify-space-between align-center mb-8 mt-4">
         <div class="d-flex align-center">
-          <Button to="/"  icon class="mr-2" >
+          <Button to="/painel" icon class="mr-2">
             <Icon icon="mdi-chevron-left" />
           </Button>
           <Text variant="h4" class="mb-0">Cursos</Text>
-          
+
         </div>
-        <Button
-          v-if="auth.user.value?.role === 'administrador'"
-          color="primary"
-          @click="showAddCourse = true"
-          
-          
-          icon
-        >
+        <Button v-if="auth.user.value?.role === 'administrador'" color="primary" @click="showAddCourse = true" icon>
           <Icon icon="mdi-plus" />
         </Button>
       </div>
 
-      <DynamicInput
-        name="search"
-        :props="{
-          label: 'Buscar',
-        }"
-        v-model="search"
-        label="Buscar"
-        clearable
-        block
-        class="mb-4"
-        :validate="false"
-      />
+      <DynamicInput name="search" :props="{
+        label: 'Buscar',
+      }" v-model="search" label="Buscar" clearable block class="mb-4" :validate="false" />
       <div>
         <div>
           <div v-if="filteredCourses">
@@ -40,26 +24,15 @@
               <Alert> Nenhum curso encontrado </Alert>
             </div>
             <div v-else>
-              <template v-for="(course, courseIndex) in filteredCourses"  :key="courseIndex">
+              <template v-for="(course, courseIndex) in filteredCourses" :key="courseIndex">
                 <v-card class="mb-4">
                   <v-card-title>
                     <Text class="d-flex align-center justify-space-between">
-                      {{ course.name }} 
-                      <Chip
-                        v-if="course.published"
-                        
-                        color="success"
-                        label="Curso publicado"
-                        size="x-small"
-                      >
+                      {{ course.name }}
+                      <Chip v-if="course.published" color="success" label="Curso publicado" size="x-small">
                         Publicado
                       </Chip>
-                      <Chip
-                        v-else
-                        color="error"
-                        label="Curso não publicado"
-                        size="x-small"
-                      >
+                      <Chip v-else color="error" label="Curso não publicado" size="x-small">
                         Não publicado
                       </Chip>
                     </Text>
@@ -78,21 +51,15 @@
                     </Button>
                   </v-card-actions>
                 </v-card>
-                
+
               </template>
             </div>
           </div>
           <Loading v-else />
         </div>
       </div>
-      <CourseForm
-        v-if="showAddCourse || activeCourse"
-        @created="courseCreated"
-        @updated="courseUpdated"
-        @remove="removeCourse"
-        @close="closeCourseForm"
-        :course="activeCourse"
-      />
+      <CourseForm v-if="showAddCourse || activeCourse" @created="courseCreated" @updated="courseUpdated"
+        @remove="removeCourse" @close="closeCourseForm" :course="activeCourse" />
     </v-container>
   </div>
 </template>
@@ -116,10 +83,10 @@ const filteredCourses = computed(() => {
     list = list.filter((course: Course) =>
       slugify(
         course.name +
-          " " +
-          course.phone +
-          " " +
-          course.phone.replace(/[^0-9]/g, ""),
+        " " +
+        course.phone +
+        " " +
+        course.phone.replace(/[^0-9]/g, ""),
         { lower: true }
       ).includes(slugify(search.value, { lower: true }))
     );
