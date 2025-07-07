@@ -111,6 +111,38 @@ Nenhum.
 }
 ```
 
+### Registrar Progresso do Usuário
+```
+POST https://teia.ipe.org.br/api/users/progress
+```
+**Parâmetros:**  
+```json
+{
+  "courseId": "string",
+  "moduleId": "string",
+  "topicId": "string",
+  "userId": "string (opcional, apenas para administradores e tutores)"
+}
+```
+
+**Retorno:**  
+```json
+{
+  "id": "string",
+  "user": "string",
+  "course": "string",
+  "topics": [
+    {
+      "module": "string",
+      "topic": "string",
+      "createdAt": "Date"
+    }
+  ],
+  "createdAt": "Date",
+  "updatedAt": "Date"
+}
+```
+
 ## Autenticação
 
 ### Registrar Usuário
@@ -230,6 +262,28 @@ Nenhum.
 ]
 ```
 
+### Listar Cursos Publicados
+```
+GET https://teia.ipe.org.br/api/courses/list-published
+```
+**Parâmetros:**  
+Nenhum.
+
+**Retorno:**  
+```json
+[
+  {
+    "id": "string",
+    "name": "string",
+    "description": "string",
+    "phone": "string",
+    "published": "boolean",
+    "createdAt": "Date",
+    "updatedAt": "Date"
+  }
+]
+```
+
 ### Obter Curso
 ```
 GET https://teia.ipe.org.br/api/courses/[id]
@@ -316,6 +370,37 @@ Nenhum.
 {
   "statusCode": 201
 }
+```
+
+### Obter Progresso dos Usuários em um Curso
+```
+GET https://teia.ipe.org.br/api/courses/[id]/progress
+```
+**Parâmetros:**  
+Nenhum.
+
+**Retorno:**  
+```json
+[
+  {
+    "id": "string",
+    "user": {
+      "id": "string",
+      "name": "string",
+      "phone": "string"
+    },
+    "course": "string",
+    "topics": [
+      {
+        "module": "string",
+        "topic": "string",
+        "createdAt": "Date"
+      }
+    ],
+    "createdAt": "Date",
+    "updatedAt": "Date"
+  }
+]
 ```
 
 ## Módulos
@@ -465,7 +550,13 @@ Nenhum.
   {
     "id": "string",
     "title": "string",
-    "content": "string",
+    "content": [
+      {
+        "type": "string (text | image | video | audio | document)",
+        "content": "string",
+        "order": "number"
+      }
+    ],
     "module": "string",
     "order": "number",
     "createdAt": "Date",
@@ -486,7 +577,13 @@ Nenhum.
 {
   "id": "string",
   "title": "string",
-  "content": "string",
+  "content": [
+    {
+      "type": "string (text | image | video | audio | document)",
+      "content": "string",
+      "order": "number"
+    }
+  ],
   "module": "string",
   "order": "number",
   "createdAt": "Date",
@@ -502,7 +599,13 @@ POST https://teia.ipe.org.br/api/topics/create
 ```json
 {
   "title": "string",
-  "content": "string",
+  "content": [
+    {
+      "type": "string (text | image | video | audio | document)",
+      "content": "string",
+      "order": "number"
+    }
+  ],
   "module": "string",
   "order": "number"
 }
@@ -513,7 +616,13 @@ POST https://teia.ipe.org.br/api/topics/create
 {
   "id": "string",
   "title": "string",
-  "content": "string",
+  "content": [
+    {
+      "type": "string (text | image | video | audio | document)",
+      "content": "string",
+      "order": "number"
+    }
+  ],
   "module": "string",
   "order": "number",
   "createdAt": "Date",
@@ -529,7 +638,13 @@ PUT https://teia.ipe.org.br/api/topics/[id]
 ```json
 {
   "title": "string",
-  "content": "string",
+  "content": [
+    {
+      "type": "string (text | image | video | audio | document)",
+      "content": "string",
+      "order": "number"
+    }
+  ],
   "order": "number"
 }
 ```
@@ -539,7 +654,13 @@ PUT https://teia.ipe.org.br/api/topics/[id]
 {
   "id": "string",
   "title": "string",
-  "content": "string",
+  "content": [
+    {
+      "type": "string (text | image | video | audio | document)",
+      "content": "string",
+      "order": "number"
+    }
+  ],
   "module": "string",
   "order": "number",
   "createdAt": "Date",
@@ -645,6 +766,25 @@ FormData com o arquivo no campo 'file'
 }
 ```
 
+## Autenticação e Autorização
+
+### Tokens
+- Todos os endpoints (exceto login, register, forgot-password e recover-password) requerem autenticação
+- O token deve ser enviado no header: `Authorization: Bearer <token>`
+
+### Roles (Papéis)
+- **estudante**: Acesso básico aos cursos e módulos
+- **tutor**: Acesso de monitoramento e gerenciamento de progresso
+- **administrador**: Acesso completo ao sistema
+
+### Permissões por Endpoint
+- **Criação/Edição/Exclusão de Cursos**: Apenas administradores
+- **Criação/Edição/Exclusão de Módulos**: Apenas administradores
+- **Criação/Edição/Exclusão de Tópicos**: Apenas administradores
+- **Gerenciamento de Usuários**: Apenas administradores
+- **Visualização de Progresso**: Administradores e tutores
+- **Registro de Progresso**: Todos os usuários autenticados
+
 **Observações:**
 - Todos os endpoints de upload aceitam arquivos via FormData
 - O campo do arquivo deve ser nomeado como 'file'
@@ -655,4 +795,7 @@ FormData com o arquivo no campo 'file'
   - Vídeo: video/*
   - Áudio: audio/*
   - Documento: application/pdf e outros tipos de documento
+- O campo `phone` nos cursos é único e serve como identificador
+- O progresso dos usuários é rastreado por tópico dentro de cada módulo
+- Os tópicos podem conter múltiplos tipos de conteúdo (texto, imagem, vídeo, áudio, documento)
 
