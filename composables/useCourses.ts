@@ -74,6 +74,7 @@ const useCourses = () => {
     return courses;
   };
 
+
   return {
     courses,
     activeCourse,

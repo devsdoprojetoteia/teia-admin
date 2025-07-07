@@ -25,6 +25,13 @@ const ModuleSchema = new Schema<IModule>(
   }
 );
 
+ModuleSchema.virtual("topics", {
+  ref: "Topic",
+  localField: "_id",
+  foreignField: "module",
+  justOne: false,
+});
+
 const Module = model<IModule>("Module", ModuleSchema);
 
 export default Module;

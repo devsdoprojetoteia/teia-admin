@@ -1,9 +1,12 @@
+import type Module from "./module";
+
 interface ICourse {
   id?: string;
   name: string;
   description?: string;
   phone: string;
   published: boolean;
+  modules?: Module[];
 }
 
 export default class Course implements ICourse {
@@ -12,13 +15,15 @@ export default class Course implements ICourse {
   description?: string;
   phone: string;
   published: boolean;
+  modules?: Module[];
 
-  constructor({ id, name, description, phone, published }: ICourse) {
+  constructor({ id, name, description, phone, published, modules }: ICourse) {
     this.id = id;
     this.name = name;
     this.description = description || "";
     this.phone = phone;
     this.published = published || false;
+    this.modules = modules || [];
   }
 
   static fromJson(json: any): Course {
@@ -28,6 +33,7 @@ export default class Course implements ICourse {
       description: json.description,
       phone: json.phone,
       published: json.published || false,
+      modules: json.modules || [],
     };
     console.log("json", data);
     return new Course(data);
@@ -40,6 +46,7 @@ export default class Course implements ICourse {
       description: this.description,
       phone: this.phone,
       published: this.published,
+      modules: this.modules,
     };
   }
 
