@@ -1,12 +1,6 @@
 <template>
-  <Form
-    @submit="onSubmit"
-    @invalid-submit="onInvalidSubmit"
-    @onUpdated="updated"
-    v-slot="data"
-    :initial-values="initialValues"
-    :keepValues="true"
-  >
+  <Form @submit="onSubmit" @invalid-submit="onInvalidSubmit" @onUpdated="updated" v-slot="data"
+    :initial-values="initialValues" :keepValues="true">
     <template v-for="(step, stepIndex) in form.steps">
       <Transition name="slide-up">
         <div v-show="!form.wizard || currentStep === stepIndex || true">
@@ -23,49 +17,22 @@
           </div>
           <v-row class="my-0">
             <template v-for="(fieldData, fieldName) in step.fields">
-              <v-col
-                v-if="fieldData.type !== 'hidden'"
-                :cols="fieldData.cols || 12"
-                :lg="fieldData.lgCols || 12"
-                class="py-0"
-              >
+              <v-col v-if="fieldData.type !== 'hidden'" :cols="fieldData.cols || 12" :lg="fieldData.lgCols || 12"
+                class="py-0">
                 <div>
-                  <Field
-                    v-if="fieldData.type === 'checkbox'"
-                    :name="fieldName.toString()"
-                    :props="fieldData"
-                    @update:model-value="handleInput"
-                    v-slot="data"
-                  >
-                    <v-checkbox
-                      :model-value="data.value"
-                      :label="fieldData.label"
-                      @update:model-value="data.handleInput"
-                      :name="fieldName.toString()"
-                      :color="data.value ? 'success' : 'grey'"
-                    />
+                  <Field v-if="fieldData.type === 'checkbox'" :name="fieldName.toString()" :props="fieldData"
+                    @update:model-value="handleInput" v-slot="data">
+                    <v-checkbox :model-value="data.value" :label="fieldData.label"
+                      @update:model-value="data.handleInput" :name="fieldName.toString()"
+                      :color="data.value ? 'success' : 'grey'" />
                   </Field>
-                  <Field
-                    v-else-if="fieldData.type === 'switch'"
-                    :name="fieldName.toString()"
-                    :props="fieldData"
-                    @update:model-value="handleInput"
-                    v-slot="data"
-                  >
-                    <v-switch
-                      :model-value="data.value"
-                      :label="fieldData.label"
-                      @update:model-value="data.handleInput"
-                      :name="fieldName.toString()"
-                      :color="data.value ? 'success' : 'grey'"
-                    />
+                  <Field v-else-if="fieldData.type === 'switch'" :name="fieldName.toString()" :props="fieldData"
+                    @update:model-value="handleInput" v-slot="data">
+                    <v-switch :model-value="data.value" :label="fieldData.label" @update:model-value="data.handleInput"
+                      :name="fieldName.toString()" :color="data.value ? 'success' : 'grey'" />
                   </Field>
-                  <DynamicInput
-                    v-else
-                    :name="fieldName.toString()"
-                    :props="fieldData"
-                    :validate="!form.wizard || currentStep === stepIndex"
-                  />
+                  <DynamicInput v-else :name="fieldName.toString()" :props="fieldData"
+                    :validate="!form.wizard || currentStep === stepIndex" />
                 </div>
               </v-col>
             </template>
@@ -76,40 +43,19 @@
             </Button>
           </div>
           <div>
-            <Button
-              color="primary"
-              size="large"
-              @click="
-                () => {
-                  data.validate();
-                  data.meta.valid ? next() : null;
-                }
-              "
-              :disabled="
-                (data.errors && Object.keys(data.errors).length > 0) || sending
-              "
-              v-if="form.wizard && currentStep !== form.steps.length - 1"
-              block
-            >
+            <Button color="primary" size="large" @click="
+              () => {
+                data.validate();
+                data.meta.valid ? next() : null;
+              }
+            " :disabled="(data.errors && Object.keys(data.errors).length > 0) || sending
+                " v-if="form.wizard && currentStep !== form.steps.length - 1" block>
               {{ nextLabel }}
             </Button>
-            <Button
-              v-else-if="stepIndex === form.steps.length - 1"
-              type="submit"
-              color="primary"
-              size="x-large"
-              block
-              :disabled="
-                (data.errors && Object.keys(data.errors).length > 0) || sending
-              "
-            >
-              <v-progress-circular
-                indeterminate
-                v-if="sending"
-                start
-                size="small"
-                class="mr-4"
-              />
+            <Button v-else-if="stepIndex === form.steps.length - 1" type="submit" color="primary" size="x-large" block
+              :disabled="(data.errors && Object.keys(data.errors).length > 0) || sending
+                ">
+              <v-progress-circular indeterminate v-if="sending" start size="small" class="mr-4" />
               <span v-if="sending"> Enviando... </span>
               <span v-else>
                 {{ form.submitLabel ?? "Salvar" }}
@@ -196,6 +142,7 @@ function handleInput(value: any) {
 .slide-up-enter-active {
   transition: all 0.5s ease-in;
 }
+
 .slide-up-leave-active {
   transition: all 0s ease-out;
 }

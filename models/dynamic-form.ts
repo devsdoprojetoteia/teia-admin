@@ -1,3 +1,5 @@
+import type { IFile } from "./course";
+
 export interface FormProps {
   steps: FormStep[];
   submitLabel?: string;
@@ -24,7 +26,7 @@ export interface FormField {
   rules?: any;
   mask?: string | string[];
   customRules?: any;
-  value?: string | boolean | any[];
+  value?: string | boolean | any[] | IFile | null;
   default?: any;
   cols?: number;
   lgCols?: number;
@@ -37,6 +39,9 @@ export interface FormField {
   maxRows?: number;
   prefix?: string;
   clearable?: boolean;
+  placeholder?: string;
+  hint?: string;
+  uploadType?: "image" | "video" | "audio" | "file";
 }
 
 export interface FormValues {

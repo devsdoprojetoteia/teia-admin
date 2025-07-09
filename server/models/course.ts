@@ -6,6 +6,14 @@ interface ICourse extends Document {
   description?: string;
   phone: string;
   published: boolean;
+  duration: string;
+  learning: string[];
+  requirements: string[];
+  team: {
+    name: string;
+    role: string;
+    linkedin: string;
+  }[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -16,6 +24,21 @@ const CourseSchema = new Schema<ICourse>(
     description: { type: String },
     phone: { type: String, required: true, unique: true },
     published: { type: Boolean, default: false },
+    duration: { type: String, required: false, default: "" },
+    learning: { type: [String], required: false, default: [] },
+    requirements: { type: [String], required: false, default: [] },
+    team: {
+      type: [
+        {
+          avatar: { type: String },
+          name: { type: String, required: true },
+          role: { type: String, required: true },
+          linkedin: { type: String },
+        }
+      ],
+      required: false,
+      default: []
+    },
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields

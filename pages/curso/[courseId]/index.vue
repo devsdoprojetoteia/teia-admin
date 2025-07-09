@@ -8,25 +8,23 @@
       <Icon icon="mdi-play-circle-outline" class="mr-1" />
       <span class="mr-4">{{ totalTopics }} aulas</span>
       <Icon icon="mdi-clock-outline" class="mr-1" />
-      <span>2h 30min duração</span>
+      <span>{{ course?.duration }}</span>
     </div>
 
     <!-- O que você aprenderá -->
     <div class="mb-6">
       <div class="border rounded pa-4 px-8 bg-grey-lighten-4">
-        <h3 class="mb-2">O que você aprenderá</h3>
+        <Text variant="h6" weight="bold" class="mb-4">O que você aprenderá</Text>
         <div class="row">
-          <div class="col-12 col-md-6">
-            <ul>
-              <li>Fundamentos da Inclusão Digital</li>
-              <li>Tecnologias aplicadas à conservação</li>
-            </ul>
-          </div>
-          <div class="col-12 col-md-6">
-            <ul>
-              <li>Comunicação digital e cidadania</li>
-              <li>Integração entre saberes locais e inovação</li>
-            </ul>
+          <div class="col-12 col-sm-6 mb-4">
+            <Row>
+              <Col v-for="item in course?.learning || []" :key="item" cols="6" sm="12" class="py-1">
+              <div class="d-flex align-center">
+                <Icon icon="mdi-check" size="14" class="mr-2" />
+                <span>{{ item }}</span>
+              </div>
+              </Col>
+            </Row>
           </div>
         </div>
       </div>
@@ -36,9 +34,9 @@
     <div class="mb-4">
       <h3>Requisitos</h3>
       <ul class="pl-4">
-        <li>Noções básicas de informática</li>
-        <li>Interesse em aprender sobre tecnologia e meio ambiente</li>
-        <li>Acesso a um celular, tablet ou computador com internet</li>
+        <li v-for="item in course?.requirements || []" :key="item">
+          {{ item }}
+        </li>
       </ul>
     </div>
 
@@ -51,19 +49,25 @@
     <Button color="success" class="mb-8">Iniciar Curso</Button>
 
     <!-- Equipe Pedagógica (mock) -->
-    <div class="mb-8">
+    <div class="border rounded pa-4 px-8 bg-grey-lighten-4 mb-8" v-if="course?.team && course?.team.length > 0">
       <h3>Equipe Pedagógica</h3>
-      <div class="d-flex flex-column flex-md-row gap-4">
-        <div class="d-flex align-center" v-for="(member, idx) in team" :key="idx">
-          <img :src="member.avatar" alt="avatar" class="rounded-circle mr-3"
-            style="width:48px;height:48px;object-fit:cover;" />
-          <div>
-            <div class="font-weight-bold">{{ member.name }}</div>
-            <div class="text-caption">{{ member.role }}</div>
-            <a :href="member.linkedin" target="_blank" class="text-primary text-caption">LinkedIn</a>
+      <Row>
+        <Col class="d-flex align-center" v-for="(member, idx) in course?.team" :key="idx" cols="12" sm="6">
+        <div class="mr-3">
+          <img :src="member.avatar?.thumb" alt="avatar" class="rounded-circle mr-3"
+            style="width:48px;height:48px;object-fit:cover;" v-if="member.avatar" />
+          <div class="rounded-circle bg-grey-lighten-4 d-flex align-center justify-center"
+            style="width:48px;height:48px;" v-else>
+            <Icon icon="mdi-account" />
           </div>
         </div>
-      </div>
+        <div>
+          <div class="font-weight-bold">{{ member.name }}</div>
+          <div class="text-caption">{{ member.role }}</div>
+          <a :href="member.linkedin" target="_blank" class="text-primary text-caption">LinkedIn</a>
+        </div>
+        </Col>
+      </Row>
     </div>
 
     <!-- Módulos e Aulas -->

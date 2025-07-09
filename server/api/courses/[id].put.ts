@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
 
   const course = await Course.findOne(query);
 
-  const { name, description, phone, published } = body;
+  const { name, description, phone, published, duration, learning, requirements, team } = body;
 
   if (!course) {
     throw createError({
@@ -51,6 +51,10 @@ export default defineEventHandler(async (event) => {
   course.description = description;
   course.phone = phone;
   course.published = published;
+  course.duration = duration;
+  course.learning = learning;
+  course.requirements = requirements;
+  course.team = team;
 
   await course.save();
 

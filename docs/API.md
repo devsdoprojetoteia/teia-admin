@@ -6,6 +6,7 @@
 ```
 GET https://teia.ipe.org.br/api/users
 ```
+**Permissão:** Administrador, Tutor  
 **Parâmetros:**  
 Nenhum.
 
@@ -27,6 +28,7 @@ Nenhum.
 ```
 POST https://teia.ipe.org.br/api/users/create
 ```
+**Permissão:** Administrador, Tutor  
 **Parâmetros:**  
 ```json
 {
@@ -53,6 +55,7 @@ POST https://teia.ipe.org.br/api/users/create
 ```
 PUT https://teia.ipe.org.br/api/users/[id]
 ```
+**Permissão:** Administrador, Tutor  
 **Parâmetros:**  
 ```json
 {
@@ -78,6 +81,7 @@ PUT https://teia.ipe.org.br/api/users/[id]
 ```
 PUT https://teia.ipe.org.br/api/users/password/[id]
 ```
+**Permissão:** Administrador, Tutor  
 **Parâmetros:**  
 ```json
 {
@@ -101,6 +105,7 @@ PUT https://teia.ipe.org.br/api/users/password/[id]
 ```
 DELETE https://teia.ipe.org.br/api/users/[id]
 ```
+**Permissão:** Administrador, Tutor  
 **Parâmetros:**  
 Nenhum.
 
@@ -115,6 +120,7 @@ Nenhum.
 ```
 POST https://teia.ipe.org.br/api/users/progress
 ```
+**Permissão:** Administrador, Tutor, Estudante  
 **Parâmetros:**  
 ```json
 {
@@ -149,6 +155,7 @@ POST https://teia.ipe.org.br/api/users/progress
 ```
 POST https://teia.ipe.org.br/api/register
 ```
+**Permissão:** Público (sem autenticação)  
 **Parâmetros:**  
 ```json
 {
@@ -177,6 +184,7 @@ POST https://teia.ipe.org.br/api/register
 ```
 POST https://teia.ipe.org.br/api/login
 ```
+**Permissão:** Público (sem autenticação)  
 **Parâmetros:**  
 ```json
 {
@@ -204,6 +212,7 @@ POST https://teia.ipe.org.br/api/login
 ```
 POST https://teia.ipe.org.br/api/forgot-password
 ```
+**Permissão:** Público (sem autenticação)  
 **Parâmetros:**  
 ```json
 {
@@ -222,6 +231,7 @@ POST https://teia.ipe.org.br/api/forgot-password
 ```
 POST https://teia.ipe.org.br/api/recover-password
 ```
+**Permissão:** Público (sem autenticação)  
 **Parâmetros:**  
 ```json
 {
@@ -244,6 +254,7 @@ POST https://teia.ipe.org.br/api/recover-password
 ```
 GET https://teia.ipe.org.br/api/courses
 ```
+**Permissão:** Administrador, Tutor  
 **Parâmetros:**  
 Nenhum.
 
@@ -266,6 +277,7 @@ Nenhum.
 ```
 GET https://teia.ipe.org.br/api/courses/list-published
 ```
+**Permissão:** Público (sem autenticação)  
 **Parâmetros:**  
 Nenhum.
 
@@ -288,6 +300,7 @@ Nenhum.
 ```
 GET https://teia.ipe.org.br/api/courses/[id]
 ```
+**Permissão:** Administrador, Tutor  
 **Parâmetros:**  
 Nenhum.
 
@@ -308,6 +321,7 @@ Nenhum.
 ```
 POST https://teia.ipe.org.br/api/courses/create
 ```
+**Permissão:** Administrador  
 **Parâmetros:**  
 ```json
 {
@@ -335,6 +349,7 @@ POST https://teia.ipe.org.br/api/courses/create
 ```
 PUT https://teia.ipe.org.br/api/courses/[id]
 ```
+**Permissão:** Administrador  
 **Parâmetros:**  
 ```json
 {
@@ -362,6 +377,7 @@ PUT https://teia.ipe.org.br/api/courses/[id]
 ```
 DELETE https://teia.ipe.org.br/api/courses/[id]
 ```
+**Permissão:** Administrador  
 **Parâmetros:**  
 Nenhum.
 
@@ -376,6 +392,7 @@ Nenhum.
 ```
 GET https://teia.ipe.org.br/api/courses/[id]/progress
 ```
+**Permissão:** Administrador, Tutor  
 **Parâmetros:**  
 Nenhum.
 
@@ -409,6 +426,7 @@ Nenhum.
 ```
 GET https://teia.ipe.org.br/api/courses/[id]/modules
 ```
+**Permissão:** Administrador, Tutor  
 **Parâmetros:**  
 Nenhum.
 
@@ -451,6 +469,7 @@ Nenhum.
 ```
 POST https://teia.ipe.org.br/api/modules/create
 ```
+**Permissão:** Administrador  
 **Parâmetros:**  
 ```json
 {
@@ -478,6 +497,7 @@ POST https://teia.ipe.org.br/api/modules/create
 ```
 PUT https://teia.ipe.org.br/api/modules/[id]
 ```
+**Permissão:** Administrador  
 **Parâmetros:**  
 ```json
 {
@@ -505,6 +525,7 @@ PUT https://teia.ipe.org.br/api/modules/[id]
 ```
 DELETE https://teia.ipe.org.br/api/modules/[id]
 ```
+**Permissão:** Administrador  
 **Parâmetros:**  
 Nenhum.
 
@@ -520,6 +541,7 @@ Nenhum.
 ```
 POST https://teia.ipe.org.br/api/modules/reorder
 ```
+**Permissão:** Administrador  
 **Parâmetros:**  
 ```json
 {
@@ -541,6 +563,7 @@ POST https://teia.ipe.org.br/api/modules/reorder
 ```
 GET https://teia.ipe.org.br/api/topics?module=[moduleId]
 ```
+**Permissão:** Administrador, Tutor  
 **Parâmetros:**  
 Nenhum.
 
@@ -569,6 +592,7 @@ Nenhum.
 ```
 GET https://teia.ipe.org.br/api/topics/[id]
 ```
+**Permissão:** Administrador, Tutor  
 **Parâmetros:**  
 Nenhum.
 
@@ -595,6 +619,7 @@ Nenhum.
 ```
 POST https://teia.ipe.org.br/api/topics/create
 ```
+**Permissão:** Administrador  
 **Parâmetros:**  
 ```json
 {
@@ -634,6 +659,7 @@ POST https://teia.ipe.org.br/api/topics/create
 ```
 PUT https://teia.ipe.org.br/api/topics/[id]
 ```
+**Permissão:** Administrador  
 **Parâmetros:**  
 ```json
 {
@@ -672,6 +698,7 @@ PUT https://teia.ipe.org.br/api/topics/[id]
 ```
 DELETE https://teia.ipe.org.br/api/topics/[id]
 ```
+**Permissão:** Administrador  
 **Parâmetros:**  
 Nenhum.
 
@@ -686,6 +713,7 @@ Nenhum.
 ```
 POST https://teia.ipe.org.br/api/topics/reorder
 ```
+**Permissão:** Administrador  
 **Parâmetros:**  
 ```json
 {
@@ -707,6 +735,7 @@ POST https://teia.ipe.org.br/api/topics/reorder
 ```
 POST https://teia.ipe.org.br/api/upload/image
 ```
+**Permissão:** Público (sem autenticação)  
 **Parâmetros:**  
 FormData com o arquivo no campo 'file'
 
@@ -724,6 +753,7 @@ FormData com o arquivo no campo 'file'
 ```
 POST https://teia.ipe.org.br/api/upload/video
 ```
+**Permissão:** Público (sem autenticação)  
 **Parâmetros:**  
 FormData com o arquivo no campo 'file'
 
@@ -739,6 +769,7 @@ FormData com o arquivo no campo 'file'
 ```
 POST https://teia.ipe.org.br/api/upload/audio
 ```
+**Permissão:** Público (sem autenticação)  
 **Parâmetros:**  
 FormData com o arquivo no campo 'file'
 
@@ -754,6 +785,7 @@ FormData com o arquivo no campo 'file'
 ```
 POST https://teia.ipe.org.br/api/upload/document
 ```
+**Permissão:** Público (sem autenticação)  
 **Parâmetros:**  
 FormData com o arquivo no campo 'file'
 
@@ -769,7 +801,7 @@ FormData com o arquivo no campo 'file'
 ## Autenticação e Autorização
 
 ### Tokens
-- Todos os endpoints (exceto login, register, forgot-password e recover-password) requerem autenticação
+- Todos os endpoints (exceto login, register, forgot-password, recover-password, list-published e uploads) requerem autenticação
 - O token deve ser enviado no header: `Authorization: Bearer <token>`
 
 ### Roles (Papéis)
@@ -781,9 +813,11 @@ FormData com o arquivo no campo 'file'
 - **Criação/Edição/Exclusão de Cursos**: Apenas administradores
 - **Criação/Edição/Exclusão de Módulos**: Apenas administradores
 - **Criação/Edição/Exclusão de Tópicos**: Apenas administradores
-- **Gerenciamento de Usuários**: Apenas administradores
+- **Gerenciamento de Usuários**: Administradores e tutores
 - **Visualização de Progresso**: Administradores e tutores
 - **Registro de Progresso**: Todos os usuários autenticados
+- **Uploads**: Público (sem autenticação)
+- **Cursos Publicados**: Público (sem autenticação)
 
 **Observações:**
 - Todos os endpoints de upload aceitam arquivos via FormData

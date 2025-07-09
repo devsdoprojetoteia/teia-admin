@@ -52,6 +52,26 @@ const form: FormProps = {
           value: course?.description ?? "",
           type: "textarea",
         },
+        duration: {
+          label: "Duração do curso",
+          value: course?.duration ?? "",
+          hint: "Ex: 10 horas",
+        },
+        learning: {
+          label: "O que você aprenderá?",
+          value: course?.learning ?? [],
+          type: "text-list",
+        },
+        requirements: {
+          label: "Requisitos",
+          value: course?.requirements ?? [],
+          type: "text-list",
+        },
+        team: {
+          label: "Equipe",
+          value: course?.team ?? [],
+          type: "team-list",
+        },
         published: {
           label: "Curso publicado",
           type: "switch",
@@ -77,6 +97,9 @@ const form: FormProps = {
       }
     } else {
       try {
+        console.log("update");
+        console.log(values);
+        console.log(course.id);
         await updateCourse(course.id!, values);
         notification.value = {
           title: "O curso foi atualizado",

@@ -1,32 +1,16 @@
 <template>
   <span class="upload-image">
     <v-btn v-if="button" :color="color" class="mb-1" @click="upload">
-      <v-progress-circular
-        v-if="loading"
-        color="white"
-        indeterminate
-        size="20"
-      ></v-progress-circular>
+      <v-progress-circular v-if="loading" color="white" indeterminate size="20"></v-progress-circular>
       <template v-else>
         <v-icon left>{{ icon }}</v-icon> {{ label }}
       </template>
     </v-btn>
     <v-btn v-else :color="color" icon @click="upload">
-      <v-progress-circular
-        v-if="loading"
-        color="white"
-        indeterminate
-        size="20"
-      ></v-progress-circular>
+      <v-progress-circular v-if="loading" color="white" indeterminate size="20"></v-progress-circular>
       <v-icon v-else>{{ icon }}</v-icon>
     </v-btn>
-    <input
-      v-show="false"
-      :ref="'upload-image-input-' + inputId"
-      accept="image/*"
-      type="file"
-      @change="uploadFiles"
-    />
+    <input v-show="false" :ref="'upload-image-input-' + inputId" accept="image/*" type="file" @change="uploadFiles" />
   </span>
 </template>
 
@@ -81,18 +65,18 @@ export default {
         const file = files[i];
         const formData = new FormData();
         formData.append("file", file, file.name);
-        this.$axios
-          .$post("/api/uploads/images?prefix=" + this.prefix, formData, {
+        this.$api
+          .post("/uploads/images?prefix=" + this.prefix, formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
           })
           .then((uploaded) => {
-            this.$emit("input", uploaded.url);
+            this.$emit("update:model-value", uploaded.url);
             this.loading = false;
           })
           .catch((error) => {
-            this.$notifier.apiError(error);
+            this.$notify.error(error);
             this.loading = false;
           });
       }

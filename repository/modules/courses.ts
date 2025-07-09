@@ -12,7 +12,7 @@ class CoursesModule extends HttpFactory {
     const json = await this.apiGet<any[]>(`/api/courses/list-published`);
     return Course.fromJsonArray(json);
   }
-  
+
   async get(id: string): Promise<Course> {
     const json = await this.apiGet(`/api/courses/${id}`);
     return Course.fromJson(json);
@@ -24,6 +24,8 @@ class CoursesModule extends HttpFactory {
   }
 
   async update(id: string, data: FormValues): Promise<Course> {
+    console.log("updatex");
+    console.log(data);
     const json = await this.apiPut(`/api/courses/${id}`, data);
     return Course.fromJson(json);
   }
