@@ -87,7 +87,7 @@
 
 
             </div>
-            <Button color="#00A77E" :to="`/curso/${course.id}`" rounded="lg">Ver Detalhes</Button>
+            <Button variant="tonal" :to="`/curso/${course.id}`" rounded="lg">Ver Detalhes</Button>
           </Card>
           </Col>
         </Row>

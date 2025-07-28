@@ -1,7 +1,6 @@
 <template>
   <div class="course-page container py-8 px-4">
     <div v-if="pending">
-      dddd
       <Loading />
     </div>
     <div v-else-if="error">
@@ -100,7 +99,8 @@
               <div class="d-flex flex-column gap-2">
                 <NuxtLink v-for="topic in module.topics || []" :key="topic.id" :to="`/curso/${courseId}/${topic.id}`"
                   class="d-flex align-center text-decoration-none d-block mb-2">
-                  <Icon icon="mdi-play-circle-outline" class="mr-2" size="18" />
+                  <Icon :icon="viewedTopics.includes(topic.id!) ? 'mdi-check-circle' : 'mdi-play-circle-outline'"
+                    class="mr-2" size="18" :color="viewedTopics.includes(topic.id!) ? 'success' : 'black'" />
                   <span>{{ topic.title }}</span>
                 </NuxtLink>
               </div>
@@ -164,6 +164,14 @@ const totalTopics = computed(() => {
 const firstTopic = computed(() => {
   return course.value?.modules?.[0]?.topics?.[0];
 });
+
+
+const viewedTopics = ref<string[]>([]);
+
+onMounted(() => {
+  viewedTopics.value = JSON.parse(localStorage.getItem('viewedTopics') || '[]');
+});
+
 </script>
 
 <style scoped>

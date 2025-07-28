@@ -12,8 +12,14 @@
         <div v-else-if="course">
             <Row>
                 <Col cols="12" lg="4" class="bg-primary px-6 py-6">
-                <Text variant="h5" weight="bold" class="mb-6">Módulos e Aulas</Text>
-                <div v-for="module in course.modules" :key="module.id" class="mb-6">
+                <div class="d-flex align-center justify-space-between">
+                    <Text variant="h5" weight="bold" class="mb-0">Módulos e Aulas</Text>
+                    <Button variant="tonal" @click="toggleMenu" outlined class="d-block d-lg-none">
+                        <Icon icon="mdi-menu" class="mr-1" />
+                    </Button>
+                </div>
+                <div v-for="module in course.modules" :key="module.id" class="mb-6 d-none d-lg-block mt-6"
+                    :class="{ 'd-block': menu }">
                     <div class="mb-4">
                         <small>
                             <Text weight="bold" class="text-white">{{ module.name }}</Text>
@@ -22,15 +28,19 @@
                     <div v-for="topic in module.topics || []" :key="topic.id" class="pl-4">
                         <NuxtLink :to="`/curso/${courseId}/${topic.id}`"
                             class="text-decoration-none d-block mb-2 text-white">
-                            <Icon icon="mdi-play-circle-outline" class="mr-2" size="18" />
+                            <Icon
+                                :icon="viewedTopics.includes(topic.id!) ? 'mdi-check-circle' : 'mdi-play-circle-outline'"
+                                class="mr-2" size="18"
+                                :color="viewedTopics.includes(topic.id!) ? 'success' : 'white'" />
                             <small>
-                                <span>{{ topic.title }}</span>
+                                <span :class="topicId == topic.id ? 'font-weight-bold' : ''">{{
+                                    topic.title }}</span>
                             </small>
                         </NuxtLink>
                     </div>
                 </div>
                 </Col>
-                <Col cols="12" lg="8" class="px-4 py-6">
+                <Col cols="12" lg="8" class="px-6 py-6">
                 <!-- Breadcrumbs -->
                 <div class="mb-6 text-caption text-medium-emphasis">
                     <NuxtLink to="/" class="text-primary">Início</NuxtLink> /
@@ -93,11 +103,11 @@
                         <!-- Navegação entre aulas -->
                         <div class="d-flex justify-end mb-4">
                             <Button v-if="prevTopic" :to="`/curso/${courseId}/${prevTopic.id}`" color="primary"
-                                class="mr-2" outlined>
+                                size="small" class="mr-2" outlined>
                                 <Icon icon="mdi-chevron-left" class="mr-1" /> Aula Anterior
                             </Button>
                             <Button v-if="nextTopic" :to="`/curso/${courseId}/${nextTopic.id}`" color="primary"
-                                outlined>
+                                size="small" @click="markTopicAsViewed" outlined>
                                 Próxima Aula
                                 <Icon icon="mdi-chevron-right" class="ml-1" />
                             </Button>
@@ -137,7 +147,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
 import useCourses from '~/composables/useCourses';
 import useTopics from '~/composables/useTopics';
@@ -200,6 +210,52 @@ const prevTopic = computed(() => {
     const index = allTopics.value.findIndex((topic) => topic.id === topicId);
     return allTopics.value[index - 1] || null;
 });
+
+// Função para marcar tópico como visualizado
+const markTopicAsViewed = async () => {
+    try {
+        // Salva no localStorage independente da autenticação
+        viewedTopics.value = JSON.parse(localStorage.getItem('viewedTopics') || '[]');
+        const topicKey = `${topicId}`;
+
+        if (!viewedTopics.value.includes(topicKey)) {
+            viewedTopics.value.push(topicKey);
+            localStorage.setItem('viewedTopics', JSON.stringify(viewedTopics.value));
+        }
+
+        console.log('Tópico marcado como visualizado:', topicId);
+    } catch (error) {
+        console.error('Erro ao marcar tópico como visualizado:', error);
+    }
+};
+const viewedTopics = ref<string[]>([]);
+
+// Timer para marcar como visualizado após 10 segundos
+let viewTimer: NodeJS.Timeout | null = null;
+
+onMounted(() => {
+    viewedTopics.value = JSON.parse(localStorage.getItem('viewedTopics') || '[]');
+    // Inicia o timer apenas se o tópico não foi visualizado anteriormente
+    if (!viewedTopics.value.includes(`${topicId}`)) {
+        // Inicia o countdown
+        viewTimer = setTimeout(() => {
+            markTopicAsViewed();
+        }, 30000);
+    }
+});
+
+onUnmounted(() => {
+    // Limpa os timers se o componente for desmontado
+    if (viewTimer) {
+        clearTimeout(viewTimer);
+    }
+});
+
+const menu = ref(false);
+
+const toggleMenu = () => {
+    menu.value = !menu.value;
+};
 
 </script>
 
