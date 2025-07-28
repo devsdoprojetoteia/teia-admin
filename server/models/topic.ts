@@ -6,7 +6,7 @@ interface IContentItem {
   order: number;
 }
 
-interface ITopic extends Document {
+export interface ITopic extends Document {
   _id: Schema.Types.ObjectId;
   title: string;
   content: IContentItem[];

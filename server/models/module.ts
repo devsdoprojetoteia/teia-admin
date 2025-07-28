@@ -1,7 +1,7 @@
 import { Schema, model, Document } from "mongoose";
+import type { ITopic } from "./topic";
 
-
-interface IModule extends Document {
+export interface IModule extends Document {
   _id: Schema.Types.ObjectId;
   name: string;
   description?: string;
@@ -9,6 +9,7 @@ interface IModule extends Document {
   order: number;
   createdAt: Date;
   updatedAt: Date;
+  topics?: ITopic[];
 }
 
 const ModuleSchema = new Schema<IModule>(
