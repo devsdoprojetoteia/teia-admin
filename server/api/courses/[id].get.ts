@@ -1,10 +1,8 @@
-import { hashSync } from "bcrypt";
-import { defineEventHandler, readBody, createError } from "h3";
-import authorize from "~/server/utils/authorize";
+import { defineEventHandler, createError } from "h3";
 import Course from "~~/server/models/course";
 
 export default defineEventHandler(async (event) => {
-  
+
   const id = event.context.params!["id"];
 
   const query: {
@@ -29,5 +27,5 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  return course;
+  return course.toJSON();
 });

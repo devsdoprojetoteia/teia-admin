@@ -15,7 +15,7 @@ class CoursesModule extends HttpFactory {
 
   async get(id: string): Promise<Course> {
     const json = await this.apiGet(`/api/courses/${id}`);
-    return Course.fromJson(json);
+    return Course.fromJson(JSON.parse(JSON.stringify(json)));
   }
 
   async create(data: FormValues): Promise<Course> {

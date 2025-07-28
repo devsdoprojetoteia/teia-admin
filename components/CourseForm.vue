@@ -71,6 +71,7 @@ const form: FormProps = {
           label: "Equipe",
           value: course?.team ?? [],
           type: "team-list",
+          prefix: "team-members",
         },
         published: {
           label: "Curso publicado",

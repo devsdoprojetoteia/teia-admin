@@ -44,6 +44,9 @@ const useCourses = () => {
 
   const getCourse = async (id: string) => {
     const course = await $api.courses.get(id);
+
+
+
     return course;
   };
 

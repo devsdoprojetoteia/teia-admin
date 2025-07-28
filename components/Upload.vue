@@ -6,13 +6,7 @@
         <v-icon left>{{ icon }}</v-icon>
       </template>
     </Button>
-    <input
-      v-show="false"
-      ref="inputRef"
-      :accept="accept"
-      type="file"
-      @change="uploadFiles"
-    />
+    <input v-show="false" ref="inputRef" :accept="accept" type="file" @change="uploadFiles" />
   </span>
 </template>
 <script lang="ts" setup>

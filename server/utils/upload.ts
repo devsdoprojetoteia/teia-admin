@@ -56,7 +56,7 @@ export const uploadToS3 = async (file: Buffer, key: string, contentType: string)
   })
 
   await s3Client.send(command)
-  return `https://${process.env.SPACES_BUCKET}.${process.env.SPACES_REGION}.digitaloceanspaces.com/${key}`
+  return `/${key}`
 }
 
 export const processImage = async (file: Buffer, filename: string, mimeType: string) => {

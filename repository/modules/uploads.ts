@@ -19,6 +19,7 @@ class UploadsModule extends HttpFactory {
         },
       }
     );
+    console.log("json", json);
 
     return json.url;
   }

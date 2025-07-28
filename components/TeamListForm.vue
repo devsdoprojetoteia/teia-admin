@@ -10,8 +10,8 @@
         :title="member.name" style="min-height: 48px;">
         <div class="mb-0 d-flex align-center">
           <div class="mr-3">
-            <img :src="member.avatar.thumb" alt="avatar" class="rounded-circle mr-3"
-              style="width:48px;height:48px;object-fit:cover;" v-if="member.avatar" />
+            <v-img :src="filesURL + member.avatar" alt="avatar" class="rounded-circle mr-3" width="48" height="48" cover
+              v-if="member.avatar" />
             <div class="rounded-circle bg-grey-lighten-4 d-flex align-center justify-center"
               style="width:48px;height:48px;" v-else>
               <Icon icon="mdi-account" />
@@ -53,6 +53,9 @@
 <script lang="ts" setup>
 import type { ITeam } from '~/models/course';
 import type { FormProps } from '~/models/dynamic-form';
+
+const { $config } = useNuxtApp();
+const filesURL = $config.public.filesURL;
 
 const { modelValue } = defineProps<{
   modelValue?: ITeam[];

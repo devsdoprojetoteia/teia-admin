@@ -34,6 +34,10 @@ const useTopics = () => {
     return await $api.topics.delete(id);
   };
 
+  const getTopic = async (id: string) => {
+    return await $api.topics.get(id);
+  };
+
   const closeTopic = () => {
     router.push({
       path: route.path,
@@ -55,6 +59,7 @@ const useTopics = () => {
     createTopic,
     updateTopic,
     deleteTopic,
+    getTopic,
   };
 };
 

@@ -25,6 +25,11 @@ class TopicsModule extends HttpFactory {
   async reorder(topicId: string, direction: 'up' | 'down'): Promise<void> {
     await this.apiPost(`/api/topics/reorder`, { topicId, direction });
   }
+
+  async get(id: string): Promise<Topic> {
+    const json = await this.apiGet<any>(`/api/topics/${id}`);
+    return Topic.fromJson(json);
+  }
 }
 
 export default TopicsModule; 

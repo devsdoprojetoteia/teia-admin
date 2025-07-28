@@ -47,13 +47,13 @@ export default class Module implements IModule {
 
   toJson(): any {
     return {
-      _id: this.id,
+      id: this.id,
       name: this.name,
       description: this.description,
       course: this.course,
       order: this.order,
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
+      createdAt: this.createdAt?.toISOString(),
+      updatedAt: this.updatedAt?.toISOString(),
       topics: this.topics ? this.topics.map((topic) => topic.toJson()) : [],
     };
   }

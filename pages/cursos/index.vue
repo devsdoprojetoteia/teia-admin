@@ -47,7 +47,7 @@
                     </Button>
                     <Button color="primary" :to="`/cursos/${course.id}/modulos`">
                       <Icon icon="mdi-view-list" class="mr-2" />
-                      Gerenciar módulos
+                      Gerenciar
                     </Button>
                   </v-card-actions>
                 </v-card>

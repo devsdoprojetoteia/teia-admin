@@ -11,10 +11,12 @@
       :error-messages="errorMessage" :label="props.label" v-bind="field" />
     <TeamListForm v-if="componentType === 'team-list'" :model-value="value" @update:model-value="handleInput"
       :error-messages="errorMessage" :label="props.label" v-bind="field" />
-    <div v-if="componentType === 'upload'">
-      <div v-if="props.uploadType === 'image' && value">
-        <img :src="value.thumb" alt="upload" class="w-100" />
-        <pre>{{ value.url }}</pre>
+    <div v-if="componentType === 'upload'" class="mb-4 text-center">
+      <div v-if="props.uploadType === 'image' && value" class="d-flex justify-center">
+        <div>
+          <v-img :src="filesURL + value" alt="upload" width="100" height="100" cover
+            class="rounded-circle border mb-1" />
+        </div>
       </div>
       <div v-else-if="props.uploadType === 'video' && value">
         <video :src="value" class="w-100" controls></video>
@@ -23,10 +25,12 @@
         <audio :src="value" controls></audio>
       </div>
       <div v-else-if="value">
-        <div class="text-caption">{{ value }}</div>
+        <div class="text-caption">{{ filesURL + value }}</div>
       </div>
-      <Upload :model-value="value" @update:model-value="handleInput" :error-messages="errorMessage" :label="props.label"
-        v-bind="field" button :type="props.uploadType || 'file'" :prefix="props.prefix" />
+
+      <Upload :model-value="value" aria-label="upload" @uploaded="(url) => handleInput(url)"
+        :error-messages="errorMessage" :label="props.label" button :type="props.uploadType || 'file'"
+        :prefix="props.prefix" />
     </div>
 
 
@@ -54,6 +58,8 @@
 import { Field } from "vee-validate";
 import type { FormField } from "~~/models/dynamic-form";
 import type { StringMap } from "~~/models/utils";
+const { $config } = useNuxtApp();
+const filesURL = $config.public.filesURL;
 
 const { props, validate, name } = defineProps<{
   name: string;
@@ -62,6 +68,7 @@ const { props, validate, name } = defineProps<{
 }>();
 
 const attrs = useAttrs();
+
 
 const showPassword = ref(false);
 
@@ -107,5 +114,11 @@ const updateValue = (event: any) => {
 const handleClear = () => {
   console.log("clear");
   emit("update:modelValue", "");
+};
+
+const handleUpload = (event: any) => {
+  console.log("handleUpload", event);
+  console.log("upload", event);
+
 };
 </script>

@@ -47,13 +47,13 @@ export default class Topic implements ITopic {
 
   toJson(): any {
     return {
-      _id: this.id,
+      id: this.id,
       title: this.title,
       content: this.content,
       module: this.module,
       order: this.order,
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
+      createdAt: this.createdAt?.toISOString(),
+      updatedAt: this.updatedAt?.toISOString(),
     };
   }
 

@@ -95,7 +95,7 @@
     </v-container>
   </div>
 
-  <div style="background-color: #242424;">
+  <div style="background-color: #242424;" id="contato">
     <v-container>
       <!-- Newsletter e Rodapé -->
       <v-footer class="footer-section pa-8 mt-8 text-white" style="background-color: #242424;">

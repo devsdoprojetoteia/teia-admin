@@ -1,4 +1,4 @@
-import type Module from "./module";
+import Module from "./module";
 
 export interface IFile {
   type: "image" | "video" | "audio" | "file";
@@ -63,15 +63,15 @@ export default class Course implements ICourse {
       learning: json.learning || [],
       requirements: json.requirements || [],
       team: json.team || [],
-      modules: json.modules || [],
+      modules: Module.fromJsonArray(json.modules || []),
     };
-    console.log("json", data);
+    // console.log("json", data);
     return new Course(data);
   }
 
   toJson(): any {
     return {
-      _id: this.id,
+      id: this.id,
       name: this.name,
       description: this.description,
       phone: this.phone,
@@ -80,7 +80,7 @@ export default class Course implements ICourse {
       learning: this.learning,
       requirements: this.requirements,
       team: this.team,
-      modules: this.modules,
+      modules: this.modules?.map(module => module.toJson()) || [],
     };
   }
 
