@@ -1,5 +1,7 @@
 import { defineEventHandler, createError } from "h3";
 import Course from "~~/server/models/course";
+import Module from "~~/server/models/module";
+import Topic from "~~/server/models/topic";
 
 export default defineEventHandler(async (event) => {
 
