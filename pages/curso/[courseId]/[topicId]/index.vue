@@ -39,66 +39,75 @@
                     <span class="text-medium-emphasis">{{ topic?.title }}</span>
                 </div>
 
-                <div class="rounded-lg pa-4 px-8 bg-white mb-6">
+                <div class="rounded-lg py-6 px-4 bg-white mb-6">
 
-                    <!-- Título do Módulo e Aula -->
-                    <div class="mb-3">
-                        <Text>{{ module?.name }}</Text>
+                    <div style="max-width: 720px; margin: 0 auto;">
+                        <!-- Título do Módulo e Aula -->
+                        <div class="mb-3">
+                            <Text>{{ module?.name }}</Text>
+                        </div>
+                        <div class="mb-4">
+                            <Text variant="h5" weight="bold">{{ topic?.title }}</Text>
+                        </div>
+
+
+                        <div class="mb-6">
+                            <div v-for="content in topic?.content || []" :key="content.id">
+                                <div v-if="content.type === 'text'" class="mb-4">
+                                    <div v-html="content.content"></div>
+                                </div>
+                                <div v-if="content.type === 'image'" class="mb-4">
+                                    <img :src="getFileUrl(content.content)" :alt="topic?.title || ''"
+                                        style="max-width: 100%; " />
+                                </div>
+                                <div v-if="content.type === 'video'" class="mb-4">
+                                    <v-responsive :aspect-ratio="16 / 9">
+                                        <video :src="getFileUrl(content.content)" controls
+                                            style="width:100%; height:100%;"></video>
+                                    </v-responsive>
+                                </div>
+                                <div v-if="content.type === 'audio'" class="mb-4">
+                                    <audio :src="getFileUrl(content.content)" controls style="width:100%;"></audio>
+                                </div>
+                                <div v-if="content.type === 'document'"
+                                    class="mb-4 border rounded-lg border-primary bg-grey-lighten-5">
+                                    <div class="d-flex align-center pa-3">
+                                        <div class="px-2">
+                                            <Icon icon="mdi-download" size="24" class="mr-2" color="primary" />
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <a :href="getFileUrl(content.content)" target="_blank"
+                                                class="text-decoration-none text-primary">
+                                                {{ getFileName(content.content) }}
+                                            </a>
+                                            <span class="text-caption text-medium-emphasis">
+                                                Baixar arquivo
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- Navegação entre aulas -->
+                        <div class="d-flex justify-end mb-4">
+                            <Button v-if="prevTopic" :to="`/curso/${courseId}/${prevTopic.id}`" color="primary"
+                                class="mr-2" outlined>
+                                <Icon icon="mdi-chevron-left" class="mr-1" /> Aula Anterior
+                            </Button>
+                            <Button v-if="nextTopic" :to="`/curso/${courseId}/${nextTopic.id}`" color="primary"
+                                outlined>
+                                Próxima Aula
+                                <Icon icon="mdi-chevron-right" class="ml-1" />
+                            </Button>
+                        </div>
                     </div>
-                    <div class="mb-4">
-                        <Text variant="h5" weight="bold">{{ topic?.title }}</Text>
-                    </div>
 
-                    <!-- Navegação entre aulas -->
-                    <div class="d-flex justify-space-between mb-4">
-                        <Button v-if="prevTopic" :to="`/curso/${courseId}/${prevTopic.id}`" color="primary" outlined>
-                            <Icon icon="mdi-chevron-left" class="mr-1" /> Aula Anterior
-                        </Button>
-                        <Button v-if="nextTopic" :to="`/curso/${courseId}/${nextTopic.id}`" color="primary" outlined>
-                            Próxima Aula
-                            <Icon icon="mdi-chevron-right" class="ml-1" />
-                        </Button>
-                    </div>
 
-                    <!-- Player de Vídeo -->
-                    <!-- <div v-if="videoUrl" class="mb-6">
-            <video controls style="width:100%; max-height:400px; background:#ccc;">
-                <source :src="videoUrl" type="video/mp4" />
-                Seu navegador não suporta vídeo.
-            </video>
-        </div> -->
-
-                    <!-- Descrição/Introdução -->
-                    <!-- <div class="mb-6 border rounded pa-4 bg-grey-lighten-4">
-            <Text variant="h6" weight="bold" class="mb-2">Introdução ao Ensino Digital</Text>
-            <div>{{ introText }}</div>
-        </div> -->
-
-                    <!-- Download de Arquivo -->
-                    <!-- <div v-if="documentUrl" class="mb-4">
-            <Text variant="subtitle1" weight="bold">Nome do Arquivo</Text>
-            <Button :href="documentUrl" target="_blank" color="success" class="ml-2">
-                <Icon icon="mdi-download" class="mr-1" /> Baixar Arquivo
-            </Button>
-        </div> -->
-
-                    <!-- Player de Áudio -->
-                    <!-- <div v-if="audioUrl" class="mb-6">
-            <Text variant="subtitle1" weight="bold">Título do Áudio</Text>
-            <audio controls style="width:100%;">
-                <source :src="audioUrl" type="audio/mpeg" />
-                Seu navegador não suporta áudio.
-            </audio>
-        </div> -->
-
-                    <!-- Imagem do Tópico -->
-                    <!-- <div v-if="imageUrl" class="mb-6">
-            <Text variant="subtitle1" weight="bold">Figura 01</Text>
-            <img :src="imageUrl" alt="Figura do tópico" style="max-width:100%; border-radius:8px;" />
-        </div> -->
                 </div>
                 <!-- Área de Comentários (mock) -->
-                <div class="mb-8 border rounded pa-4 bg-grey-lighten-4">
+                <!-- <div class="mb-8 border rounded pa-4 bg-grey-lighten-4">
                     <Text variant="h5" weight="bold" class="mb-4">Comentários</Text>
                     <div class="mb-4 d-flex align-center">
                         <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="avatar"
@@ -119,7 +128,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 </Col>
             </Row>
 
@@ -157,6 +166,18 @@ const { data: course, pending, error, refresh } = await useAsyncData<Course>(
         return courseData.toJson();
     }
 );
+
+const getFileUrl = (url: string) => {
+    if (url.startsWith('http')) {
+        return url
+    }
+    return filesURL + url
+}
+
+const getFileName = (url: string) => {
+    const fileName = url.split('/').pop() || ''
+    return decodeURIComponent(fileName)
+}
 
 const topic = computed(() => {
     return course.value?.modules?.find((module) => module.topics.some((topic) => topic.id === topicId))?.topics.find((topic) => topic.id === topicId) || null;

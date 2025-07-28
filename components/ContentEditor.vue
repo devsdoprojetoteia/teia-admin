@@ -10,30 +10,30 @@
         </client-only>
       </div>
       <div v-else-if="item.type === 'image'" class="image-upload">
-        <img v-if="item.content" :src="item.content" class="mt-2" style="max-width: 100%; max-height: 200px;" />
+        <img v-if="item.content" :src="getFileUrl(item.content)" style="max-width: 100%;" />
       </div>
       <div v-else-if="item.type === 'video'" class="video-upload">
-        <video v-if="item.content" :src="item.content" controls class="mt-2"
-          style="max-width: 100%; max-height: 200px;" />
+        <v-responsive :aspect-ratio="16 / 9">
+          <video v-if="item.content" :src="getFileUrl(item.content)" controls style="width:100%; height:100%;" />
+        </v-responsive>
       </div>
       <div v-else-if="item.type === 'audio'" class="audio-upload">
-        <audio v-if="item.content" :src="item.content" controls class="mt-2" />
+        <audio v-if="item.content" :src="getFileUrl(item.content)" controls style="width:100%;" />
       </div>
       <div v-else-if="item.type === 'document'" class="document-upload">
-        <div v-if="item.content" class="mt-2">
-          <div class="d-flex align-center">
-            <Icon icon="mdi-file-document" size="24" class="mr-2" />
+        <div v-if="item.content" class="border rounded p-2 border-primary  bg-grey-lighten-5">
+          <div class="d-flex align-center pa-3">
+            <div class="px-2">
+              <Icon icon="mdi-download" size="24" class="mr-2" color="primary" />
+            </div>
             <div class="d-flex flex-column">
-              <a :href="item.content" target="_blank" class="text-decoration-none">
+              <a :href="getFileUrl(item.content)" target="_blank" class="text-decoration-none text-primary">
                 {{ getFileName(item.content) }}
               </a>
               <span class="text-caption text-medium-emphasis">
-                {{ getFileSize(item.content) }}
+                Baixar arquivo
               </span>
             </div>
-          </div>
-          <div v-if="isPDF(item.content)" class="mt-2">
-            <iframe :src="item.content" width="100%" height="300" class="border rounded"></iframe>
           </div>
         </div>
       </div>
@@ -88,6 +88,11 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css'
 const props = defineProps<{
   modelValue: IContentItem[]
 }>()
+
+const config = useRuntimeConfig();
+const filesURL = config.public.filesURL;
+
+
 
 const emit = defineEmits(['update:modelValue'])
 
@@ -187,7 +192,8 @@ const handleFileUpload = async (event: Event, type: ContentType) => {
     newContent.push({
       type: type as IContentItem['type'],
       content: uploadedUrl,
-      order: newContent.length
+      order: newContent.length,
+      id: ''
     })
     emit('update:modelValue', newContent)
   } catch (error) {
@@ -204,7 +210,8 @@ const addContent = (type: string) => {
   newContent.push({
     type: type as IContentItem['type'],
     content: '',
-    order: newContent.length
+    order: newContent.length,
+    id: ''
   })
   emit('update:modelValue', newContent)
 }
@@ -217,6 +224,13 @@ const removeContent = (index: number) => {
     item.order = idx
   })
   emit('update:modelValue', newContent)
+}
+
+const getFileUrl = (url: string) => {
+  if (url.startsWith('http')) {
+    return url
+  }
+  return filesURL + url
 }
 
 const getFileName = (url: string) => {
