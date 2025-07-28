@@ -96,11 +96,11 @@
               </template>
             </v-expansion-panel-title>
             <v-expansion-panel-text>
-              <div class="d-flex flex-column gap-2">
+              <div class="">
                 <NuxtLink v-for="topic in module.topics || []" :key="topic.id" :to="`/curso/${courseId}/${topic.id}`"
                   class="d-flex align-center text-decoration-none d-block mb-2">
                   <Icon :icon="viewedTopics.includes(topic.id!) ? 'mdi-check-circle' : 'mdi-play-circle-outline'"
-                    class="mr-2" size="18" :color="viewedTopics.includes(topic.id!) ? 'success' : 'black'" />
+                    class="mr-3" size="18" :color="viewedTopics.includes(topic.id!) ? 'success' : 'black'" />
                   <span>{{ topic.title }}</span>
                 </NuxtLink>
               </div>
