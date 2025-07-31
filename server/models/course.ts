@@ -1,6 +1,7 @@
 import { Schema, model, Document } from "mongoose";
 import bcrypt from "bcrypt";
 import type { IModule } from "./module";
+import type { IUserCourseProgress } from "./user_course_progress";
 
 interface ICourse extends Document {
   name: string;
@@ -18,6 +19,7 @@ interface ICourse extends Document {
   createdAt: Date;
   updatedAt: Date;
   modules?: IModule[];
+  userCourseProgresses?: IUserCourseProgress[];
 }
 
 const CourseSchema = new Schema<ICourse>(
