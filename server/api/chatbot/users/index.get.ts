@@ -3,7 +3,7 @@ import authorize from "~/server/utils/authorize";
 import { UserCourseProgress, User } from "~/server/models";
 
 export default defineEventHandler(async (event) => {
-  const authenticatedUser = authorize(event, ["administrador", "tutor"]);
+  const authenticatedUser = authorize(event, ["administrador"]);
 
   const filters: {
     [key: string]: any;
@@ -12,10 +12,6 @@ export default defineEventHandler(async (event) => {
   };
 
   const query = getQuery(event);
-  if (query.course) {
-    filters.course = query.course;
-  }
-
   if (query.user) {
     filters._id = query.user;
   }
@@ -31,7 +27,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const users = await User.find(filters).sort({ name: 1 });
-  const userList = users.map(user => ({
+  let userList = users.map(user => ({
     id: user.id,
     name: user.name,
     phone: user.phone,
@@ -42,6 +38,11 @@ export default defineEventHandler(async (event) => {
   const progressList = JSON.parse(JSON.stringify(userCourseProgresses));
   for (const user of userList) {
     user.courseProgresses = progressList.filter((progress: any) => progress.user.toString() === user.id.toString());
+  }
+
+  // se o parametro course estiver presente, filtrar os usuários que possuem progresso no curso
+  if (query.course) {
+    userList = userList.filter((user: any) => user.courseProgresses.some((progress: any) => progress.course.toString() === query.course!.toString()));
   }
 
   return userList;

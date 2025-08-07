@@ -9,7 +9,7 @@ GET https://teia.ipe.org.br/api/chatbot/users
 **Permissão:** Administrador, Tutor  
 **Parâmetros:**  
 - `phone` (opcional): Número de telefone do usuário (formato: "(11) 11111-1111" ou "11111111111")
-- `course` (opcional): ID do curso para filtrar usuários
+- `course` (opcional): ID do curso para filtrar usuários que tem progresso naquele curso
 - `user` (opcional): ID específico do usuário
 
 **Retorno:**  
@@ -154,21 +154,5 @@ Nenhum.
 - Todos os endpoints do chatbot requerem autenticação
 - O token deve ser enviado no header: `Authorization: Bearer <token>`
 
-### Roles (Papéis)
-- **estudante**: Não tem acesso aos endpoints do chatbot
-- **tutor**: Acesso limitado (apenas listar usuários)
-- **administrador**: Acesso completo aos endpoints do chatbot
-
 ### Permissões por Endpoint
-- **Listar Usuários**: Administradores e tutores
-- **Listar Cursos**: Apenas administradores
-- **Obter Curso Completo**: Apenas administradores
-- **Obter Progresso dos Usuários**: Apenas administradores
-
-**Observações:**
-- Os endpoints do chatbot são específicos para integração com sistemas de chatbot
-- O endpoint de listar usuários retorna informações completas de progresso dos usuários
-- O endpoint de obter curso completo retorna o curso com todos os módulos e tópicos aninhados
-- O endpoint de progresso retorna dados populados com informações do usuário
-- Os filtros por telefone são formatados automaticamente para o padrão "(11) 11111-1111"
-- Todos os dados são ordenados alfabeticamente (usuários e cursos) ou por ordem (módulos e tópicos) 
+- **Todas as rotas**: Apenas Administradores (token fixo para o chatbot)
