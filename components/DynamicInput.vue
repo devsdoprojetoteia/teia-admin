@@ -4,6 +4,8 @@
     :type="props.type || 'text'">
     <ContentEditor v-if="componentType === 'content-editor'" :model-value="value || []"
       @update:model-value="handleInput" :prefix="props.prefix" :label="props.label" />
+    <QuestionsEditor v-if="componentType === 'questions-editor'" :model-value="value || []"
+      @update:model-value="handleInput" />
     <ButtonSelect v-if="componentType === 'button-select'" :model-value="value" :items="props.items!"
       :item-title="props.itemTitle" :item-value="props.itemValue" @update:model-value="handleInput"
       :error-messages="errorMessage" :label="props.label" v-bind="field" />
@@ -91,12 +93,13 @@ const inputType = computed(() => {
 const emit = defineEmits(["update:modelValue"]);
 
 const ContentEditor = resolveComponent("content-editor");
-
+const QuestionsEditor = resolveComponent("questions-editor");
 const componentTypeMap: StringMap = {
   textarea: "v-textarea",
   select: "v-select",
   "button-select": "button-select",
   editor: "content-editor",
+  questions: "questions-editor",
   'text-list': "text-list",
   'team-list': "team-list",
   'upload': "upload",

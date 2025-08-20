@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const body = await readBody(event);
-  const { title, content, order } = body;
+  const { title, content, order, type, questions } = body;
 
   const topic = await Topic.findById(id);
   if (!topic) {
@@ -27,6 +27,8 @@ export default defineEventHandler(async (event) => {
   if (title !== undefined) topic.title = title;
   if (content !== undefined) topic.content = content;
   if (order !== undefined) topic.order = order;
+  if (type !== undefined) topic.type = type;
+  if (questions !== undefined) topic.questions = questions;
 
   await topic.save();
   return topic;

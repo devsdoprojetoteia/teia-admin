@@ -16,45 +16,72 @@ import type { NotificationProps } from "~~/models/notification";
 
 const { createTopic, updateTopic } = useTopics();
 
-const { topic, module } = defineProps<{
+const { topic, module, type } = defineProps<{
   topic?: Topic | null;
+  type: 'lesson' | 'questionnaire';
   module: Module;
 }>();
 
 const notification: Ref<NotificationProps | null> = ref(null);
 
 const title = computed(() => {
-  return topic ? "Editar tópico" : "Cadastrar tópico";
+  if (topic) {
+    if (type === 'lesson') {
+      return "Editar aula";
+    }
+    return "Editar questionário";
+  }
+  if (type === 'lesson') {
+    return "Cadastrar aula";
+  }
+  return "Cadastrar questionário";
 });
 
 const emit = defineEmits(["close", "created", "updated"]);
 
+
 const form: FormProps = {
   steps: [
     {
-      fields: {
+      fields: type === 'lesson' ? {
         title: {
-          label: "Título do tópico",
+          label: "Título da aula",
           rules: "required",
           value: topic?.title ?? "",
         },
         content: {
-          label: "Conteúdo do tópico",
+          label: "Conteúdo da aula",
           type: "editor",
           value: topic?.content ?? [],
+        },
+      } : {
+        title: {
+          label: "Título do questionário",
+          rules: "required",
+          value: topic?.title ?? "Questionário",
+        },
+        questions: {
+          label: "Questões",
+          type: "questions",
+          value: topic?.questions ?? [],
         },
       },
     },
   ],
-  submitLabel: "Salvar tópico",
+  submitLabel: type === 'lesson' ? "Salvar aula" : "Salvar questionário",
   wizard: !topic,
   onSubmit: async (values: FormValues) => {
     const { notifySuccess, notifyError } = useNotify();
+    if (type === 'questionnaire' && values.questions.length === 0) {
+      notifyError('Adicione pelo menos uma questão')
+      return
+    }
     if (!topic) {
       try {
-        await createTopic({ ...values, module: module.id, content: values.content.filter((item: any) => item.content) });
+        const data = { ...values, module: module.id, content: (values.content || []).filter((item: any) => item.content), type }
+        await createTopic(data);
         notification.value = {
-          title: "Tópico cadastrado com sucesso",
+          title: type === 'lesson' ? "Aula cadastrada com sucesso" : "Questionário cadastrado com sucesso",
           onContinue: close,
         };
         created();
@@ -63,9 +90,9 @@ const form: FormProps = {
       }
     } else {
       try {
-        await updateTopic(topic.id!, { ...values, content: values.content.filter((item: any) => item.content) });
+        await updateTopic(topic.id!, { ...values, content: (values.content || []).filter((item: any) => item.content), type });
         notification.value = {
-          title: "O tópico foi atualizado",
+          title: type === 'lesson' ? "Aula atualizada com sucesso" : "Questionário atualizado com sucesso",
           onContinue: close,
         };
         updated();

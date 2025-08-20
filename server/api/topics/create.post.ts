@@ -6,12 +6,12 @@ export default defineEventHandler(async (event) => {
   const authenticatedUser = authorize(event, ["administrador"]);
 
   const body = await readBody(event);
-  const { title, content, module } = body;
+  const { title, content, module, type, questions } = body;
 
-  if (!title || !content || !module) {
+  if (!title || !module) {
     throw createError({
       statusCode: 400,
-      message: "Título, conteúdo e módulo são obrigatórios",
+      message: "Título e módulo são obrigatórios",
     });
   }
 
@@ -24,6 +24,8 @@ export default defineEventHandler(async (event) => {
     content,
     module,
     order,
+    type,
+    questions,
   });
 
   await topic.save();

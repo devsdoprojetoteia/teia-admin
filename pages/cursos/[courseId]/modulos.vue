@@ -66,7 +66,10 @@
                           :key="topic.id" class="topic-item pa-3 mb-2 rounded-lg bg-grey-lighten-4">
                           <v-row>
                             <v-col cols="12" sm="8" class="d-flex align-center">
-                              <Text class="font-weight-medium">{{ topic.title }}</Text>
+                              <Icon v-if="topic.type === 'questionnaire'" icon="mdi-help-box" size="24" class="mr-2" />
+                              <Icon v-if="topic.type === 'lesson'" icon="mdi-book-open-page-variant-outline" size="24"
+                                class="mr-2" />
+                              <Text class="font-weight-medium">{{ topic.title }} </Text>
                             </v-col>
                             <v-col cols="12" sm="4" class="d-flex justify-sm-end pt-0 pt-md-4">
                               <div class="d-flex align-center">
@@ -96,17 +99,22 @@
                       </div>
                     </div>
                     <TopicForm v-if="activeTopic && activeTopic.module === module.id" @close="closeTopicForm"
-                      :module="module" :topic="activeTopic" @updated="topicUpdated" @remove="removeTopic" />
+                      :module="module" :topic="activeTopic" :type="activeTopic.type" @updated="topicUpdated"
+                      @remove="removeTopic" />
                   </v-card-text>
                   <v-divider></v-divider>
                   <v-card-actions>
-                    <Button color="primary" @click="editModule(module)">
-                      <Icon icon="mdi-pencil" class="mr-2" />
+                    <Button color="primary" @click="editModule(module)" size="small" variant="tonal" class="ml-2">
+                      <Icon icon="mdi-pencil" class="mr-1" />
                       Editar
                     </Button>
-                    <Button color="primary" @click="addTopic(module)">
-                      <Icon icon="mdi-plus" class="mr-2" />
-                      Adicionar tópico
+                    <Button color="primary" @click="addTopic(module, 'lesson')" size="small" variant="tonal">
+                      <Icon icon="mdi-plus" class="mr-1" />
+                      Tópico
+                    </Button>
+                    <Button color="primary" @click="addTopic(module, 'questionnaire')" size="small" variant="tonal">
+                      <Icon icon="mdi-plus" class="mr-1" />
+                      Questionário
                     </Button>
                   </v-card-actions>
                 </v-card>
@@ -120,7 +128,8 @@
 
       <ModuleForm v-if="showAddModule || activeModule" @created="moduleCreated" @updated="moduleUpdated"
         @close="closeForm" :module="activeModule" :course="course" @remove="removeModule" />
-      <TopicForm v-if="showAddTopic" @close="closeTopicForm" :module="showAddTopic" @created="topicCreated" />
+      <TopicForm v-if="showAddTopic" @close="closeTopicForm" :module="showAddTopic" @created="topicCreated"
+        :type="type" />
 
       <CourseProgress v-if="showCourseProgress && course" @close="closeCourseProgress" :course="course!" />
     </v-container>
@@ -173,6 +182,7 @@ const {
 const { getCourse, loadUserCourseProgress, userCourseProgress } = useCourses();
 
 const search = ref("");
+const type = ref<'lesson' | 'questionnaire'>('lesson');
 
 const course = ref<Course | undefined>(undefined);
 const showCourseProgress = ref(false);
@@ -220,7 +230,8 @@ const removeModule = async () => {
   }
 };
 
-const addTopic = (module: Module) => {
+const addTopic = (module: Module, topicType: 'lesson' | 'questionnaire') => {
+  type.value = topicType;
   showAddTopic.value = module;
 };
 

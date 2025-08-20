@@ -1,3 +1,9 @@
+export interface IQuestion {
+  question: string;
+  options: string[];
+  correctAnswer: number | null;
+}
+
 export interface IContentItem {
   type: 'text' | 'image' | 'video' | 'audio' | 'document';
   content: string;
@@ -8,11 +14,34 @@ export interface IContentItem {
 interface ITopic {
   id?: string;
   title: string;
+  type: 'lesson' | 'questionnaire';
+  questions: IQuestion[];
   content: IContentItem[];
   module: string;
   order: number;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export class Question implements IQuestion {
+  question: string;
+  options: string[];
+  correctAnswer: number | null;
+
+  constructor({ question, options, correctAnswer }: IQuestion) {
+    this.question = question;
+    this.options = options;
+    this.correctAnswer = correctAnswer;
+  }
+
+  static fromJson(json: any): Question {
+    return new Question({
+      question: json.question,
+      options: json.options,
+      correctAnswer: json.correctAnswer,
+    });
+  }
+
 }
 
 export class ContentItem implements IContentItem {
@@ -54,15 +83,19 @@ export class ContentItem implements IContentItem {
 export default class Topic implements ITopic {
   id?: string;
   title: string;
+  type: 'lesson' | 'questionnaire';
+  questions: IQuestion[];
   content: ContentItem[];
   module: string;
   order: number;
   createdAt: Date;
   updatedAt: Date;
 
-  constructor({ id, title, content, module, order, createdAt, updatedAt }: ITopic) {
+  constructor({ id, title, type, questions, content, module, order, createdAt, updatedAt }: ITopic) {
     this.id = id;
     this.title = title;
+    this.type = type;
+    this.questions = questions;
     this.content = content ? content.map((item) => ContentItem.fromJson(item)) : [];
     this.module = module;
     this.order = order;
@@ -74,6 +107,8 @@ export default class Topic implements ITopic {
     return new Topic({
       id: json._id,
       title: json.title,
+      type: json.type,
+      questions: json.questions ? json.questions.map((item: any) => Question.fromJson(item)) : [],
       content: json.content ? json.content.map((item: any) => ContentItem.fromJson(item)) : [],
       module: json.module,
       order: json.order,
