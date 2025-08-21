@@ -124,7 +124,7 @@
                                         </Text>
                                         <Text v-else>A resposta correta é: {{
                                             topic?.questions[currentQuestion].options[topic?.questions[currentQuestion].correctAnswer!]
-                                        }}</Text>
+                                            }}</Text>
                                     </div>
                                 </v-radio-group>
                             </div>
@@ -285,8 +285,8 @@ const viewedTopics = ref<string[]>([]);
 let viewTimer: NodeJS.Timeout | null = null;
 
 onMounted(() => {
+    viewedTopics.value = JSON.parse(localStorage.getItem('viewedTopics') || '[]');
     if (topic.value?.type === 'lesson') {
-        viewedTopics.value = JSON.parse(localStorage.getItem('viewedTopics') || '[]');
         // Inicia o timer apenas se o tópico não foi visualizado anteriormente
         if (!viewedTopics.value.includes(`${topicId}`)) {
             // Inicia o countdown
@@ -326,6 +326,9 @@ const updateAnswer = (value: unknown) => {
     console.log(answeredQuestions.value[currentQuestion.value]);
     answeredQuestions.value[currentQuestion.value] = optionIndex;
     localStorage.setItem(`answered-questions-${topicId}`, JSON.stringify(answeredQuestions.value));
+    if (answeredAllQuestions.value) {
+        markTopicAsViewed();
+    }
 }
 
 const prevQuestion = () => {
