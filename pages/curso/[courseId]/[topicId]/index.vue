@@ -57,11 +57,12 @@
                             <Text>{{ module?.name }}</Text>
                         </div>
                         <div class="mb-4">
-                            <Text variant="h5" weight="bold">{{ topic?.title }}</Text>
+                            <Text variant="h5">{{ topic?.title }}
+                                <small>{{ topic?.type === 'questionnaire' ?
+                                    `(${currentQuestion + 1}/${topic?.questions?.length})` : '' }}</small>
+                            </Text>
                         </div>
-
-
-                        <div class="mb-6">
+                        <div class="mb-6" v-if="topic?.type !== 'questionnaire'">
                             <div v-for="content in topic?.content || []" :key="content.id">
                                 <div v-if="content.type === 'text'" class="mb-4">
                                     <div v-html="content.content"></div>
@@ -100,15 +101,55 @@
                             </div>
 
                         </div>
+                        <div class="mb-6" v-if="topic?.type === 'questionnaire'">
+                            <div>
+                                <div class="mb-2">
+                                    <Text>{{ topic?.questions[currentQuestion].question }}</Text>
+                                </div>
+                                <v-radio-group class="mt-4" @update:model-value="updateAnswer"
+                                    :model-value="answeredQuestions[currentQuestion]">
+                                    <div v-for="(option, optionIndex) in topic?.questions[currentQuestion].options || []"
+                                        :key="optionIndex"
+                                        class="border rounded-lg pr-2 d-flex align-center justify-start mb-3 pa-1"
+                                        :class="{ 'answered-success': answeredQuestions[currentQuestion] != null && topic?.questions[currentQuestion].correctAnswer === optionIndex, 'answered-error': optionIndex === answeredQuestions[currentQuestion] && topic?.questions[currentQuestion].correctAnswer !== optionIndex }">
+                                        <div style="width: 40px; ">
+                                            <v-radio :value="optionIndex" />
+                                        </div>
+                                        <Text>{{ option }}</Text>
+                                    </div>
+                                    <div v-if="answeredQuestions[currentQuestion] !== null">
+                                        <Text class="text-success"
+                                            v-if="topic?.questions[currentQuestion].correctAnswer === answeredQuestions[currentQuestion]">Resposta
+                                            correta!
+                                        </Text>
+                                        <Text v-else>A resposta correta é: {{
+                                            topic?.questions[currentQuestion].options[topic?.questions[currentQuestion].correctAnswer!]
+                                        }}</Text>
+                                    </div>
+                                </v-radio-group>
+                            </div>
+
+                            <div class="d-flex justify-end">
+                                <Button color="primary" class="mr-2 rounded-lg" outlined @click="prevQuestion"
+                                    v-if="currentQuestion > 0 || prevTopic">
+                                    <Icon icon="mdi-chevron-left" class="mr-1" /> Anterior
+                                </Button>
+                                <Button color="primary" class="mr-2 rounded-lg" outlined @click="nextQuestion"
+                                    v-if="currentQuestion < topic?.questions.length - 1 || nextTopic">
+                                    Próxima
+                                    <Icon icon="mdi-chevron-right" class="ml-1" />
+                                </Button>
+                            </div>
+                        </div>
                         <!-- Navegação entre aulas -->
-                        <div class="d-flex justify-end mb-4">
+                        <div class="d-flex justify-end mb-4" v-if="topic?.type !== 'questionnaire'">
                             <Button v-if="prevTopic" :to="`/curso/${courseId}/${prevTopic.id}`" color="primary"
-                                size="small" class="mr-2" outlined>
-                                <Icon icon="mdi-chevron-left" class="mr-1" /> Aula Anterior
+                                class="mr-2 rounded-lg" outlined>
+                                <Icon icon="mdi-chevron-left" class="mr-1" /> Anterior
                             </Button>
                             <Button v-if="nextTopic" :to="`/curso/${courseId}/${nextTopic.id}`" color="primary"
-                                size="small" @click="markTopicAsViewed" outlined>
-                                Próxima Aula
+                                @click="markTopicAsViewed" outlined class="rounded-lg">
+                                Próxima
                                 <Icon icon="mdi-chevron-right" class="ml-1" />
                             </Button>
                         </div>
@@ -143,6 +184,7 @@
             </Row>
 
         </div>
+
     </div>
 </template>
 
@@ -159,11 +201,14 @@ import type Topic from '~/models/topic';
 definePageMeta({
     layout: "public",
 });
+const router = useRouter();
 const route = useRoute();
 const { courseId, topicId } = route.params as { courseId: string, topicId: string };
 const { getCourse } = useCourses();
 const { $config } = useNuxtApp();
 const filesURL = $config.public.filesURL;
+const currentQuestion = ref<number>(0);
+const answeredQuestions = ref<number[] | null[]>([]);
 
 // Carrega os dados antes da renderização (SSR)
 const { data: course, pending, error, refresh } = await useAsyncData<Course>(
@@ -189,7 +234,13 @@ const getFileName = (url: string) => {
     return decodeURIComponent(fileName)
 }
 
+const answeredAllQuestions = computed(() => {
+    return answeredQuestions.value.every((question) => question !== null);
+});
+
 const topic = computed(() => {
+    console.log(`TOPIC`)
+    console.log(course.value?.modules?.find((module) => module.topics.some((topic) => topic.id === topicId)))
     return course.value?.modules?.find((module) => module.topics.some((topic) => topic.id === topicId))?.topics.find((topic) => topic.id === topicId) || null;
 });
 
@@ -234,13 +285,24 @@ const viewedTopics = ref<string[]>([]);
 let viewTimer: NodeJS.Timeout | null = null;
 
 onMounted(() => {
-    viewedTopics.value = JSON.parse(localStorage.getItem('viewedTopics') || '[]');
-    // Inicia o timer apenas se o tópico não foi visualizado anteriormente
-    if (!viewedTopics.value.includes(`${topicId}`)) {
-        // Inicia o countdown
-        viewTimer = setTimeout(() => {
-            markTopicAsViewed();
-        }, 30000);
+    if (topic.value?.type === 'lesson') {
+        viewedTopics.value = JSON.parse(localStorage.getItem('viewedTopics') || '[]');
+        // Inicia o timer apenas se o tópico não foi visualizado anteriormente
+        if (!viewedTopics.value.includes(`${topicId}`)) {
+            // Inicia o countdown
+            viewTimer = setTimeout(() => {
+                markTopicAsViewed();
+            }, 30000);
+        }
+    } else if (topic.value?.type === 'questionnaire') {
+        const savedAnswers = JSON.parse(localStorage.getItem(`answered-questions-${topicId}`) || '[]');
+        if (savedAnswers.length > 0) {
+            answeredQuestions.value = savedAnswers;
+        } else {
+            answeredQuestions.value = topic.value?.questions.map((question) => {
+                return null
+            });
+        }
     }
 });
 
@@ -257,6 +319,32 @@ const toggleMenu = () => {
     menu.value = !menu.value;
 };
 
+const updateAnswer = (value: unknown) => {
+    const optionIndex = value as number;
+    console.log(optionIndex);
+    console.log(topic.value?.questions[currentQuestion.value].correctAnswer);
+    console.log(answeredQuestions.value[currentQuestion.value]);
+    answeredQuestions.value[currentQuestion.value] = optionIndex;
+    localStorage.setItem(`answered-questions-${topicId}`, JSON.stringify(answeredQuestions.value));
+}
+
+const prevQuestion = () => {
+    if (currentQuestion.value > 0) {
+        currentQuestion.value--;
+    } else if (prevTopic.value) {
+        // go to `/curso/${courseId}/${prevTopic.id}`
+        router.push(`/curso/${courseId}/${prevTopic.value.id}`);
+    }
+}
+
+const nextQuestion = () => {
+    if (currentQuestion.value < topic.value!.questions.length - 1) {
+        currentQuestion.value++;
+    } else if (nextTopic.value) {
+        // go to `/curso/${courseId}/${nextTopic.id}`
+        router.push(`/curso/${courseId}/${nextTopic.value.id}`);
+    }
+}
 </script>
 
 <style scoped>
@@ -270,5 +358,15 @@ const toggleMenu = () => {
     border-radius: 6px;
     padding: 8px 12px;
     font-size: 1rem;
+}
+
+.answered-success {
+    border: 1px solid #235A33;
+    background-color: rgba(3, 217, 65, 0.1);
+}
+
+.answered-error {
+    border: 1px solid #ff0000;
+    background-color: rgba(255, 47, 0, 0.26);
 }
 </style>

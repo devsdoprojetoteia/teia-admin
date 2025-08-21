@@ -99,7 +99,8 @@
               <div class="">
                 <NuxtLink v-for="topic in module.topics || []" :key="topic.id" :to="`/curso/${courseId}/${topic.id}`"
                   class="d-flex align-center text-decoration-none d-block mb-2">
-                  <Icon :icon="viewedTopics.includes(topic.id!) ? 'mdi-check-circle' : 'mdi-play-circle-outline'"
+                  <Icon
+                    :icon="viewedTopics.includes(topic.id!) ? 'mdi-check-circle' : topic.type === 'questionnaire' ? 'mdi-help-box' : 'mdi-play-circle-outline'"
                     class="mr-3" size="18" :color="viewedTopics.includes(topic.id!) ? 'success' : 'black'" />
                   <span>{{ topic.title }}</span>
                 </NuxtLink>

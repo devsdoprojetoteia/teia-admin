@@ -2,7 +2,7 @@
   <div class="questions-editor mb-4">
     <div v-for="(item, index) in modelValue" :key="index" class="mb-4 rounded-lg pa-4 bg-white">
       <div class="d-flex align-center justify-space-between">
-        <Text weight="bold" class="mb-2">{{ item.question }}</Text>
+        <Text class="mb-2 preserve-line-breaks">{{ item.question }}</Text>
       </div>
 
       <div v-for="(option, index) in item.options" :key="index"
@@ -34,7 +34,7 @@
       <div>
         <DynamicInput name="question" :props="{
           label: 'Pergunta',
-          value: [],
+
           type: 'textarea',
           autoGrow: true,
           rows: 1,

@@ -42,6 +42,13 @@ export class Question implements IQuestion {
     });
   }
 
+  toJson(): any {
+    return {
+      question: this.question,
+      options: this.options,
+      correctAnswer: this.correctAnswer,
+    };
+  }
 }
 
 export class ContentItem implements IContentItem {
@@ -84,7 +91,7 @@ export default class Topic implements ITopic {
   id?: string;
   title: string;
   type: 'lesson' | 'questionnaire';
-  questions: IQuestion[];
+  questions: Question[];
   content: ContentItem[];
   module: string;
   order: number;
@@ -95,7 +102,7 @@ export default class Topic implements ITopic {
     this.id = id;
     this.title = title;
     this.type = type;
-    this.questions = questions;
+    this.questions = questions ? questions.map((item) => Question.fromJson(item)) : [];
     this.content = content ? content.map((item) => ContentItem.fromJson(item)) : [];
     this.module = module;
     this.order = order;
@@ -104,7 +111,8 @@ export default class Topic implements ITopic {
   }
 
   static fromJson(json: any): Topic {
-    return new Topic({
+    console.log(json);
+    const topic = new Topic({
       id: json._id,
       title: json.title,
       type: json.type,
@@ -115,15 +123,19 @@ export default class Topic implements ITopic {
       createdAt: new Date(json.createdAt),
       updatedAt: new Date(json.updatedAt),
     });
+    console.log(topic);
+    return topic;
   }
 
   toJson(): any {
     return {
       id: this.id,
+      type: this.type,
       title: this.title,
       content: this.content.map((item) => item.toJson()),
       module: this.module,
       order: this.order,
+      questions: this.questions.map((item) => item.toJson()),
       createdAt: this.createdAt?.toISOString(),
       updatedAt: this.updatedAt?.toISOString(),
     };
