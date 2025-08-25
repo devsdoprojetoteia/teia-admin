@@ -1,6 +1,6 @@
 import { defineEventHandler, createError } from "h3";
 import authorize from "~/server/utils/authorize";
-import { UserCourseProgress, User } from "~/server/models";
+import { UserCourseProgress, User, Course } from "~/server/models";
 
 export default defineEventHandler(async (event) => {
   // const authenticatedUser = authorize(event, ["administrador"]);
@@ -34,10 +34,14 @@ export default defineEventHandler(async (event) => {
     courseProgresses: [],
   }));
 
-  const userCourseProgresses = await UserCourseProgress.find({ user: { $in: userList.map(user => user.id) } }).populate("course", "name");
+  const userCourseProgresses = await UserCourseProgress.find({ user: { $in: userList.map(user => user.id) } })
+  const progressCourses = await Course.find({ _id: { $in: userCourseProgresses.map(progress => progress.course.toString()) } }).select("name");
   const progressList = JSON.parse(JSON.stringify(userCourseProgresses));
   for (const user of userList) {
-    user.courseProgresses = progressList.filter((progress: any) => progress.user.toString() === user.id.toString());
+    user.courseProgresses = progressList.filter((progress: any) => progress.user.toString() === user.id.toString()).map((progress: any) => ({
+      ...progress,
+      course: progressCourses.find((course: any) => course._id.toString() === progress.course.toString())
+    }));
   }
 
   // se o parametro course estiver presente, filtrar os usuários que possuem progresso no curso
