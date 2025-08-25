@@ -30,7 +30,7 @@
             </Text>
           </div>
 
-          <img src="/img/logo-financiadores.svg" alt="Financiadores" style="max-width: 480px;" />
+          <img src="/img/logo-financiadores.svg" alt="Financiadores" style="max-width: 560px;" />
         </div>
       </div>
     </v-responsive>

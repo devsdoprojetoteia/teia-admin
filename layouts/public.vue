@@ -15,15 +15,14 @@
               Cursos
             </NuxtLink>
             <NuxtLink to="/#sobre" class="text-decoration-none text-primary font-weight-bold">
-              Sobre o lira
+              Sobre o Teia
             </NuxtLink>
             <NuxtLink to="/#contato" class="text-decoration-none text-primary font-weight-bold">
               Fale conosco
             </NuxtLink>
           </div>
-          <div>
-
-
+          <div style="width: 80px;" class="d-none d-sm-block"></div>
+          <div class="d-sm-none d-block">
             <v-menu>
               <template v-slot:activator="{ props }">
                 <v-btn icon v-bind="props" elevation="0">
@@ -38,7 +37,7 @@
                 </v-list-item>
                 <v-list-item>
                   <NuxtLink to="/#sobre" class="text-decoration-none text-primary font-weight-bold">
-                    Sobre o lira
+                    Sobre o Teia
                   </NuxtLink>
                 </v-list-item>
                 <v-list-item>
@@ -46,11 +45,11 @@
                     Fale conosco
                   </NuxtLink>
                 </v-list-item>
-                <v-list-item>
+                <!-- <v-list-item>
                   <v-btn to="/painel" color="primary" variant="elevated" class="w-100">
                     Painel administrativo
                   </v-btn>
-                </v-list-item>
+                </v-list-item> -->
               </v-list>
 
             </v-menu>
