@@ -4,7 +4,7 @@
 
 ### Listar Usuários para Chatbot
 ```
-GET https://teia.ipe.org.br/api/chatbot/users
+GET https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/users
 ```
 **Permissão:** Administrador, Tutor  
 **Parâmetros:**  
@@ -46,7 +46,7 @@ GET https://teia.ipe.org.br/api/chatbot/users
 
 ### Listar Cursos para Chatbot
 ```
-GET https://teia.ipe.org.br/api/chatbot/courses
+GET https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/courses
 ```
 **Permissão:** Administrador  
 **Parâmetros:**  
@@ -69,7 +69,7 @@ GET https://teia.ipe.org.br/api/chatbot/courses
 
 ### Obter Curso Completo para Chatbot
 ```
-GET https://teia.ipe.org.br/api/chatbot/courses/[id]
+GET https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/courses/[id]
 ```
 **Permissão:** Administrador  
 **Parâmetros:**  
@@ -118,7 +118,7 @@ Nenhum.
 
 ### Obter Progresso dos Usuários em um Curso para Chatbot
 ```
-GET https://teia.ipe.org.br/api/chatbot/courses/[id]/progress
+GET https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/courses/[id]/progress
 ```
 **Permissão:** Administrador  
 **Parâmetros:**  
