@@ -33,6 +33,18 @@
         </v-col>
 
       </v-row>
+
+      <br>
+      <v-card href="https://typebot.luisotee.com/" target="_blank" class="mx-auto h-100 pt-3" elevation="2" hover
+        style="max-width: 400px;">
+        <v-card-item class="d-flex flex-column align-center text-center">
+          <v-avatar color="primary" size="64" class="mb-4">
+            <Icon icon="mdi-robot" size="32" />
+          </v-avatar>
+          <v-card-title class="text-h5 mb-2">Chatbot</v-card-title>
+          <v-card-subtitle class="text-center">Gerencie os fluxos do chatbot</v-card-subtitle>
+        </v-card-item>
+      </v-card>
     </div>
 
     <div v-if="auth.user.value?.role === 'estudante'" class="w-100">
