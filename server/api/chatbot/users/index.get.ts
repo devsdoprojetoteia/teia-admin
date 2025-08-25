@@ -3,7 +3,7 @@ import authorize from "~/server/utils/authorize";
 import { UserCourseProgress, User } from "~/server/models";
 
 export default defineEventHandler(async (event) => {
-  const authenticatedUser = authorize(event, ["administrador"]);
+  // const authenticatedUser = authorize(event, ["administrador"]);
 
   const filters: {
     [key: string]: any;
