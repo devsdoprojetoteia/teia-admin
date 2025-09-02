@@ -1,132 +1,139 @@
 <template>
 
 
-  <div style="max-width: 1446px; margin: 0 auto;" class="bg-white">
-    <v-responsive :aspect-ratio="16 / 9" class="d-none d-sm-flex">
-      <div class="hero-banner d-flex flex-column justify-space-between justify-center text-center py-12"
-        style="width: 100%; height: 100%;">
-        <!-- Vídeo de fundo para desktop -->
-        <video class="hero-video" autoplay muted loop playsinline>
-          <source src="/videos/background-home.mp4" type="video/mp4">
-        </video>
 
-        <!-- Camada escura sobre o vídeo -->
-        <div class="hero-dark-overlay"></div>
+  <div style="background-image: url('/img/background-about.png'); background-size: cover;">
+    <div style="max-width: 1446px; margin: 0 auto;" class="bg-white">
+      <v-responsive :aspect-ratio="16 / 9" class="d-none d-sm-flex">
+        <div class="hero-banner d-flex flex-column justify-space-between justify-center text-center py-12"
+          style="width: 100%; height: 100%;">
+          <!-- Vídeo de fundo para desktop -->
+          <video class="hero-video" autoplay muted loop playsinline>
+            <source src="/videos/background-home.mp4" type="video/mp4">
+          </video>
 
-        <div class="hero-overlay text-center d-flex flex-column align-center justify-center">
-          <div class="mb-8">
-            <img src="/img/logo-ipe-home.svg" alt="Financiadores" style="max-width: 100%;" />
-          </div>
+          <!-- Camada escura sobre o vídeo -->
+          <div class="hero-dark-overlay"></div>
 
-          <Text variant="h6" class="mb-4" style="color: #fff; max-width: 600px;" weight="bold">
-            Inclusão digital para conservar a Amazônia. O Teia conecta pessoas, saberes e tecnologias para disseminar
-            boas práticas e fortalecer quem cuida da floresta.
-          </Text>
-        </div>
-        <div class="px-6 hero-overlay ">
-          <div class="mb-4">
-            <Text style="color: #fff; max-width: 600px;">
-              Parceiros Financiadores
+          <div class="hero-overlay text-center d-flex flex-column align-center justify-center">
+            <div class="mb-8">
+              <img src="/img/logo-ipe-home.svg" alt="Financiadores" style="max-width: 100%;" />
+            </div>
+
+            <Text variant="h6" class="mb-4" style="color: #fff; max-width: 600px;" weight="bold">
+              Inclusão digital para conservar a Amazônia. O Teia conecta pessoas, saberes e tecnologias para disseminar
+              boas práticas e fortalecer quem cuida da floresta.
             </Text>
           </div>
-
-          <img src="/img/logo-financiadores.svg" alt="Financiadores" style="max-width: 560px;" />
-        </div>
-      </div>
-    </v-responsive>
-
-    <!-- Versão para telas pequenas -->
-    <v-responsive :aspect-ratio="4 / 4" class="d-flex d-sm-none">
-      <div class="hero-banner d-flex flex-column justify-space-between justify-center text-center pa-3 py-12"
-        style="width: 100%; height: 100%;">
-        <!-- Vídeo de fundo para mobile -->
-        <video class="hero-video" autoplay muted loop playsinline>
-          <source src="/videos/background-home.mp4" type="video/mp4">
-        </video>
-
-        <!-- Camada escura sobre o vídeo -->
-        <div class="hero-dark-overlay"></div>
-
-        <div class="hero-overlay text-center d-flex flex-column align-center justify-center">
-          <div class="mb-4">
-            <img src="/img/logo-ipe-home.svg" alt="Financiadores" style="max-width: 200px;" />
-          </div>
-          <Text class="mb-2" style="color: #fff; ">
-            Inclusão digital para conservar a Amazônia. O Teia conecta pessoas, saberes e tecnologias para disseminar
-            boas práticas e fortalecer quem cuida da floresta.
-          </Text>
-        </div>
-        <div class="hero-overlay text-center d-flex flex-column align-center justify-center">
-          <div class="mb-4">
-            <Text style="color: #fff; font-size: 12px;">
-              Parceiros Financiadores
-            </Text>
-          </div>
-          <div class="d-flex flex-row align-center justify-center gap-4">
-            <img src="/img/logo-financiadores.svg" alt="Financiadores" style="max-width: 200px;" />
-          </div>
-        </div>
-      </div>
-    </v-responsive>
-  </div>
-  <div style="background-image: url('/img/background-about.png'); background-repeat: repeat-x;" class="bg-white">
-    <v-container>
-      <!-- Sobre o LIRA -->
-      <section class="py-12" id="sobre">
-        <Text variant="h4" weight="bold" class="mb-6 text-center" color="primary">Sobre o TEIA</Text>
-        <div class="mb-6">
-          <Text class="text-center mb-8" variant="h6">
-            O Teia é uma tecnologia social em educação criada pelo IPÊ para levar cursos a comunidades com baixo acesso
-            à internet. A plataforma combina um Portal de Cursos e um chatbot acessível por aplicativos de mensagem,
-            facilitando o aprendizado mesmo em regiões com infraestrutura limitada.
-          </Text>
-        </div>
-        <div class="mb-6">
-          <Text class="text-center mb-8" variant="h6">
-            Desenvolvido com base em tecnologias abertas, o Teia foi pensado para fortalecer pessoas e organizações que
-            atuam pela conservação da Amazônia e promover ambientes digitais mais leves, acessíveis e acolhedores.
-          </Text>
-        </div>
-        <div class="mb-6">
-          <Text class="text-center mb-8" variant="h6">
-            Selecionado entre os 20 projetos da chamada Mover-se na Web, uma iniciativa do Comitê Gestor da Internet no
-            Brasil (CGI.br), o Teia é executado pelo NIC.br por meio do Ceweb.br, com apoio do projeto LIRA/IPÊ, que
-            atualmente desenvolve a Trilha Formativa das Organizações do Fundo LIRA, voltada ao desenvolvimento
-            institucional das organizações apoiadas. </Text>
-        </div>
-      </section>
-    </v-container>
-  </div>
-
-  <div class="bg-white pt-12">
-    <v-container>
-      <!-- Cursos -->
-      <section id="cursos">
-        <Text variant="h4" weight="bold" class="mb-8 text-center" style="color: #215c2e;">Cursos</Text>
-        <Row class="mb-8" style="gap: 32px 0;">
-          <Col v-for="(course, index) in courses" :key="course.id" cols="12" md="6">
-          <Card class="course-card pa-6 d-flex flex-column justify-space-between rounded-0"
-            :color="index % 2 === 0 ? '#235A33' : '#00644A'">
+          <div class="px-6 hero-overlay ">
             <div class="mb-4">
-              <Text variant="h5" weight="bold" class="mb-4 text-center">{{ course.name }}</Text>
-              <div style="min-height: 100px;" class="d-flex align-center justify-start">
-                <Text style="font-size: 14px;">{{ course.description }}</Text>
-              </div>
-            </div>
-            <div class="text-center">
-              <div class="mb-4" v-if="course.duration">
-                <Icon icon="mdi-clock-outline" class="mr-1" />
-                <small>{{ course.duration }}</small>
-              </div>
-              <Button :to="`/curso/${course.id}`" rounded="lg">Ver Detalhes</Button>
+              <Text style="color: #fff; max-width: 600px;">
+                Parceiros Financiadores
+              </Text>
             </div>
 
-          </Card>
-          </Col>
-        </Row>
-      </section>
-    </v-container>
+            <img src="/img/logo-financiadores.svg" alt="Financiadores" style="max-width: 560px;" />
+          </div>
+        </div>
+      </v-responsive>
+
+      <!-- Versão para telas pequenas -->
+      <v-responsive :aspect-ratio="4 / 4" class="d-flex d-sm-none">
+        <div class="hero-banner d-flex flex-column justify-space-between justify-center text-center pa-3 py-12"
+          style="width: 100%; height: 100%;">
+          <!-- Vídeo de fundo para mobile -->
+          <video class="hero-video" autoplay muted loop playsinline>
+            <source src="/videos/background-home.mp4" type="video/mp4">
+          </video>
+
+          <!-- Camada escura sobre o vídeo -->
+          <div class="hero-dark-overlay"></div>
+
+          <div class="hero-overlay text-center d-flex flex-column align-center justify-center">
+            <div class="mb-4">
+              <img src="/img/logo-ipe-home.svg" alt="Financiadores" style="max-width: 200px;" />
+            </div>
+            <Text class="mb-2" style="color: #fff; ">
+              Inclusão digital para conservar a Amazônia. O Teia conecta pessoas, saberes e tecnologias para disseminar
+              boas práticas e fortalecer quem cuida da floresta.
+            </Text>
+          </div>
+          <div class="hero-overlay text-center d-flex flex-column align-center justify-center">
+            <div class="mb-4">
+              <Text style="color: #fff; font-size: 12px;">
+                Parceiros Financiadores
+              </Text>
+            </div>
+            <div class="d-flex flex-row align-center justify-center gap-4">
+              <img src="/img/logo-financiadores.svg" alt="Financiadores" style="max-width: 200px;" />
+            </div>
+          </div>
+        </div>
+      </v-responsive>
+    </div>
+    <div class="bg-transparent">
+      <v-container>
+        <!-- Sobre o LIRA -->
+        <section class="py-12" id="sobre">
+          <Text variant="h4" weight="bold" class="mb-6 text-center" color="primary">Sobre o TEIA</Text>
+          <div class="mb-6">
+            <Text class="text-center mb-8" variant="h6">
+              O Teia é uma tecnologia social em educação criada pelo IPÊ para levar cursos a comunidades com baixo
+              acesso
+              à internet. A plataforma combina um Portal de Cursos e um chatbot acessível por aplicativos de mensagem,
+              facilitando o aprendizado mesmo em regiões com infraestrutura limitada.
+            </Text>
+          </div>
+          <div class="mb-6">
+            <Text class="text-center mb-8" variant="h6">
+              Desenvolvido com base em tecnologias abertas, o Teia foi pensado para fortalecer pessoas e organizações
+              que
+              atuam pela conservação da Amazônia e promover ambientes digitais mais leves, acessíveis e acolhedores.
+            </Text>
+          </div>
+          <div class="mb-6">
+            <Text class="text-center mb-8" variant="h6">
+              Selecionado entre os 20 projetos da chamada Mover-se na Web, uma iniciativa do Comitê Gestor da Internet
+              no
+              Brasil (CGI.br), o Teia é executado pelo NIC.br por meio do Ceweb.br, com apoio do projeto LIRA/IPÊ, que
+              atualmente desenvolve a Trilha Formativa das Organizações do Fundo LIRA, voltada ao desenvolvimento
+              institucional das organizações apoiadas. </Text>
+          </div>
+        </section>
+      </v-container>
+    </div>
+
+    <div class="bg-transparent pt-12">
+      <v-container>
+        <!-- Cursos -->
+        <section id="cursos">
+          <Text variant="h4" weight="bold" class="mb-8 text-center" style="color: #215c2e;">Cursos</Text>
+          <Row class="mb-8" style="gap: 32px 0;">
+            <Col v-for="(course, index) in courses" :key="course.id" cols="12" md="6">
+            <Card class="course-card pa-6 d-flex flex-column justify-space-between rounded-0"
+              :color="index % 2 === 0 ? '#235A33' : '#00644A'">
+              <div class="mb-4">
+                <Text variant="h5" weight="bold" class="mb-4 text-center">{{ course.name }}</Text>
+                <div style="min-height: 100px;" class="d-flex align-center justify-start">
+                  <Text style="font-size: 14px;">{{ course.description }}</Text>
+                </div>
+              </div>
+              <div class="text-center">
+                <div class="mb-4" v-if="course.duration">
+                  <Icon icon="mdi-clock-outline" class="mr-1" />
+                  <small>{{ course.duration }}</small>
+                </div>
+                <Button :to="`/curso/${course.id}`" rounded="lg">Ver Detalhes</Button>
+              </div>
+
+            </Card>
+            </Col>
+          </Row>
+        </section>
+      </v-container>
+    </div>
   </div>
+
   <div style="background-color: #235A33;" class="py-12 text-white">
     <v-container>
       <section id="cursos">
