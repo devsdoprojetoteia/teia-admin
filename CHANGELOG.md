@@ -1,3 +1,9 @@
+Padronizar o nome teia em maiusculo
+Atualizar a textura no background do site
+Adicionar o relatório de progresso usuário (incluindo exportação do CSV)
+Adicionar endpoint para progresso do aluno
+
+
 # Changelog
 
 Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.

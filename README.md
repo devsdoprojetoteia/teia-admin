@@ -1,4 +1,4 @@
-# Teia Admin
+# TEIA Admin
 <img src="./docs/assets/logo.svg" height="100px" />
 
 ## Wiki
@@ -6,7 +6,7 @@
 - [Contratos da API Rest](./docs/API.md)
 
 ## Apresentação
-O Projeto Teia consiste em um ecossistema de aplicações idealizado pelo [Lira | IPÊ](https://lira.ipe.org.br) e desenvolvido pelo [Terrakrya](https://www.terrakrya.com). Tendo como principal objetivo democratizar o acesso à informação para parceiros de Organicações de Base Comunitária da Amazônia. 
+O Projeto TEIA consiste em um ecossistema de aplicações idealizado pelo [Lira | IPÊ](https://lira.ipe.org.br) e desenvolvido pelo [Terrakrya](https://www.terrakrya.com). Tendo como principal objetivo democratizar o acesso à informação para parceiros de Organicações de Base Comunitária da Amazônia. 
 
 Os principais pilares do projeto são:  
 1. Disponibilização de conteúdo adaptado para a linguagem da população local.
@@ -16,7 +16,7 @@ Os principais pilares do projeto são:
 5. Desburocratização do processo de criação de cursos lessionados na web.
 
 ### Sobre o projeto
-O [Teia Admin](https://github.com/devsdoprojetoteia/teia-admin) é o backend do Teiabot. Responsável por gerir os acessos de usuários e o conteúdo disponibilizado na plataforma, seja através do próprio chatbot (de maneira guiada) ou na web (não guiada), por meio do [Portal Teia](https://teia.ipe.org.br).
+O [TEIA Admin](https://github.com/devsdoprojetoteia/teia-admin) é o backend do TEIAbot. Responsável por gerir os acessos de usuários e o conteúdo disponibilizado na plataforma, seja através do próprio chatbot (de maneira guiada) ou na web (não guiada), por meio do [Portal TEIA](https://teia.ipe.org.br).
 
 #### Funcionalidades disponíveis
 - ✅ Gerenciamento de Sessão/Login

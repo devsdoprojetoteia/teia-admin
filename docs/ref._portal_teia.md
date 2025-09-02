@@ -1,4 +1,4 @@
-# Referência de Layout - Portal Teia
+# Referência de Layout - Portal TEIA
 
 ## Layout dos Cursos
 

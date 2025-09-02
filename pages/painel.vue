@@ -4,7 +4,7 @@
       <div class="text-center mb-8">
         <h1 class="text-h3 font-weight-bold mb-4">Painel Administrativo</h1>
         <p class="text-body-1 text-medium-emphasis">
-          Gerencie suas contas, cursos, módulos, tópicos e conteúdos dos cursos do projeto Teia.
+          Gerencie suas contas, cursos, módulos, tópicos e conteúdos dos cursos do projeto TEIA.
         </p>
       </div>
 

@@ -21,7 +21,7 @@
             </div>
 
             <Text variant="h6" class="mb-4" style="color: #fff; max-width: 600px;" weight="bold">
-              Inclusão digital para conservar a Amazônia. O Teia conecta pessoas, saberes e tecnologias para disseminar
+              Inclusão digital para conservar a Amazônia. O TEIA conecta pessoas, saberes e tecnologias para disseminar
               boas práticas e fortalecer quem cuida da floresta.
             </Text>
           </div>
@@ -54,7 +54,7 @@
               <img src="/img/logo-ipe-home.svg" alt="Financiadores" style="max-width: 200px;" />
             </div>
             <Text class="mb-2" style="color: #fff; ">
-              Inclusão digital para conservar a Amazônia. O Teia conecta pessoas, saberes e tecnologias para disseminar
+              Inclusão digital para conservar a Amazônia. O TEIA conecta pessoas, saberes e tecnologias para disseminar
               boas práticas e fortalecer quem cuida da floresta.
             </Text>
           </div>
@@ -78,7 +78,7 @@
           <Text variant="h4" weight="bold" class="mb-6 text-center" color="primary">Sobre o TEIA</Text>
           <div class="mb-6">
             <Text class="text-center mb-8" variant="h6">
-              O Teia é uma tecnologia social em educação criada pelo IPÊ para levar cursos a comunidades com baixo
+              O TEIA é uma tecnologia social em educação criada pelo IPÊ para levar cursos a comunidades com baixo
               acesso
               à internet. A plataforma combina um Portal de Cursos e um chatbot acessível por aplicativos de mensagem,
               facilitando o aprendizado mesmo em regiões com infraestrutura limitada.
@@ -86,7 +86,7 @@
           </div>
           <div class="mb-6">
             <Text class="text-center mb-8" variant="h6">
-              Desenvolvido com base em tecnologias abertas, o Teia foi pensado para fortalecer pessoas e organizações
+              Desenvolvido com base em tecnologias abertas, o TEIA foi pensado para fortalecer pessoas e organizações
               que
               atuam pela conservação da Amazônia e promover ambientes digitais mais leves, acessíveis e acolhedores.
             </Text>
@@ -95,7 +95,7 @@
             <Text class="text-center mb-8" variant="h6">
               Selecionado entre os 20 projetos da chamada Mover-se na Web, uma iniciativa do Comitê Gestor da Internet
               no
-              Brasil (CGI.br), o Teia é executado pelo NIC.br por meio do Ceweb.br, com apoio do projeto LIRA/IPÊ, que
+              Brasil (CGI.br), o TEIA é executado pelo NIC.br por meio do Ceweb.br, com apoio do projeto LIRA/IPÊ, que
               atualmente desenvolve a Trilha Formativa das Organizações do Fundo LIRA, voltada ao desenvolvimento
               institucional das organizações apoiadas. </Text>
           </div>

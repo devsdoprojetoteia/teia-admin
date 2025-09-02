@@ -7,7 +7,7 @@
           class="d-flex justify-space-between align-center pa-4">
           <div>
             <NuxtLink to="/" class="text-decoration-none d-flex align-center">
-              <img src="/img/logo-horizontal.png" alt="Projeto teia" class="logo" />
+              <img src="/img/logo-horizontal.png" alt="Projeto TEIA" class="logo" />
             </NuxtLink>
           </div>
           <div class="flex-grow-1 d-sm-flex justify-space-around d-none" style="max-width: 500px;">
@@ -15,7 +15,7 @@
               Cursos
             </NuxtLink>
             <NuxtLink to="/#sobre" class="text-decoration-none text-primary font-weight-bold">
-              Sobre o Teia
+              Sobre o TEIA
             </NuxtLink>
             <NuxtLink to="/#contato" class="text-decoration-none text-primary font-weight-bold">
               Fale conosco
@@ -37,7 +37,7 @@
                 </v-list-item>
                 <v-list-item>
                   <NuxtLink to="/#sobre" class="text-decoration-none text-primary font-weight-bold">
-                    Sobre o Teia
+                    Sobre o TEIA
                   </NuxtLink>
                 </v-list-item>
                 <v-list-item>
@@ -67,7 +67,7 @@
     >
       <div class="text-center pt-6">
         <div>
-          <img src="/img/logo-horizontal.png" alt="Projeto teia" class="logo" />
+          <img src="/img/logo-horizontal.png" alt="Projeto TEIA" class="logo" />
         </div>
       </div>
     </v-footer> -->
@@ -88,6 +88,6 @@ async function copy(value: string) {
 }
 
 useHead({
-  title: "Teia",
+  title: "TEIA",
 });
 </script>
