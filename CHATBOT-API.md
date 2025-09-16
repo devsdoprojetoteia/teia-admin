@@ -148,6 +148,40 @@ Nenhum.
 ]
 ```
 
+### Registrar Progresso de Usuário em Tópico
+```
+POST https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/progress
+```
+**Permissão:** Administrador  
+**Parâmetros no Body:**  
+- `courseId` (obrigatório): ID do curso
+- `moduleId` (obrigatório): ID do módulo
+- `topicId` (obrigatório): ID do tópico
+- `userPhone` (obrigatório): Número de telefone do usuário (formato: "(11) 11111-1111" ou "11111111111")
+
+**Retorno:**  
+```json
+{
+  "id": "string",
+  "user": "string",
+  "course": "string",
+  "topics": [
+    {
+      "module": "string",
+      "topic": "string",
+      "createdAt": "Date"
+    }
+  ],
+  "createdAt": "Date",
+  "updatedAt": "Date"
+}
+```
+
+**Observações:**
+- O telefone será automaticamente formatado para o padrão "(11) 11111-1111" se não estiver nesse formato
+- Se o usuário não tiver progresso no curso, um novo registro será criado
+- Se o tópico já estiver registrado no progresso do usuário, não será duplicado
+
 ## Autenticação e Autorização
 
 ### Tokens
