@@ -148,6 +148,58 @@ Nenhum.
 ]
 ```
 
+### Obter Progresso ATUAL de um Usuário em um Curso para Chatbot
+O `[id]` vai ficar _hard-codded_ no TypeBot.
+
+Busca o registro marcado como ATUAL na collection `UserCourseProgress` para o usuário `[phone]` no curso `[id]`.
+```
+GET https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/courses/[id]/progress/user/[phone]
+```
+**Permissão:** Administrador  
+**Parâmetros:** 
+Nenhum.
+
+**Retorno:**  
+```json
+{
+  "id": "string",
+  "user": {
+    "id": "string",
+    "name": "string",
+    "phone": "string"
+  },
+  "course": "string",
+  "topics": [
+    {
+      "module": "string",
+      "topic": "string",
+      "createdAt": "Date"
+    }
+  ],
+  "createdAt": "Date",
+  "updatedAt": "Date"
+}
+```
+
+### Avançar o Progresso dos Usuários em um Curso para Chatbot
+O `[id]` vai ficar _hard-codded_ no TypeBot.
+
+Atualiza o registro da collection `UserCourseProgress` para apontar para o id do próximo módulo do curso informado no path `[id]` para o `user`.
+
+```
+POST https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/courses/[id]/progress
+```
+**Permissão:** Administrador  
+**Body:**  
+```json
+{
+  "user": "string"
+}
+```
+
+**Retorno:**  
+Status: `202 - Accepted`
+
 ## Autenticação e Autorização
 
 ### Tokens
