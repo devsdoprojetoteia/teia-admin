@@ -10,6 +10,12 @@ export interface IUserCourseProgress extends Document {
       createdAt: Date,
     }
   ];
+  modules: [
+    {
+      module: Schema.Types.ObjectId,
+      createdAt: Date,
+    }
+  ];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -23,6 +29,14 @@ const UserCourseProgressSchema = new Schema<IUserCourseProgress>(
         {
           module: { type: Schema.Types.ObjectId, ref: "Module", required: true },
           topic: { type: Schema.Types.ObjectId, ref: "Topic", required: true },
+          createdAt: { type: Date, required: true },
+        }
+      ], required: true
+    },
+    modules: {
+      type: [
+        {
+          module: { type: Schema.Types.ObjectId, ref: "Module", required: true },
           createdAt: { type: Date, required: true },
         }
       ], required: true

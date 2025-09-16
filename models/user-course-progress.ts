@@ -4,6 +4,11 @@ interface IProgressTopic {
   createdAt: Date;
 }
 
+interface IProgressModule {
+  module: string;
+  createdAt: Date;
+}
+
 interface IProgressUser {
   id: string;
   name: string;
@@ -15,6 +20,7 @@ interface IUserCourseProgress {
   user: IProgressUser;
   course: string;
   topics: IProgressTopic[];
+  modules: IProgressModule[];
 }
 
 export default class UserCourseProgress implements IUserCourseProgress {
@@ -22,12 +28,13 @@ export default class UserCourseProgress implements IUserCourseProgress {
   user: IProgressUser;
   course: string;
   topics: IProgressTopic[];
-
-  constructor({ id, user, course, topics }: IUserCourseProgress) {
+  modules: IProgressModule[];
+  constructor({ id, user, course, topics, modules }: IUserCourseProgress) {
     this.id = id;
     this.user = user;
     this.course = course;
     this.topics = topics;
+    this.modules = modules;
   }
 
   static fromJson(json: any): UserCourseProgress {
@@ -35,7 +42,8 @@ export default class UserCourseProgress implements IUserCourseProgress {
       id: json._id,
       user: json.user,
       course: json.course,
-      topics: json.topics,
+      topics: json.topics || [],
+      modules: json.modules || [],
     });
   }
 
