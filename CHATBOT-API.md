@@ -122,7 +122,7 @@ GET https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/courses/[id]/progres
 ```
 **Permissão:** Administrador  
 **Parâmetros:**  
-Nenhum.
+- `user` (opcional): Número de telefone do usuário para filtrar o progresso (formato: "(11) 11111-1111" ou "11111111111")
 
 **Retorno:**  
 ```json
@@ -142,21 +142,33 @@ Nenhum.
         "createdAt": "Date"
       }
     ],
+    "modules": [
+      {
+        "module": "string",
+        "createdAt": "Date"
+      }
+    ],
     "createdAt": "Date",
     "updatedAt": "Date"
   }
 ]
 ```
 
-### Registrar Progresso de Usuário em Tópico
+### Avançar Progresso do Usuário em um Curso para Chatbot
 ```
 POST https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/progress
 ```
 **Permissão:** Administrador  
-**Parâmetros no Body:**  
+**Body:**  
+```json
+{
+  "courseId": "string",
+  "userPhone": "string"
+}
+```
+
+**Parâmetros do Body:**  
 - `courseId` (obrigatório): ID do curso
-- `moduleId` (obrigatório): ID do módulo
-- `topicId` (obrigatório): ID do tópico
 - `userPhone` (obrigatório): Número de telefone do usuário (formato: "(11) 11111-1111" ou "11111111111")
 
 **Retorno:**  
@@ -172,15 +184,19 @@ POST https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/progress
       "createdAt": "Date"
     }
   ],
+  "modules": [
+    {
+      "module": "string",
+      "createdAt": "Date"
+    }
+  ],
   "createdAt": "Date",
   "updatedAt": "Date"
 }
 ```
 
-**Observações:**
-- O telefone será automaticamente formatado para o padrão "(11) 11111-1111" se não estiver nesse formato
-- Se o usuário não tiver progresso no curso, um novo registro será criado
-- Se o tópico já estiver registrado no progresso do usuário, não será duplicado
+**Descrição:**  
+Avança o progresso do usuário no curso especificado, adicionando o próximo módulo e todos os seus tópicos ao progresso do usuário. Se o usuário não possui progresso no curso, cria um novo registro. Se o usuário não for encontrado, retorna erro 400.
 
 ## Autenticação e Autorização
 

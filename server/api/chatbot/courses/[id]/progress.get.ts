@@ -1,18 +1,37 @@
-import { defineEventHandler, createError } from "h3";
+import { defineEventHandler, createError, getQuery } from "h3";
 import UserCourseProgress from "~/server/models/user_course_progress";
+import authorize from "~/server/utils/authorize";
 
 export default defineEventHandler(async (event) => {
   const authenticatedUser = authorize(event, ["administrador"]);
 
   const id = event.context.params!["id"];
 
+
+  const queryParams = getQuery(event);
+
+  const { user } = queryParams;
+
   const query: {
     [key: string]: string;
   } = {
-    _id: id,
+
+    course: id,
   };
 
-  const userCourseProgresses = await UserCourseProgress.find({ course: id }).populate("user", "name phone");
+  if (user) {
+    let phone = user?.toString() || "";
+    // se o telefone não estiver nesse formato "(11) 11111-1111" formatar para esse formato
+    if (!phone.match(/^\(\d{2}\) \d{5}-\d{4}$/)) {
+      phone = phone.replace(/\D/g, "");
+      phone = `(${phone.slice(0, 2)}) ${phone.slice(2, 7)}-${phone.slice(7)}`;
+    }
+    query.user = phone;
+  }
+
+
+
+  const userCourseProgresses = await UserCourseProgress.find(query).populate("user", "name phone");
 
   return userCourseProgresses;
 });

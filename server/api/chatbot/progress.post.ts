@@ -2,17 +2,19 @@ import { defineEventHandler, readBody, createError } from "h3";
 import authorize from "~/server/utils/authorize";
 import UserCourseProgress from "~/server/models/user_course_progress";
 import User from "~/server/models/user";
+import { Module, Topic } from "~/server/models";
+
 
 export default defineEventHandler(async (event) => {
   const authenticatedUser = authorize(event, ["administrador"]);
 
   const body = await readBody(event);
-  const { courseId, moduleId, topicId, userPhone } = body;
+  const { courseId, userPhone } = body;
 
-  if (!courseId || !moduleId || !topicId || !userPhone) {
+  if (!courseId || !userPhone) {
     throw createError({
       statusCode: 400,
-      message: "ID do curso, módulo e tópico são obrigatórios",
+      message: "ID do curso e telefone do usuário são obrigatórios",
     });
   }
 
@@ -36,15 +38,24 @@ export default defineEventHandler(async (event) => {
 
   let userCourseProgress = await UserCourseProgress.findOne({ user: userId, course: courseId });
   if (!userCourseProgress) {
-    userCourseProgress = new UserCourseProgress({ user: userId, course: courseId, topics: [] });
+    userCourseProgress = new UserCourseProgress({ user: userId, course: courseId, topics: [], modules: [] });
   }
 
-  const currentIndex = userCourseProgress.topics.findIndex(t => t.module.toString() === moduleId && t.topic.toString() === topicId);
-  if (currentIndex === -1) {
-    userCourseProgress.topics.push({ module: moduleId, topic: topicId, createdAt: new Date() });
+  const modules = await Module.find({ course: courseId }).sort({ order: 1 });
+
+  for (const module of modules) {
+    const currentIndex = userCourseProgress.modules.findIndex(m => m.module.toString() === module._id.toString());
+    if (currentIndex === -1) {
+      userCourseProgress.modules.push({ module: module._id, createdAt: new Date() });
+      const topics = await Topic.find({ module: module._id }).sort({ order: 1 });
+      for (const topic of topics) {
+        userCourseProgress.topics.push({ module: module._id, topic: topic._id, createdAt: new Date() });
+      }
+      await userCourseProgress.save();
+      break;
+    }
   }
 
-  await userCourseProgress.save();
 
   return userCourseProgress;
 }); 
