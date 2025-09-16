@@ -122,7 +122,7 @@ GET https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/courses/[id]/progres
 ```
 **Permissão:** Administrador  
 **Parâmetros:**  
-- `user` (opcional): Número de telefone do usuário para filtrar o progresso (formato: "(11) 11111-1111" ou "11111111111")
+- `userPhone` (opcional): Número de telefone do usuário para filtrar o progresso (formato: "(11) 11111-1111" ou "11111111111")
 
 **Retorno:**  
 ```json
@@ -196,7 +196,7 @@ POST https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/progress
 ```
 
 **Descrição:**  
-Avança o progresso do usuário no curso especificado, adicionando o próximo módulo e todos os seus tópicos ao progresso do usuário. Se o usuário não possui progresso no curso, cria um novo registro. Se o usuário não for encontrado, retorna erro 400.
+Avança o progresso do usuário no curso especificado (hardcoded no chatbot), adicionando o próximo módulo e todos os seus tópicos ao progresso do usuário. Se o usuário não possui progresso no curso, cria um novo registro. Se o usuário não for encontrado, retorna erro 400.
 
 ## Autenticação e Autorização
 

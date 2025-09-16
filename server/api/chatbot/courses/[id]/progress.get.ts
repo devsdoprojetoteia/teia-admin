@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
 
   const queryParams = getQuery(event);
 
-  const { user } = queryParams;
+  const { userPhone } = queryParams;
 
   const query: {
     [key: string]: string;
@@ -19,8 +19,8 @@ export default defineEventHandler(async (event) => {
     course: id,
   };
 
-  if (user) {
-    let phone = user?.toString() || "";
+  if (userPhone) {
+    let phone = userPhone?.toString() || "";
     // se o telefone não estiver nesse formato "(11) 11111-1111" formatar para esse formato
     if (!phone.match(/^\(\d{2}\) \d{5}-\d{4}$/)) {
       phone = phone.replace(/\D/g, "");
