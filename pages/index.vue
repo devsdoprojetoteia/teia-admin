@@ -108,14 +108,25 @@
         <!-- Cursos -->
         <section id="cursos">
           <Text variant="h4" weight="bold" class="mb-8 text-center" style="color: #215c2e;">Cursos</Text>
-          <Row class="mb-8" style="gap: 32px 0;">
+          <Row class="mb-8">
             <Col v-for="(course, index) in courses" :key="course.id" cols="12" md="6">
             <Card class="course-card pa-6 d-flex flex-column justify-space-between rounded-0"
               :color="index % 2 === 0 ? '#235A33' : '#00644A'">
               <div class="mb-4">
                 <Text variant="h5" weight="bold" class="mb-4 text-center">{{ course.name }}</Text>
-                <div style="min-height: 100px;" class="d-flex align-center justify-start">
-                  <Text style="font-size: 14px;">{{ course.description }}</Text>
+                <div class="d-flex align-center justify-start" style="width: 100%;">
+                  <Text style="
+                      font-size: 14px;
+                      display: -webkit-box;
+                      -webkit-line-clamp: 3;
+                      -webkit-box-orient: vertical;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      min-height: calc(1.5em * 3);
+                      line-height: 1.5em;
+                      max-height: calc(1.5em * 3);
+                      white-space: normal;
+                    ">{{ course.description }}</Text>
                 </div>
               </div>
               <div class="text-center">
