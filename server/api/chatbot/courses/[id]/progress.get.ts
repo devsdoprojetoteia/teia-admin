@@ -1,5 +1,6 @@
 import { defineEventHandler, createError, getQuery } from "h3";
 import UserCourseProgress from "~/server/models/user_course_progress";
+import User from "~/server/models/user";
 import authorize from "~/server/utils/authorize";
 
 export default defineEventHandler(async (event) => {
@@ -26,7 +27,10 @@ export default defineEventHandler(async (event) => {
       phone = phone.replace(/\D/g, "");
       phone = `(${phone.slice(0, 2)}) ${phone.slice(2, 7)}-${phone.slice(7)}`;
     }
-    query.user = phone;
+    const user = await User.findOne({ phone });
+    if (user) {
+      query.user = user.id;
+    }
   }
 
 
