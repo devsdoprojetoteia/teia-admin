@@ -1,7 +1,7 @@
 <template>
   <v-app-bar flat style="width: 100%">
     <v-app-bar-title>
-      <NuxtLink to="/" class="text-decoration-none d-flex align-center">
+      <NuxtLink to="/painel" class="text-decoration-none d-flex align-center">
         <img src="/img/logo-horizontal.png" alt="Projeto TEIA" class="logo" />
       </NuxtLink>
     </v-app-bar-title>
@@ -19,6 +19,9 @@
             </v-list-item>
             <v-list-item to="/cursos" v-if="notStudent">
               <v-list-item-title>Gerenciar cursos</v-list-item-title>
+            </v-list-item>
+            <v-list-item to="/relatorios" v-if="notStudent">
+              <v-list-item-title>Relatórios</v-list-item-title>
             </v-list-item>
             <v-list-item @click="logout">
               <v-list-item-title>Sair</v-list-item-title>

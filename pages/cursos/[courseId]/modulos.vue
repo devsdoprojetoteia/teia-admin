@@ -14,7 +14,7 @@
 
         </div>
         <div>
-          <Button color="primary" @click="showCourseProgress = true" v-if="userCourseProgress" size="large"
+          <Button color="primary" :to="'/relatorios?courseId=' + course?.id" v-if="userCourseProgress" size="large"
             class="mb-8 mt-4 mr-2" icon>
             <Icon icon="mdi-chart-box-outline" />
           </Button>

@@ -31,6 +31,17 @@
             </v-card-item>
           </v-card>
         </v-col>
+        <v-col cols="12" sm="6" md="4">
+          <v-card to="/relatorios" class="mx-auto h-100 pt-3" elevation="2" hover>
+            <v-card-item class="d-flex flex-column align-center text-center">
+              <v-avatar color="primary" size="64" class="mb-4">
+                <Icon icon="mdi-chart-bar" size="32" />
+              </v-avatar>
+              <v-card-title class="text-h5 mb-2">Relatórios</v-card-title>
+              <v-card-subtitle class="text-center">Gerencie relatórios de progresso dos alunos</v-card-subtitle>
+            </v-card-item>
+          </v-card>
+        </v-col>
 
       </v-row>
 

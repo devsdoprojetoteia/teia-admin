@@ -3,63 +3,27 @@
     <v-container v-if="users">
       <div class="d-flex justify-space-between align-center">
         <Text variant="h4">Contas</Text>
-        <Button
-          color="primary"
-          @click="showAddUser = true"
-          size="large"
-          class="mb-8 mt-4"
-          icon
-        >
+        <Button color="primary" @click="showAddUser = true" size="large" class="mb-8 mt-4" icon>
           <Icon icon="mdi-plus" />
         </Button>
       </div>
-      <v-row
-        no-gutters
-        class="mx-n1 mb-4"
-        v-if="auth.user.value?.role === 'administrador'"
-      >
+      <v-row no-gutters class="mx-n1 mb-4" v-if="auth.user.value?.role === 'administrador'">
         <v-col cols="3" class="px-1">
-          <Button
-            :color="!filterRole ? 'primary' : ''"
-            block
-            class="text-caption"
-            style="padding: 24px 8px; font-size: 10px"
-            @click="filterRole = ''"
-            size="x-small"
-          >
+          <Button :color="!filterRole ? 'primary' : ''" block class="text-caption"
+            style="padding: 24px 8px; font-size: 10px" @click="filterRole = ''" size="x-small">
             Todos
           </Button>
         </v-col>
-        <v-col
-          v-for="role in User.roles"
-          :key="role.value"
-          cols="3"
-          class="px-1"
-        >
-          <Button
-            block
-            :color="filterRole === role.value ? 'primary' : ''"
-            class="text-caption"
-            style="padding: 24px 8px; font-size: 10px"
-            @click="filterRole = role.value"
-            size="x-small"
-          >
+        <v-col v-for="role in User.roles" :key="role.value" cols="3" class="px-1">
+          <Button block :color="filterRole === role.value ? 'primary' : ''" class="text-caption"
+            style="padding: 24px 8px; font-size: 10px" @click="filterRole = role.value" size="x-small">
             {{ role.title }}
           </Button>
         </v-col>
       </v-row>
-      <DynamicInput
-        name="search"
-        :props="{
-          label: 'Buscar',
-        }"
-        v-model="search"
-        label="Buscar"
-        clearable
-        block
-        class="mb-4"
-        :validate="false"
-      />
+      <DynamicInput name="search" :props="{
+        label: 'Buscar',
+      }" v-model="search" label="Buscar" clearable block class="mb-4" :validate="false" />
       <div>
         <v-card>
           <div v-if="filteredUsers">
@@ -68,19 +32,25 @@
             </div>
             <v-list v-else>
               <template v-for="(user, userIndex) in filteredUsers">
-                <v-list-item @click="openUser(user)">
+                <v-list-item>
                   <div class="d-flex justify-space-between align-center py-1">
-                    <div>
+                    <div @click="openUser(user)" class="cursor-pointer">
                       <Text>{{ user.name }}</Text>
                       <br />
                       <Text emphasis="medium" variant="small">
                         {{ user.phone }}
                       </Text>
                     </div>
-
-                    <Chip v-if="user.role" size="small" :color="user.roleColor">
-                      {{ user.roleLabel }}
-                    </Chip>
+                    <div class="d-flex align-center">
+                      <Chip v-if="user.role" size="small" :color="user.roleColor" @click="openUser(user)"
+                        class="cursor-pointer">
+                        {{ user.roleLabel }}
+                      </Chip>
+                      <Button color="primary" :to="'/relatorios?userId=' + user?.id" size="x-small" class="ml-2" icon
+                        v-if="user.role === 'estudante'">
+                        <Icon icon="mdi-chart-box-outline" />
+                      </Button>
+                    </div>
                   </div>
                 </v-list-item>
                 <v-divider v-if="userIndex < filteredUsers.length - 1" />
@@ -90,28 +60,12 @@
           <Loading v-else />
         </v-card>
       </div>
-      <UserForm
-        v-if="showAddUser"
-        @created="userCreated"
-        @updated="userUpdated"
-        @close="showAddUser = false"
-        :user="activeUser"
-      />
-      <UserInfo
-        v-if="activeUser"
-        :user="activeUser"
-        @updated="userUpdated"
-        @close="closeUser"
-        @edit="showAddUser = true"
-        @remove="removeUser"
-        @changePassword="showChangePassword = true"
-      />
-      <ChangePasswordForm
-        v-if="activeUser && showChangePassword"
-        @updated="userUpdated"
-        @close="showChangePassword = false"
-        :user="activeUser"
-      />
+      <UserForm v-if="showAddUser" @created="userCreated" @updated="userUpdated" @close="showAddUser = false"
+        :user="activeUser" />
+      <UserInfo v-if="activeUser" :user="activeUser" @updated="userUpdated" @close="closeUser"
+        @edit="showAddUser = true" @remove="removeUser" @changePassword="showChangePassword = true" />
+      <ChangePasswordForm v-if="activeUser && showChangePassword" @updated="userUpdated"
+        @close="showChangePassword = false" :user="activeUser" />
     </v-container>
   </div>
 </template>
@@ -141,7 +95,7 @@ const filteredUsers = computed(() => {
       )
     );
   }
-  return list;
+  return list.sort((a, b) => a.role.localeCompare(b.role));
 });
 
 const auth = useAuth();

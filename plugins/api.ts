@@ -6,6 +6,7 @@ import UsersModule from "~/repository/modules/users";
 import CoursesModule from "~/repository/modules/courses";
 import ModulesModule from "~/repository/modules/modules";
 import TopicsModule from "~/repository/modules/topics";
+import ReportsModule from "~/repository/modules/reports";
 
 /** ApiInstance interface provides us with good typing */
 interface IApiInstance {
@@ -15,6 +16,7 @@ interface IApiInstance {
   auth: AuthModule;
   modules: ModulesModule;
   topics: TopicsModule;
+  reports: ReportsModule;
 }
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -44,6 +46,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     auth: new AuthModule(apiFetcher),
     modules: new ModulesModule(apiFetcher),
     topics: new TopicsModule(apiFetcher),
+    reports: new ReportsModule(apiFetcher),
   };
 
   return {
