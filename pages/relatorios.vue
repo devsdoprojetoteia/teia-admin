@@ -47,7 +47,7 @@
                             <th>Curso</th>
                             <th>Módulo</th>
                             <th>Estudante</th>
-                            <th>Completado</th>
+                            <th class="text-right">Completado</th>
                         </tr>
                     </thead>
                     <tbody>
