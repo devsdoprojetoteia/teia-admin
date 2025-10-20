@@ -1,13 +1,16 @@
 <template>
   <Portal>
     <div v-if="phoneSent">
+      <h3 class="text-center mb-6 text-primary font-weight-regular">Recuperar a senha</h3>
       <DynamicForm :form="recoverPasswordForm" />
     </div>
     <div v-if="!phoneSent">
+      <h3 class="text-center mb-6 text-primary font-weight-regular">Informe o código enviado para o seu WhatsApp</h3>
       <DynamicForm :form="forgotPasswordForm" />
     </div>
     <div class="pt-12">
-      <Button to="/entrar" class="mb-4" size="small"> Voltar </Button>
+      <Button to="/entrar" size="small" variant="text" class="text-primary text-decoration-underline mb-4"> Voltar
+      </Button>
       <br />
     </div>
   </Portal>
@@ -29,8 +32,6 @@ const route = useRoute();
 const forgotPasswordForm: FormProps = {
   steps: [
     {
-      title: "Recuperar senha",
-      description: "Informe seu telefone para recuperar a senha",
       fields: {
         phone: {
           label: "Telefone (WhatsApp)",
@@ -55,8 +56,6 @@ const forgotPasswordForm: FormProps = {
 const recoverPasswordForm = {
   steps: [
     {
-      title: "Recuperar senha",
-      description: "Informe o código enviado para o seu WhatsApp",
       fields: {
         code: {
           label: "Código de recuperação",

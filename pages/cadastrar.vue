@@ -1,10 +1,11 @@
 <template>
   <Portal>
     <div>
+      <h3 class="text-center mb-6 text-primary font-weight-regular">Cadastre-se</h3>
       <DynamicForm :form="form" />
     </div>
     <div class="pt-12">
-      <Button to="/entrar" class="mb-4" size="small">
+      <Button to="/entrar" size="small" variant="text" class="text-primary text-decoration-underline mb-4">
         Já tenho cadastro
       </Button>
       <br />
@@ -25,7 +26,7 @@ const route = useRoute();
 const form: FormProps = {
   steps: [
     {
-      description: "Informe seus dados para continuar seu cadastro",
+
       fields: {
         name: {
           label: "Seu nome completo",

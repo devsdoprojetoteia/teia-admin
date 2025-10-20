@@ -1,14 +1,16 @@
 <template>
   <Portal class="d-flex align-center">
-    <h4 class="text-center mb-6">Informe seus dados para entrar</h4>
+
+    <h3 class="text-center mb-6 text-primary font-weight-regular">Informe seus dados para entrar</h3>
     <DynamicForm :form="form" @updated="changed" />
-    <div class="pt-12">
+    <div class="pt-4">
       <!-- <Button to="/cadastrar" class="mb-4" size="small"> Cadastre-se </Button>
       <br /> -->
-      <Button to="/recuperar-senha" class="mb-4" size="small">
-        Recupere sua senha
+      <Button to="/recuperar-senha" class="mb-4 text-primary text-decoration-underline" size="small" variant="text">
+        Esqueci minha senha
       </Button>
       <br />
+
     </div>
   </Portal>
 </template>
