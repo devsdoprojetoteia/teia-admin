@@ -72,7 +72,7 @@
       </v-responsive>
     </div>
     <div class="bg-transparent">
-      <v-container>
+      <v-container style="max-width: 1024px;">
         <!-- Sobre o LIRA -->
         <section class="py-12" id="sobre">
           <Text variant="h4" weight="bold" class="mb-6 text-center" color="primary">Sobre o TEIA</Text>
@@ -104,7 +104,7 @@
     </div>
 
     <div class="bg-transparent pt-12">
-      <v-container>
+      <v-container style="max-width: 1024px;">
         <!-- Cursos -->
         <section id="cursos">
           <Text variant="h4" weight="bold" class="mb-8 text-center" style="color: #215c2e;">Cursos</Text>
@@ -146,7 +146,7 @@
   </div>
 
   <div style="background-color: #235A33;" class="py-12 text-white">
-    <v-container>
+    <v-container style="max-width: 1024px;">
       <section id="cursos">
         <Text variant="h4" weight="bold" class="mb-8 text-center" style="color: #fff;">Faça parte dessa TEIA</Text>
         <div style="max-width: 700px; margin: 0 auto;" class="text-center">
@@ -161,7 +161,7 @@
   </div>
 
   <div style="background-color: #242424;" id="contato">
-    <v-container>
+    <v-container style="max-width: 1024px;">
       <!-- Newsletter e Rodapé -->
       <v-footer class="footer-section pa-8 mt-8 text-white" style="background-color: #242424;">
         <section>
