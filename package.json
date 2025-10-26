@@ -23,6 +23,7 @@
     "@pinia/nuxt": "^0.10.1",
     "@vee-validate/i18n": "^4.15.0",
     "@vee-validate/rules": "^4.15.0",
+    "@vite-pwa/nuxt": "^1.0.7",
     "@vueup/vue-quill": "^1.2.0",
     "bcrypt": "^5.1.1",
     "jsonwebtoken": "^9.0.2",

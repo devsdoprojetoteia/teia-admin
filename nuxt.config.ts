@@ -15,7 +15,10 @@ export default defineNuxtConfig({
     transpile: ["vuetify"],
   },
 
-  modules: ["@pinia/nuxt"],
+  modules: [
+    "@pinia/nuxt",
+    "@vite-pwa/nuxt"
+  ],
   plugins: [
     "~/plugins/masks.ts"
   ],
@@ -53,4 +56,71 @@ export default defineNuxtConfig({
   },
 
   compatibilityDate: "2025-03-20",
+
+  pwa: {
+    strategies: "injectManifest",
+    srcDir: "service-worker",
+    filename: "sw.ts",
+    registerType: "autoUpdate",
+    manifest: {
+      "lang": "pt-BR",
+      "dir": "ltr",
+      "name": "Portal TEIA",
+      "short_name": "teia.ipe.org.br",
+      "description": "O TEIA é uma tecnologia social em edução que leva cursos acessíveis às comunidades com baixa conexão à internet.",
+      "start_url": "/",
+      "scope": "/",
+      "display": "standalone",
+      "display_override": [
+        "window-controls-overlay"
+      ],
+      "orientation": "portrait-primary",
+      "theme_color": "#00592d",
+      "background_color": "#fafafa",
+      "categories": [
+        "educational"
+      ],
+      "icons": [
+        {
+          "src": "icon/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png",
+          "purpose": "any"
+        },
+        {
+          "src": "icon/icon-512x512.png",
+          "sizes": "512x512",
+          "type": "image/png",
+          "purpose": "any"
+        },
+        {
+          "src": "icon/icon-maskable-512x512.png",
+          "sizes": "512x512",
+          "type": "image/png",
+          "purpose": "maskable"
+        }
+      ],
+      "edge_side_panel": {
+        "preferred_width": 496
+      }
+    },
+    workbox: {
+      globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
+    },
+    injectManifest: {
+      globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
+      maximumFileSizeToCacheInBytes: 4200000, // ~4MiB
+    },
+    client: {
+      installPrompt: true,
+      periodicSyncForUpdates: 3600, // 1h
+    },
+    devOptions: {
+      enabled: true,
+      suppressWarnings: true,
+      navigateFallback: '/',
+      navigateFallbackAllowlist: [/^\/$/],
+      type: 'module',
+    },
+  },
 });
