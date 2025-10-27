@@ -1,14 +1,19 @@
 <template>
   <v-app full-height>
     <v-app-bar flat style="width: 100%" class="bg-primary">
-      <v-app-bar-title>
+      <v-app-bar-title style="width: 200px; margin-inline-end: 20px;" class="d-flex align-center justify-center">
         <NuxtLink to="/painel" class="text-decoration-none d-flex align-center">
           <img src="/img/logo-horizontal.png" alt="Projeto TEIA" class="logo" />
         </NuxtLink>
       </v-app-bar-title>
-      <template v-slot:append>
+      <template v-slot:prepend>
         <div class="d-flex align-center">
           <v-app-bar-nav-icon variant="text" @click.stop="sidebar = !sidebar"></v-app-bar-nav-icon>
+        </div>
+      </template>
+      <template v-slot:append>
+        <div style="width: 80px;">
+
         </div>
       </template>
     </v-app-bar>
