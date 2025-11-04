@@ -46,7 +46,7 @@
       </v-row>
 
       <br>
-      <v-card href="https://typebot.luisotee.com/" target="_blank" class="mx-auto h-100 pt-3" elevation="2" hover
+      <v-card href="https://teia-typebot.ipe.org.br/" target="_blank" class="mx-auto h-100 pt-3" elevation="2" hover
         style="max-width: 400px;">
         <v-card-item class="d-flex flex-column align-center text-center">
           <v-avatar color="primary" size="64" class="mb-4">
