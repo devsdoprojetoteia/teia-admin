@@ -198,6 +198,48 @@ POST https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/progress
 **Descrição:**  
 Avança o progresso do usuário no curso especificado (hardcoded no chatbot), adicionando o próximo módulo e todos os seus tópicos ao progresso do usuário. Se o usuário não possui progresso no curso, cria um novo registro. Se o usuário não for encontrado, retorna erro 400.
 
+### Salvar Resposta do Usuário em um Curso para Chatbot
+```
+POST https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/answers
+```
+**Permissão:** Administrador  
+**Body:**  
+```json
+{
+  "courseId": "string",
+  "userPhone": "string",
+  "question": "string",
+  "answer": "string"
+}
+```
+
+**Parâmetros do Body:**  
+- `courseId` (obrigatório): ID do curso
+- `userPhone` (obrigatório): Número de telefone do usuário (formato: "(11) 11111-1111" ou "11111111111")
+- `question` (opcional): Pergunta relacionada ao curso
+- `answer` (opcional): Resposta do usuário à pergunta
+
+**Retorno:**  
+```json
+{
+  "id": "string",
+  "user": "string",
+  "course": "string",
+  "answers": [
+    {
+      "question": "string",
+      "answer": "string",
+      "createdAt": "Date"
+    }
+  ],
+  "createdAt": "Date",
+  "updatedAt": "Date"
+}
+```
+
+**Descrição:**  
+Salva uma resposta do usuário relacionada a um curso. O telefone do usuário é formatado automaticamente para o padrão "(XX) XXXXX-XXXX" se necessário. Se o usuário não for encontrado, retorna erro 400. Se não existir um registro de respostas para o usuário e curso, cria um novo registro. Caso contrário, adiciona a nova pergunta/resposta ao array de respostas existente.
+
 ## Autenticação e Autorização
 
 ### Tokens
