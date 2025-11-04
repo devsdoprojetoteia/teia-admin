@@ -26,7 +26,7 @@ const CourseSchema = new Schema<ICourse>(
   {
     name: { type: String, required: true },
     description: { type: String },
-    phone: { type: String, required: true, unique: true },
+    phone: { type: String, required: true, unique: false },
     published: { type: Boolean, default: false },
     duration: { type: String, required: false, default: "" },
     learning: { type: [String], required: false, default: [] },

@@ -27,22 +27,22 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  if (phone !== course.phone) {
-    const existingCourse = await Course.findOne({ phone });
-    if (existingCourse) {
-      throw createError({
-        statusCode: 400,
-        message: "Este telefone já está registrado em outro curso",
-      });
-    }
-  }
+  // if (phone !== course.phone) {
+  //   const existingCourse = await Course.findOne({ phone });
+  //   if (existingCourse) {
+  //     throw createError({
+  //       statusCode: 400,
+  //       message: "Este telefone já está registrado em outro curso",
+  //     });
+  //   }
+  // }
 
   if (name !== course.name) {
     const existingCourse = await Course.findOne({ name });
     if (existingCourse) {
       throw createError({
         statusCode: 400,
-        message: "Este telefone já está registrado em outro curso",
+        message: "Já existe um curso com este nome",
       });
     }
   }

@@ -10,19 +10,19 @@ export default defineEventHandler(async (event) => {
 
   const { name, description, phone, published } = body;
 
-  const existingCourseByPhone = await Course.findOne({ phone });
-  if (existingCourseByPhone) {
-    throw createError({
-      statusCode: 400,
-      message: "Este telefone já está registrado em outro curso",
-    });
-  }
+  // const existingCourseByPhone = await Course.findOne({ phone });
+  // if (existingCourseByPhone) {
+  //   throw createError({
+  //     statusCode: 400,
+  //     message: "Este telefone já está registrado em outro curso",
+  //   });
+  // }
 
   const existingCourseByName = await Course.findOne({ name });
   if (existingCourseByName) {
     throw createError({
       statusCode: 400,
-      message: "Este nome já está registrado em outro curso",
+      message: "Já existe um curso com este nome",
     });
   }
   const course = new Course({ name, phone, description, published });
