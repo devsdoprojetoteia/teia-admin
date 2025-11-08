@@ -41,27 +41,32 @@
                 <div class="d-flex justify-center pa-10" v-if="loading">
                     <Loading />
                 </div>
-                <v-table v-if="!loading">
-                    <thead>
-                        <tr>
-                            <th>Curso</th>
-                            <th>Módulo</th>
-                            <th>Estudante</th>
-                            <th class="text-right">Completado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="report in reports" :key="report.user.id">
-                            <td>{{ report.course.name }}</td>
-                            <td>{{ report.module.name }}</td>
-                            <td>{{ report.user.name }}</td>
-                            <td class="text-right"
-                                :class="{ 'text-green font-weight-bold': report.completed, 'text-disabled': !report.completed }">
-                                {{
-                                    report.completed ? 'Sim' : 'Não' }}</td>
-                        </tr>
-                    </tbody>
-                </v-table>
+                <div v-if="!loading">
+                    <div v-if="reports.length === 0" class="pa-4 text-center">
+                        <Alert>Nenhum relatório de progresso encontrado</Alert>
+                    </div>
+                    <v-table v-else>
+                        <thead>
+                            <tr>
+                                <th>Curso</th>
+                                <th>Módulo</th>
+                                <th>Estudante</th>
+                                <th class="text-right">Completado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="report in reports" :key="report.user.id">
+                                <td>{{ report.course.name }}</td>
+                                <td>{{ report.module.name }}</td>
+                                <td>{{ report.user.name }}</td>
+                                <td class="text-right"
+                                    :class="{ 'text-green font-weight-bold': report.completed, 'text-disabled': !report.completed }">
+                                    {{
+                                        report.completed ? 'Sim' : 'Não' }}</td>
+                            </tr>
+                        </tbody>
+                    </v-table>
+                </div>
             </v-card-text>
         </v-card>
     </v-container>
@@ -108,7 +113,10 @@ const loadFilters = async () => {
 };
 
 const loadData = async () => {
-    console.log(filters);
+    if (!filters.courseId && !filters.userId) {
+        reports.value = [];
+        return;
+    }
     loading.value = true;
     reports.value = await $api.reports.progress(filters);
     loading.value = false;

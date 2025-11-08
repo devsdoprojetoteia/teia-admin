@@ -40,7 +40,8 @@
       :placeholder="props.placeholder" :model-value="value" @update:model-value="handleInput" v-bind="field"
       v-mask="props.mask" :type="inputType" :label="props.label" :hint="props.hint" :error-messages="errorMessage"
       variant="solo" :rows="props.rows" :auto-grow="props.autoGrow" :readonly="props.readonly" :max-rows="props.maxRows"
-      :items="props.items" @change="handleChange" @click:clear="handleClear">
+      :items="props.items" @change="handleChange" @click:clear="handleClear" :hide-details="props['hide-details']"
+      :prepend-icon="props.prependIcon">
       <template v-slot:append-inner v-if="props.type === 'password'">
         <Icon @click="showPassword = !showPassword" :color="showPassword ? 'success' : ''" icon="mdi-eye" />
       </template>
@@ -48,8 +49,9 @@
     <component v-else :clearable="attrs.clearable != null || props.clearable" :is="componentType"
       :placeholder="props.placeholder" :model-value="value" @update:model-value="handleInput" v-bind="field"
       :type="inputType" :label="props.label" :hint="props.hint" :error-messages="errorMessage" variant="solo"
-      :rows="props.rows" :auto-grow="props.autoGrow" :readonly="props.readonly" :max-rows="props.maxRows"
-      :items="props.items" @change="handleChange" @click:clear="handleClear">
+      :prepend-icon="props.prependIcon" :rows="props.rows" :auto-grow="props.autoGrow" :readonly="props.readonly"
+      :max-rows="props.maxRows" :items="props.items" @change="handleChange" @click:clear="handleClear"
+      :hide-details="props['hide-details']">
       <template v-slot:append-inner v-if="props.type === 'password'">
         <Icon @click="showPassword = !showPassword" :color="showPassword ? 'success' : ''" icon="mdi-eye" />
       </template>

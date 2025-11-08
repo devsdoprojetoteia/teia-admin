@@ -36,6 +36,11 @@
             <Icon icon="mdi-chart-bar" />
             <span>Relatórios</span>
           </NuxtLink>
+          <NuxtLink to="/atividades" v-if="notStudent" class="sidebar-link"
+            :class="{ 'active': $route.path.startsWith('/atividades') }">
+            <Icon icon="mdi-message-text" />
+            <span>Atividades</span>
+          </NuxtLink>
           <NuxtLink to="/contas" v-if="notStudent" class="sidebar-link"
             :class="{ 'active': $route.path.startsWith('/contas') }">
             <Icon icon="mdi-account-multiple" />

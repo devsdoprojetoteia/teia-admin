@@ -1,3 +1,5 @@
+import moment from 'moment';
+import slugify from 'slugify';
 const pluralExceptions = { "dia útil": "dias úteis" };
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -25,11 +27,45 @@ export default defineNuxtPlugin((nuxtApp) => {
       return "rgb(" + r + ", " + g + ", " + b + ")";
     }
   };
+
+  const formatDate = (value, format = 'DD/MM/YYYY') => {
+    if (!value) {
+      return "";
+    }
+    return moment(value).format(format);
+  };
+
+  const downloadCSV = (data, filename) => {
+    const toCsvField = (value) => {
+      const normalized = value === undefined || value === null ? "" : String(value);
+      return `"${normalized.replace(/"/g, '""')}"`;
+    };
+    const csv = [];
+    for (const line of data) {
+      const newLine = []
+      for (const column of line) {
+        newLine.push(toCsvField(column));
+      }
+      csv.push(newLine.join(","));
+    }
+
+    let file = filename;
+    file += ".csv";
+    const blob = new Blob([csv.join("\n")], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = slugify(filename, { lower: true });
+    a.click();
+  }
+
   return {
     provide: {
       utils: {
         plural,
         hexToRgba,
+        formatDate,
+        downloadCSV,
       },
     },
   };

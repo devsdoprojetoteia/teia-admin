@@ -23,6 +23,8 @@ export interface FormFields {
 export interface FormField {
   type?: string;
   label?: string;
+  'hide-details'?: string;
+  prependIcon?: string;
   rules?: any;
   mask?: string | string[];
   customRules?: any;
