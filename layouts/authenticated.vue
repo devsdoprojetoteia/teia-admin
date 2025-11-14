@@ -46,7 +46,8 @@
             <Icon icon="mdi-account-multiple" />
             <span>Contas</span>
           </NuxtLink>
-          <NuxtLink href="https://teia-typebot.ipe.org.br" target="_blank" class="sidebar-link" v-if="notStudent">
+          <NuxtLink href="https://teia-typebot.ipe.org.br/typebots" target="_blank" class="sidebar-link"
+            v-if="notStudent">
             <Icon icon="mdi-robot" />
             <span>Chatbot</span>
           </NuxtLink>
