@@ -79,7 +79,7 @@
 
         </v-col>
         <v-col cols="12" md="6">
-          <NuxtLink to="/chatbot"
+          <NuxtLink href="https://teia-typebot.ipe.org.br" target="_blank"
             class="mx-auto d-block h-100 pa-4 border elevation-1 rounded-lg bg-white text-decoration-none">
             <div class="d-flex align-center justify-start h-100">
               <div class="mr-4">
