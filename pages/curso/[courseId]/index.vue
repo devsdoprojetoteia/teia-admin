@@ -55,8 +55,8 @@
       </div>
 
 
-      <Button v-if="firstTopic" color="primary" class="mb-8" size="large"
-        :to="`/curso/${courseId}/${firstTopic.id}`">Iniciar
+      <Button v-if="firstTopic" color="primary" class="mb-8" size="large" :to="`/curso/${courseId}/${firstTopic.id}`"
+        :aria-label="`Iniciar o curso ${course.name}`">Iniciar
         Curso</Button>
 
       <!-- Equipe Pedagógica (mock) -->

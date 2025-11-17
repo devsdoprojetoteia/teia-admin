@@ -8,7 +8,8 @@
         <div class="hero-banner d-flex flex-column justify-space-between justify-center text-center py-12"
           style="width: 100%; height: 100%;">
           <!-- Vídeo de fundo para desktop -->
-          <video class="hero-video" autoplay muted loop playsinline>
+          <video class="hero-video" autoplay muted loop playsinline
+            aria-label="Vídeo de fundo decorativo mostrando a natureza amazônica">
             <source src="/videos/background-home.mp4" type="video/mp4">
           </video>
 
@@ -17,7 +18,8 @@
 
           <div class="hero-overlay text-center d-flex flex-column align-center justify-center">
             <div class="mb-8">
-              <img src="/img/logo-ipe-home.svg" alt="Financiadores" style="max-width: 100%;" />
+              <img src="/img/logo-ipe-home.svg" alt="Logo do IPÊ - Instituto de Pesquisas Ecológicas"
+                style="max-width: 100%;" />
             </div>
 
             <Text variant="h6" class="mb-4" style="color: #fff; max-width: 600px;" weight="bold">
@@ -32,7 +34,9 @@
               </Text>
             </div>
 
-            <img src="/img/logo-financiadores.svg" alt="Financiadores" style="max-width: 560px;" />
+            <img src="/img/logo-financiadores.svg"
+              alt="Logos e marcas dos parceiros e organizações financiadoras do projeto TEIA"
+              style="max-width: 560px;" />
           </div>
         </div>
       </v-responsive>
@@ -42,7 +46,8 @@
         <div class="hero-banner d-flex flex-column justify-space-between justify-center text-center pa-3 py-12"
           style="width: 100%; height: 100%;">
           <!-- Vídeo de fundo para mobile -->
-          <video class="hero-video" autoplay muted loop playsinline>
+          <video class="hero-video" autoplay muted loop playsinline
+            aria-label="Vídeo de fundo decorativo mostrando a natureza amazônica">
             <source src="/videos/background-home.mp4" type="video/mp4">
           </video>
 
@@ -51,7 +56,8 @@
 
           <div class="hero-overlay text-center d-flex flex-column align-center justify-center">
             <div class="mb-4">
-              <img src="/img/logo-ipe-home.svg" alt="Financiadores" style="max-width: 200px;" />
+              <img src="/img/logo-ipe-home.svg" alt="Logo do IPÊ - Instituto de Pesquisas Ecológicas"
+                style="max-width: 200px;" />
             </div>
             <Text class="mb-2" style="color: #fff; ">
               Inclusão digital para conservar a Amazônia. O TEIA conecta pessoas, saberes e tecnologias para disseminar
@@ -65,7 +71,9 @@
               </Text>
             </div>
             <div class="d-flex flex-row align-center justify-center gap-4">
-              <img src="/img/logo-financiadores.svg" alt="Financiadores" style="max-width: 200px;" />
+              <img src="/img/logo-financiadores.svg"
+                alt="Logos e marcas dos parceiros e organizações financiadoras do projeto TEIA"
+                style="max-width: 200px;" />
             </div>
           </div>
         </div>
@@ -73,7 +81,7 @@
     </div>
     <div class="bg-transparent">
       <v-container style="max-width: 1024px;">
-        <!-- Sobre o LIRA -->
+        <!-- Sobre o TEIA -->
         <section class="py-12" id="sobre">
           <Text variant="h4" weight="bold" class="mb-6 text-center" color="primary">Sobre o TEIA</Text>
           <div class="mb-6">
@@ -110,8 +118,8 @@
           <Text variant="h4" weight="bold" class="mb-8 text-center" style="color: #215c2e;">Cursos</Text>
           <Row class="mb-8">
             <Col v-for="(course, index) in courses" :key="course.id" cols="12" md="6">
-            <Card class="course-card pa-6 d-flex flex-column justify-space-between rounded-0"
-              :color="index % 2 === 0 ? '#235A33' : '#00644A'">
+            <Card class="course-card pa-6 d-flex flex-column justify-space-between rounded-0 h-100"
+              :color="(Math.floor(index / 2) + index) % 2 === 0 ? '#235A33' : '#00644A'">
               <div class="mb-4">
                 <Text variant="h5" weight="bold" class="mb-4 text-center">{{ course.name }}</Text>
                 <div class="d-flex align-center justify-start" style="width: 100%;">
@@ -134,7 +142,8 @@
                   <Icon icon="mdi-clock-outline" class="mr-1" />
                   <small>{{ course.duration }}</small>
                 </div>
-                <Button :to="`/curso/${course.id}`" rounded="lg">Ver Detalhes</Button>
+                <Button :to="`/curso/${course.id}`" rounded="lg"
+                  :aria-label="`Ver detalhes sobre o curso ${course.name}`">Ver Detalhes</Button>
               </div>
 
             </Card>
@@ -193,7 +202,8 @@
             <!-- <v-text-field label="Nome" variant="solo" class="mb-2" density="compact" hide-details />
               <v-text-field label="Email" variant="solo" class="mb-2" density="compact" hide-details /> -->
             <Button color="success" block href="https://ipe.org.br#conversion-form-newsletter-rodape-site"
-              target="_blank">Quero me inscrever :)</Button>
+              target="_blank" aria-label="Ir para página de cadastro na newsletter do IPÊ para receber novidades">Quero
+              me inscrever :)</Button>
             <!-- </v-form> -->
             <div class="mt-2" style="font-size: 0.8rem; color: #bbb;">
               Prometemos não utilizar suas informações de contato para enviar qualquer tipo de SPAM.
