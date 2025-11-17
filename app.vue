@@ -9,6 +9,9 @@
 const { $api, $config } = useNuxtApp();
 
 useHead({
+  htmlAttrs: {
+    lang: "pt-BR",
+  },
   title: "Portal TEIA",
   meta: [
     {

@@ -84,23 +84,23 @@
         <!-- Sobre o TEIA -->
         <section class="py-12" id="sobre">
           <Text variant="h4" weight="bold" class="mb-6 text-center" color="primary">Sobre o TEIA</Text>
-          <div class="mb-6">
-            <Text class="text-center mb-8" variant="h6">
+          <div class="mb-6 text-center ">
+            <Text class="mb-8 text-h6">
               O TEIA é uma tecnologia social em educação criada pelo IPÊ para levar cursos a comunidades com baixo
               acesso
               à internet. A plataforma combina um Portal de Cursos e um chatbot acessível por aplicativos de mensagem,
               facilitando o aprendizado mesmo em regiões com infraestrutura limitada.
             </Text>
           </div>
-          <div class="mb-6">
-            <Text class="text-center mb-8" variant="h6">
+          <div class="mb-6 text-center ">
+            <Text class="mb-8 text-h6">
               Desenvolvido com base em tecnologias abertas, o TEIA foi pensado para fortalecer pessoas e organizações
               que
               atuam pela conservação da Amazônia e promover ambientes digitais mais leves, acessíveis e acolhedores.
             </Text>
           </div>
-          <div class="mb-6">
-            <Text class="text-center mb-8" variant="h6">
+          <div class="mb-6 text-center ">
+            <Text class="mb-8 text-h6">
               Selecionado entre os 20 projetos da chamada Mover-se na Web, uma iniciativa do Comitê Gestor da Internet
               no
               Brasil (CGI.br), o TEIA é executado pelo NIC.br por meio do Ceweb.br, com apoio do projeto LIRA/IPÊ, que
@@ -176,7 +176,7 @@
         <section>
           <Row>
             <Col cols="12" md="4" class="mb-6 mb-md-0">
-            <Text variant="h6" weight="bold" class="mb-2">Onde estamos</Text>
+            <Text weight="bold" class="mb-2 text-h6">Onde estamos</Text>
             <div>
               <strong>
                 Sede Nazaré
@@ -185,17 +185,17 @@
               12960-000<br />Tel: +55 (11) 3590-0341
             </div>
             <div class="mt-2">
-              <a href="https://ipe.org.br/?page_id=6064" class="text-primary font-weight-bold text-decoration-none">Mapa
+              <a href="https://ipe.org.br/?page_id=6064" class="text-white font-weight-bold text-decoration-none">Mapa
                 para o
                 IPÊ</a>
               <br>
               <a href="https://ipe.org.br/?page_id=6064"
-                class="text-primary font-weight-bold text-decoration-none">Escritórios</a>
+                class="text-white font-weight-bold text-decoration-none">Escritórios</a>
             </div>
             </Col>
             <Col cols="12" md="4" class="mb-6 mb-md-0" style="background-color: #111111;">
             <div class="text-center">
-              <Text variant="h6" weight="bold" class="mb-2">News IPÊ</Text>
+              <Text weight="bold" class="mb-2 text-h6">News IPÊ</Text>
               <div class="mb-2">Cadastre-se para ficar por dentro das novidades!</div>
             </div>
             <!-- <v-form action="https://cta-redirect.rdstation.com/v2/conversions" method="post"> -->
@@ -210,7 +210,7 @@
             </div>
             </Col>
             <Col cols="12" md="4">
-            <Text variant="h6" weight="bold" class="mb-2">Redes Sociais</Text>
+            <Text weight="bold" class="mb-2 text-h6">Redes Sociais</Text>
             <div class="d-flex flex-column gap-2">
               <a href="https://www.facebook.com/ipe.instituto.pesquisas.ecologicas" target="_blank" style="color: #fff;"
                 class="text-decoration-none">

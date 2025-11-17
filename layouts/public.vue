@@ -25,7 +25,7 @@
           <div class="d-sm-none d-block">
             <v-menu>
               <template v-slot:activator="{ props }">
-                <v-btn icon v-bind="props" elevation="0">
+                <v-btn icon v-bind="props" elevation="0" aria-label="Menu">
                   <Icon icon="mdi-menu" />
                 </v-btn>
               </template>
