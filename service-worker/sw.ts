@@ -1,9 +1,8 @@
 /// <reference lib="WebWorker" />
 /// <reference types="vite/client" />
 import { clientsClaim } from 'workbox-core'
-import { cleanupOutdatedCaches, precacheAndRoute } from 'workbox-precaching'
+import { cleanupOutdatedCaches, createHandlerBoundToURL, precacheAndRoute } from 'workbox-precaching'
 import { NavigationRoute, registerRoute } from 'workbox-routing'
-import { NetworkFirst } from 'workbox-strategies'
 
 declare let self: ServiceWorkerGlobalScope
 
@@ -18,11 +17,8 @@ if (import.meta.env.DEV)
   allowlist = [/^\/$/]
 
 // to allow work offline
-// Use NetworkFirst strategy instead of createHandlerBoundToURL to avoid precache requirement
 registerRoute(new NavigationRoute(
-  new NetworkFirst({
-    cacheName: 'navigation-cache',
-  }),
+  createHandlerBoundToURL('/'),
   { allowlist },
 ))
 
