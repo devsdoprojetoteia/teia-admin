@@ -6,6 +6,9 @@
     <div v-else-if="error">
       <div class="text-center">
         <Text variant="h6" class="mb-2">Erro ao carregar o curso</Text>
+        <pre>
+          {{ error }}
+        </pre>
         <Button @click="refresh" color="primary">Tentar novamente</Button>
       </div>
     </div>
