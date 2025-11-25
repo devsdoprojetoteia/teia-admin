@@ -33,7 +33,7 @@ class HttpFactory {
     console.log("extras", extras);
     console.log("this.call", await this.call<T>("get", url, undefined, extras));
     console.log("--------------------------------");
-    console.log(this.$fetch.arguments);
+
     return await this.call<T>("get", url, undefined, extras);
   }
 
