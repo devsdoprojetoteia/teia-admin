@@ -173,8 +173,8 @@
   <div style="background-color: #242424;" id="contato">
     <v-container style="max-width: 1024px;">
       <!-- Newsletter e Rodapé -->
-      <v-footer class="footer-section pa-8 mt-8 text-white" style="background-color: #242424;">
-        <section>
+      <v-footer class="footer-section pa-8 mt-8 text-white" style="background-color: #242424;" role="contentinfo">
+        <div>
           <Row>
             <Col cols="12" md="4" class="mb-6 mb-md-0">
               <h3 class="mb-2" style="font-weight: bold; font-size: 1.25rem;">Onde estamos</h3>
@@ -204,7 +204,7 @@
               <v-text-field label="Email" variant="solo" class="mb-2" density="compact" hide-details /> -->
               <Button color="success" block href="https://ipe.org.br#conversion-form-newsletter-rodape-site"
                 target="_blank"
-                aria-label="Ir para página de cadastro na newsletter do IPÊ para receber novidades">Quero
+                aria-label="Quero me inscrever :). Ir para página de cadastro na newsletter do IPÊ para receber novidades">Quero
                 me inscrever :)</Button>
               <!-- </v-form> -->
               <div class="mt-2" style="font-size: 0.8rem; color: #bbb;">
@@ -254,7 +254,7 @@
             Copyright © IPÊ - Instituto de Pesquisas Ecológicas.<br />
             Email: redelira@ipe.org.br
           </div>
-        </section>
+        </div>
       </v-footer>
     </v-container>
   </div>
