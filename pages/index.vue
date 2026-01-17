@@ -22,10 +22,10 @@
                 style="max-width: 100%;" />
             </div>
 
-            <Text variant="h6" class="mb-4" style="color: #fff; max-width: 600px;" weight="bold">
+            <h1 class="mb-4" style="color: #fff; max-width: 600px; font-weight: bold; font-size: 1.25rem;">
               Inclusão digital para conservar a Amazônia. O TEIA conecta pessoas, saberes e tecnologias para disseminar
               boas práticas e fortalecer quem cuida da floresta.
-            </Text>
+            </h1>
           </div>
           <div class="px-6 hero-overlay ">
             <div class="mb-4">
@@ -59,10 +59,10 @@
               <img src="/img/logo-ipe-home.svg" alt="Logo do IPÊ - Instituto de Pesquisas Ecológicas"
                 style="max-width: 200px;" />
             </div>
-            <Text class="mb-2" style="color: #fff; ">
+            <h1 class="mb-2" style="color: #fff; font-size: 1rem; font-weight: normal;">
               Inclusão digital para conservar a Amazônia. O TEIA conecta pessoas, saberes e tecnologias para disseminar
               boas práticas e fortalecer quem cuida da floresta.
-            </Text>
+            </h1>
           </div>
           <div class="hero-overlay text-center d-flex flex-column align-center justify-center">
             <div class="mb-4">
@@ -83,7 +83,7 @@
       <v-container style="max-width: 1024px;">
         <!-- Sobre o TEIA -->
         <section class="py-12" id="sobre">
-          <Text variant="h4" weight="bold" class="mb-6 text-center" color="primary">Sobre o TEIA</Text>
+          <h2 class="mb-6 text-center" style="color: #00592d; font-weight: bold; font-size: 2rem;">Sobre o TEIA</h2>
           <div class="mb-6 text-center ">
             <Text class="mb-8 text-h6">
               O TEIA é uma tecnologia social em educação criada pelo IPÊ para levar cursos a comunidades com baixo
@@ -115,13 +115,13 @@
       <v-container style="max-width: 1024px;">
         <!-- Cursos -->
         <section id="cursos">
-          <Text variant="h4" weight="bold" class="mb-8 text-center" style="color: #215c2e;">Cursos</Text>
+          <h2 class="mb-8 text-center" style="color: #215c2e; font-weight: bold; font-size: 2rem;">Cursos</h2>
           <Row class="mb-8">
             <Col v-for="(course, index) in courses" :key="course.id" cols="12" md="6">
               <Card class="course-card pa-6 d-flex flex-column justify-space-between rounded-0 h-100"
                 :color="(Math.floor(index / 2) + index) % 2 === 0 ? '#235A33' : '#00644A'">
                 <div class="mb-4">
-                  <Text variant="h5" weight="bold" class="mb-4 text-center">{{ course.name }}</Text>
+                  <h3 class="mb-4 text-center" style="font-weight: bold; font-size: 1.5rem;">{{ course.name }}</h3>
                   <div class="d-flex align-center justify-start" style="width: 100%;">
                     <Text style="
                       font-size: 14px;
@@ -157,7 +157,7 @@
   <div style="background-color: #235A33;" class="py-12 text-white">
     <v-container style="max-width: 1024px;">
       <section id="cursos">
-        <Text variant="h4" weight="bold" class="mb-8 text-center" style="color: #fff;">Faça parte dessa TEIA</Text>
+        <h2 class="mb-8 text-center" style="color: #fff; font-weight: bold; font-size: 2rem;">Faça parte dessa TEIA</h2>
         <div style="max-width: 700px; margin: 0 auto;" class="text-center">
           <Text weight="bold" class="mb-8 text-center" style="color: #fff;">
             Sua organização quer desenvolver cursos para públicos com acesso limitado à internet?
@@ -176,7 +176,7 @@
         <section>
           <Row>
             <Col cols="12" md="4" class="mb-6 mb-md-0">
-              <Text weight="bold" class="mb-2 text-h6">Onde estamos</Text>
+              <h3 class="mb-2" style="font-weight: bold; font-size: 1.25rem;">Onde estamos</h3>
               <div>
                 <strong>
                   Sede Nazaré
@@ -195,7 +195,7 @@
             </Col>
             <Col cols="12" md="4" class="mb-6 mb-md-0" style="background-color: #111111;">
               <div class="text-center">
-                <Text weight="bold" class="mb-2 text-h6">News IPÊ</Text>
+                <h3 class="mb-2" style="font-weight: bold; font-size: 1.25rem;">News IPÊ</h3>
                 <div class="mb-2">Cadastre-se para ficar por dentro das novidades!</div>
               </div>
               <!-- <v-form action="https://cta-redirect.rdstation.com/v2/conversions" method="post"> -->
@@ -211,7 +211,7 @@
               </div>
             </Col>
             <Col cols="12" md="4">
-              <Text weight="bold" class="mb-2 text-h6">Redes Sociais</Text>
+              <h3 class="mb-2" style="font-weight: bold; font-size: 1.25rem;">Redes Sociais</h3>
               <div class="d-flex flex-column gap-2">
                 <a href="https://www.facebook.com/ipe.instituto.pesquisas.ecologicas" target="_blank"
                   style="color: #fff;" class="text-decoration-none"

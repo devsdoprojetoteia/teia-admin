@@ -5,7 +5,7 @@
         </div>
         <div v-else-if="error">
             <div class="text-center">
-                <Text variant="h6" class="mb-2">Erro ao carregar o curso</Text>
+                <h2 class="mb-2" style="font-weight: bold; font-size: 1.5rem;">Erro ao carregar o curso</h2>
                 <Button @click="refresh" color="primary">Tentar novamente</Button>
             </div>
         </div>
@@ -13,7 +13,7 @@
             <Row>
                 <Col cols="12" lg="4" class="bg-primary px-6 py-6">
                 <div class="d-flex align-center justify-space-between">
-                    <Text variant="h5" weight="bold" class="mb-0">Módulos e Aulas</Text>
+                    <h2 class="mb-0" style="font-weight: bold; font-size: 1.5rem; color: inherit;">Módulos e Aulas</h2>
                     <Button variant="tonal" @click="toggleMenu" outlined class="d-block d-lg-none">
                         <Icon icon="mdi-menu" class="mr-1" />
                     </Button>
@@ -57,10 +57,10 @@
                             <Text>{{ module?.name }}</Text>
                         </div>
                         <div class="mb-4">
-                            <Text variant="h5">{{ topic?.title }}
-                                <small>{{ topic?.type === 'questionnaire' ?
+                            <h1 style="font-weight: bold; font-size: 1.75rem;">{{ topic?.title }}
+                                <small style="font-size: 0.875rem; font-weight: normal;">{{ topic?.type === 'questionnaire' ?
                                     `(${currentQuestion + 1}/${topic?.questions?.length})` : '' }}</small>
-                            </Text>
+                            </h1>
                         </div>
                         <div class="mb-6" v-if="topic?.type !== 'questionnaire'">
                             <div v-for="content in topic?.content || []" :key="content.id">
@@ -159,7 +159,7 @@
                 </div>
                 <!-- Área de Comentários (mock) -->
                 <!-- <div class="mb-8 border rounded pa-4 bg-grey-lighten-4">
-                    <Text variant="h5" weight="bold" class="mb-4">Comentários</Text>
+                    <h2 class="mb-4" style="font-weight: bold; font-size: 1.5rem;">Comentários</h2>
                     <div class="mb-4 d-flex align-center">
                         <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="avatar"
                             class="rounded-circle mr-2" style="width:40px;height:40px;object-fit:cover;" />

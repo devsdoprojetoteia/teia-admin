@@ -29,7 +29,7 @@
       <!-- O que você aprenderá -->
       <div class="mb-6">
         <div class="border rounded-lg pa-4 px-8 bg-white">
-          <Text variant="h6" weight="bold" class="mb-6">O que você aprenderá</Text>
+          <h2 class="mb-6" style="font-weight: bold; font-size: 1.5rem;">O que você aprenderá</h2>
           <Row class="mb-3">
             <Col v-for="item in course.learning || []" :key="item" cols="12" lg="6" class="py-1">
             <div class="d-flex align-center">
