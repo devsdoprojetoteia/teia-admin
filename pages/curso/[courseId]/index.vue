@@ -1,11 +1,11 @@
 <template>
-  <div class="course-page container py-8 px-4">
+  <div id="main-content" class="course-page container py-8 px-4" tabindex="-1">
     <div v-if="pending">
       <Loading />
     </div>
     <div v-else-if="error">
       <div class="text-center">
-        <Text variant="h6" class="mb-2">Erro ao carregar o curso</Text>
+        <h1 class="mb-2" style="font-weight: bold; font-size: 1.5rem;">Erro ao carregar o curso</h1>
         <pre>
           {{ error }}
         </pre>
@@ -59,7 +59,7 @@
 
 
       <Button v-if="firstTopic" color="primary" class="mb-8" size="large" :to="`/curso/${courseId}/${firstTopic.id}`"
-        :aria-label="`Iniciar a trilha informativa ${course.name}. Começar pela primeira aula: ${firstTopic.title}`">Iniciar
+        :aria-label="`Iniciar Curso - trilha informativa ${course.name}. Começar pela primeira aula: ${firstTopic.title}`">Iniciar
         Curso</Button>
 
       <!-- Equipe Pedagógica (mock) -->
