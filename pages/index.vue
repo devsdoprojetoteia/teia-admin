@@ -170,10 +170,10 @@
     </v-container>
   </div>
 
-  <div style="background-color: #242424;" id="contato">
+  <div style="background-color: #242424;" id="contato" role="none">
     <v-container style="max-width: 1024px;">
       <!-- Newsletter e Rodapé -->
-      <v-footer class="footer-section pa-8 mt-8 text-white" style="background-color: #242424;" role="contentinfo">
+      <v-footer class="footer-section pa-8 mt-8 text-white" style="background-color: #242424;">
         <div>
           <Row>
             <Col cols="12" md="4" class="mb-6 mb-md-0">
