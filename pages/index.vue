@@ -157,7 +157,7 @@
 
   <div style="background-color: #235A33;" class="py-12 text-white">
     <v-container style="max-width: 1024px;">
-      <section id="cursos">
+      <section id="participe">
         <h2 class="mb-8 text-center" style="color: #fff; font-weight: bold; font-size: 2rem;">Faça parte dessa TEIA</h2>
         <div style="max-width: 700px; margin: 0 auto;" class="text-center">
           <Text weight="bold" class="mb-8 text-center" style="color: #fff;">
