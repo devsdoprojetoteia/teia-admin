@@ -42,6 +42,119 @@ O [TEIA Admin](https://github.com/devsdoprojetoteia/teia-admin) é o backend do 
 - ⌛ Agendamento de Jobs
 - ⌛ Envio de e-mails
 
+#### Estrutura do Projeto
+
+Esta seção descreve a organização das pastas do projeto e suas respectivas funções:
+
+**📁 `/assets`**  
+Contém recursos estáticos compilados:
+- `css/`: Estilos Sass principais e configurações do projeto
+- `img/`: Imagens utilizadas na aplicação
+
+**📁 `/components`**  
+Componentes Vue reutilizáveis da aplicação:
+- Componentes de formulário (ex: `CourseForm.vue`, `UserForm.vue`, `TopicForm.vue`)
+- Componentes de interface (ex: `Button.vue`, `Card.vue`, `Dialog.vue`, `Loading.vue`)
+- Componentes específicos de domínio (ex: `CourseInfo.vue`, `ModuleInfo.vue`)
+- Subpastas organizadas por contexto (ex: `courses/`, `modules/`, `topics/`, `common/`)
+
+**📁 `/composables`**  
+Composables Vue 3 para lógica reutilizável:
+- `useApiAuth.ts`: Gerenciamento de autenticação via API
+- `useAuth.ts`: Estado e lógica de autenticação
+- `useBreakpoints.ts`: Responsividade e breakpoints
+- `useCourses.ts`, `useModules.ts`, `useTopics.ts`: Lógica específica de cada entidade
+- `useNotify.ts`: Sistema de notificações
+- `useUsers.ts`: Gerenciamento de usuários
+
+**📁 `/data`**  
+Arquivos de dados estáticos (ex: `feriados.json`)
+
+**📁 `/docs`**  
+Documentação do projeto:
+- Guias de instalação e API
+- Documentação de casos de uso, atores e arquitetura
+- Assets visuais para documentação
+
+**📁 `/layouts`**  
+Layouts de página do Nuxt:
+- `authenticated.vue`: Layout para rotas autenticadas
+- `public.vue`: Layout para rotas públicas
+
+**📁 `/middleware`**  
+Middleware de rotas do Nuxt:
+- `authenticated.ts`: Proteção de rotas que requerem autenticação
+- `public.ts`: Middleware para rotas públicas
+
+**📁 `/models`**  
+Definições TypeScript dos modelos de dados:
+- Modelos de domínio (ex: `user.ts`, `course.ts`, `module.ts`, `topic.ts`)
+- Modelos auxiliares (ex: `auth.ts`, `token.ts`, `notification.ts`, `dynamic-form.ts`)
+
+**📁 `/pages`**  
+Páginas/rotas do Nuxt (rotas baseadas em estrutura de arquivos):
+- Rotas públicas: `entrar.vue`, `cadastrar.vue`, `recuperar-senha.vue`
+- Rotas autenticadas: `painel.vue`, `cursos/`, `contas.vue`, `atividades.vue`, `relatorios.vue`
+- Rotas dinâmicas: `courses/[id]/`, `topics/[id]/`, `curso/[courseId]/[topicId]/`
+
+**📁 `/plugins`**  
+Plugins do Nuxt (carregados na inicialização):
+- `api.ts`: Configuração do cliente HTTP e repositórios
+- `vuetify.js`: Configuração do framework Vuetify
+- `vee-validate.client.ts`: Configuração de validação de formulários
+- `masks.ts`: Máscaras de entrada de dados
+- Outros plugins de terceiros (Quill, Lightbox, Utils)
+
+**📁 `/public`**  
+Arquivos estáticos servidos publicamente:
+- `icon/`: Ícones PWA (Progressive Web App)
+- `img/`: Imagens públicas (logos, backgrounds)
+- `videos/`: Vídeos estáticos
+- Arquivos HTML (política de privacidade, termos de uso)
+
+**📁 `/repository`**  
+Padrão Repository para abstração de chamadas à API:
+- `factory.ts`: Classe base para requisições HTTP
+- `modules/`: Módulos específicos por entidade (ex: `auth.ts`, `courses.ts`, `users.ts`, `modules.ts`, `topics.ts`, `reports.ts`, `uploads.ts`)
+
+**📁 `/server`**  
+Código executado apenas no servidor (Nuxt Server Engine):
+- `api/`: Rotas de API REST:
+  - `auth/`: Autenticação (login, registro, recuperação de senha)
+  - `courses/`: CRUD de cursos
+  - `modules/`: CRUD de módulos
+  - `topics/`: CRUD de tópicos/conteúdos
+  - `users/`: CRUD de usuários
+  - `upload/`: Upload de arquivos (imagem, vídeo, áudio, documento)
+  - `reports/`: Geração de relatórios
+  - `chatbot/`: Endpoints específicos para integração com chatbot
+- `middleware/`: Middleware do servidor (ex: CORS)
+- `models/`: Modelos Mongoose para MongoDB
+- `plugins/`: Plugins do servidor (ex: conexão Mongoose)
+- `utils/`: Utilitários do servidor (autorização, upload, mongoose)
+
+**📁 `/service-worker`**  
+Service Worker para PWA (Progressive Web App):
+- `sw.ts`: Lógica do service worker para cache offline
+
+**📁 `/types`**  
+Definições TypeScript adicionais (ex: `pdf-image.d.ts`)
+
+**📁 `/utils`**  
+Funções utilitárias compartilhadas:
+- `errors.ts`: Tratamento de erros
+- `translations.ts`: Traduções e i18n
+
+**📁 `/uploads`**  
+Arquivos enviados pelos usuários (geralmente ignorados pelo git)
+
+**Arquivos de Configuração Raiz:**
+- `nuxt.config.ts`: Configuração principal do Nuxt 3
+- `package.json`: Dependências e scripts do projeto
+- `tsconfig.json`: Configuração do TypeScript
+- `app.config.ts`: Configuração da aplicação
+- `app.vue`: Componente raiz da aplicação
+
 #### Documentação
 [Atores](./docs/atores.md)
 [Casos de Uso](./docs/casos_de_uso.md)
