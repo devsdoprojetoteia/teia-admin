@@ -6,7 +6,8 @@
         <div v-else-if="error">
             <div class="text-center">
                 <h2 class="mb-2" style="font-weight: bold; font-size: 1.5rem;">Erro ao carregar o curso</h2>
-                <Button @click="refresh" color="primary">Tentar novamente</Button>
+                <Button @click="refresh" color="primary"
+                    aria-label="Tentar novamente carregar o conteúdo da aula">Tentar novamente</Button>
             </div>
         </div>
         <div v-else-if="course">
@@ -14,7 +15,8 @@
                 <Col cols="12" lg="4" class="bg-primary px-6 py-6">
                 <div class="d-flex align-center justify-space-between">
                     <h2 class="mb-0" style="font-weight: bold; font-size: 1.5rem; color: inherit;">Módulos e Aulas</h2>
-                    <Button variant="tonal" @click="toggleMenu" outlined class="d-block d-lg-none">
+                    <Button variant="tonal" @click="toggleMenu" outlined class="d-block d-lg-none"
+                        aria-label="Alternar exibição do menu de módulos e aulas">
                         <Icon icon="mdi-menu" class="mr-1" />
                     </Button>
                 </div>
@@ -58,7 +60,8 @@
                         </div>
                         <div class="mb-4">
                             <h1 style="font-weight: bold; font-size: 1.75rem;">{{ topic?.title }}
-                                <small style="font-size: 0.875rem; font-weight: normal;">{{ topic?.type === 'questionnaire' ?
+                                <small style="font-size: 0.875rem; font-weight: normal;">{{ topic?.type ===
+                                    'questionnaire' ?
                                     `(${currentQuestion + 1}/${topic?.questions?.length})` : '' }}</small>
                             </h1>
                         </div>
@@ -124,18 +127,20 @@
                                         </Text>
                                         <Text v-else>A resposta correta é: {{
                                             topic?.questions[currentQuestion].options[topic?.questions[currentQuestion].correctAnswer!]
-                                            }}</Text>
+                                        }}</Text>
                                     </div>
                                 </v-radio-group>
                             </div>
 
                             <div class="d-flex justify-end">
                                 <Button color="primary" class="mr-2 rounded-lg" outlined @click="prevQuestion"
-                                    v-if="currentQuestion > 0 || prevTopic">
+                                    v-if="currentQuestion > 0 || prevTopic"
+                                    :aria-label="currentQuestion > 0 ? `Voltar para a questão ${currentQuestion} de ${topic?.questions.length}` : `Voltar para a aula anterior: ${prevTopic?.title || 'aula anterior'}`">
                                     <Icon icon="mdi-chevron-left" class="mr-1" /> Anterior
                                 </Button>
                                 <Button color="primary" class="mr-2 rounded-lg" outlined @click="nextQuestion"
-                                    v-if="currentQuestion < topic?.questions.length - 1 || nextTopic">
+                                    v-if="currentQuestion < topic?.questions.length - 1 || nextTopic"
+                                    :aria-label="currentQuestion < (topic?.questions.length - 1) ? `Ir para a questão ${currentQuestion + 2} de ${topic?.questions.length}` : `Avançar para a próxima aula: ${nextTopic?.title || 'próxima aula'}`">
                                     Próxima
                                     <Icon icon="mdi-chevron-right" class="ml-1" />
                                 </Button>
@@ -144,11 +149,13 @@
                         <!-- Navegação entre aulas -->
                         <div class="d-flex justify-end mb-4" v-if="topic?.type !== 'questionnaire'">
                             <Button v-if="prevTopic" :to="`/curso/${courseId}/${prevTopic.id}`" color="primary"
-                                class="mr-2 rounded-lg" outlined>
+                                class="mr-2 rounded-lg" outlined
+                                :aria-label="`Voltar para a aula anterior da trilha informativa: ${prevTopic.title}`">
                                 <Icon icon="mdi-chevron-left" class="mr-1" /> Anterior
                             </Button>
                             <Button v-if="nextTopic" :to="`/curso/${courseId}/${nextTopic.id}`" color="primary"
-                                @click="markTopicAsViewed" outlined class="rounded-lg">
+                                @click="markTopicAsViewed" outlined class="rounded-lg"
+                                :aria-label="`Avançar para a próxima aula da trilha informativa: ${nextTopic.title}`">
                                 Próxima
                                 <Icon icon="mdi-chevron-right" class="ml-1" />
                             </Button>

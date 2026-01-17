@@ -143,7 +143,8 @@
                     <small>{{ course.duration }}</small>
                   </div>
                   <Button :to="`/curso/${course.id}`" rounded="lg"
-                    :aria-label="`Ver detalhes sobre o curso ${course.name}`">Ver Detalhes</Button>
+                    :aria-label="`Ver detalhes completos da trilha informativa: ${course.name}. Acesse informações sobre módulos, aulas, requisitos e equipe pedagógica`">Ver
+                    Detalhes</Button>
                 </div>
 
               </Card>

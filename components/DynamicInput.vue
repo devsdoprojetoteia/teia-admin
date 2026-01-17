@@ -30,7 +30,7 @@
         <div class="text-caption">{{ filesURL + value }}</div>
       </div>
 
-      <Upload :model-value="value" aria-label="upload" @uploaded="(url) => handleInput(url)"
+      <Upload :model-value="value" :aria-label="`Fazer upload de arquivo${props.label ? `: ${props.label}` : ''}`" @uploaded="(url) => handleInput(url)"
         :error-messages="errorMessage" :label="props.label" button :type="props.uploadType || 'file'"
         :prefix="props.prefix" />
     </div>

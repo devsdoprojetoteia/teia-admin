@@ -9,7 +9,7 @@
         <pre>
           {{ error }}
         </pre>
-        <Button @click="refresh" color="primary">Tentar novamente</Button>
+        <Button @click="refresh" color="primary" aria-label="Tentar novamente carregar os detalhes do curso">Tentar novamente</Button>
       </div>
     </div>
     <div v-else-if="course">
@@ -59,7 +59,7 @@
 
 
       <Button v-if="firstTopic" color="primary" class="mb-8" size="large" :to="`/curso/${courseId}/${firstTopic.id}`"
-        :aria-label="`Iniciar o curso ${course.name}`">Iniciar
+        :aria-label="`Iniciar a trilha informativa ${course.name}. Começar pela primeira aula: ${firstTopic.title}`">Iniciar
         Curso</Button>
 
       <!-- Equipe Pedagógica (mock) -->
