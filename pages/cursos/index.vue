@@ -6,7 +6,7 @@
           <Button to="/painel" icon class="mr-2">
             <Icon icon="mdi-chevron-left" />
           </Button>
-          <Text variant="h4" class="mb-0">Cursos</Text>
+          <h1 class="text-h4 font-weight-bold mb-0">Cursos</h1>
 
         </div>
         <Button v-if="auth.user.value?.role === 'administrador'" color="primary" @click="showAddCourse = true" icon>

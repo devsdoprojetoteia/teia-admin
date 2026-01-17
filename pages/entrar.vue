@@ -1,7 +1,7 @@
 <template>
   <Portal class="d-flex align-center">
 
-    <h3 class="text-center mb-6 text-primary font-weight-regular">Informe seus dados para entrar</h3>
+    <h1 class="text-center mb-6 text-primary font-weight-regular">Informe seus dados para entrar</h1>
     <DynamicForm :form="form" @updated="changed" />
     <div class="pt-4">
       <!-- <Button to="/cadastrar" class="mb-4" size="small"> Cadastre-se </Button>

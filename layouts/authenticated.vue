@@ -1,5 +1,7 @@
 <template>
   <v-app full-height>
+    <!-- Link para pular para o conteúdo principal (WCAG 2.4.1) -->
+    <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
     <v-app-bar flat style="width: 100%" class="bg-primary">
       <v-app-bar-title style="width: 200px; margin-inline-end: 20px;" class="d-flex align-center justify-center">
         <NuxtLink to="/painel" class="text-decoration-none d-flex align-center">
@@ -57,7 +59,7 @@
           </NuxtLink>
         </div>
       </v-navigation-drawer>
-      <v-main>
+      <v-main id="main-content" tabindex="-1">
         <NuxtPage />
       </v-main>
     </div>

@@ -2,7 +2,7 @@
   <div>
     <v-container v-if="users">
       <div class="d-flex justify-space-between align-center">
-        <Text variant="h4">Contas</Text>
+        <h1 class="text-h4 font-weight-bold mb-0">Contas</h1>
         <Button color="primary" @click="showAddUser = true" size="large" class="mb-8 mt-4" icon>
           <Icon icon="mdi-plus" />
         </Button>

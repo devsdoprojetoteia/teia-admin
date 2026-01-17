@@ -1,11 +1,11 @@
 <template>
   <Portal>
     <div v-if="phoneSent">
-      <h3 class="text-center mb-6 text-primary font-weight-regular">Recuperar a senha</h3>
+      <h1 class="text-center mb-6 text-primary font-weight-regular">Recuperar a senha</h1>
       <DynamicForm :form="recoverPasswordForm" />
     </div>
     <div v-if="!phoneSent">
-      <h3 class="text-center mb-6 text-primary font-weight-regular">Informe o código enviado para o seu WhatsApp</h3>
+      <h1 class="text-center mb-6 text-primary font-weight-regular">Informe o código enviado para o seu WhatsApp</h1>
       <DynamicForm :form="forgotPasswordForm" />
     </div>
     <div class="pt-12">

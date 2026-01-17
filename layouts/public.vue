@@ -1,7 +1,9 @@
 <template>
   <v-app>
-
-    <v-main>
+    <!-- Link para pular para o conteúdo principal (WCAG 2.4.1) -->
+    <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+    
+    <v-main id="main-content" tabindex="-1">
       <div class=" bg-white">
         <div style="width: 100%; max-width: 1446px; margin: 0 auto;"
           class="d-flex justify-space-between align-center pa-4">

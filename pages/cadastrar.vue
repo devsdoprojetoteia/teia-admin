@@ -1,7 +1,7 @@
 <template>
   <Portal>
     <div>
-      <h3 class="text-center mb-6 text-primary font-weight-regular">Cadastre-se</h3>
+      <h1 class="text-center mb-6 text-primary font-weight-regular">Cadastre-se</h1>
       <DynamicForm :form="form" />
     </div>
     <div class="pt-12">

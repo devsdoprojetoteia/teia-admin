@@ -81,6 +81,24 @@ p, h1, h2, h3, h4, h5, h6
   .text-h6
     font-size: 16px !important
 
+// Skip link para pular para o conteúdo principal (WCAG 2.4.1)
+.skip-link
+  position: absolute
+  top: -40px
+  left: 0
+  background: #00592d
+  color: #ffffff !important
+  padding: 8px 16px
+  text-decoration: none
+  z-index: 1000
+  font-weight: bold
+  border-radius: 0 0 4px 0
+  
+  &:focus
+    top: 0
+    outline: 3px solid #FFD700
+    outline-offset: 2px
+
 // Estilos de acessibilidade para foco visível do teclado
 // Garante que o foco seja claramente visível para navegação por teclado
 
