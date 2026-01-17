@@ -74,11 +74,11 @@
   </v-app>
 </template>
 <script setup lang="ts">
-const { $config } = useNuxtApp();
-const { notifySuccess } = useNotify();
-const filesURL = $config.public.filesURL;
-const { isAuthenticated } = useAuth();
 import { useRoute } from "vue-router";
+const { notifySuccess } = useNotify();
+const { isAuthenticated } = useAuth();
+const config = useRuntimeConfig();
+const filesURL = config.public.filesURL;
 const route = useRoute();
 const currentPath = route.path;
 async function copy(value: string) {
