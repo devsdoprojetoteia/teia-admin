@@ -59,10 +59,10 @@
               <img src="/img/logo-ipe-home.svg" alt="Logo do IPÊ - Instituto de Pesquisas Ecológicas"
                 style="max-width: 200px;" />
             </div>
-            <h1 class="mb-2" style="color: #fff; font-size: 1rem; font-weight: normal;">
+            <p class="mb-2" style="color: #fff; font-size: 1rem; font-weight: normal;">
               Inclusão digital para conservar a Amazônia. O TEIA conecta pessoas, saberes e tecnologias para disseminar
               boas práticas e fortalecer quem cuida da floresta.
-            </h1>
+            </p>
           </div>
           <div class="hero-overlay text-center d-flex flex-column align-center justify-center">
             <div class="mb-4">
