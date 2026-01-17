@@ -365,16 +365,26 @@ onMounted(async () => {
 }
 
 /* Garantir contraste adequado no botão da newsletter (WCAG 1.4.3 - Nível AA) */
-.newsletter-button {
-  /* Cor de fundo mais clara para garantir contraste mínimo de 4.5:1 com texto branco */
-  background-color: #00D084 !important;
+.newsletter-button,
+.newsletter-button.v-btn,
+.newsletter-button .v-btn__content {
+  /* Cor de fundo verde mais escura para garantir contraste mínimo de 4.5:1 com texto branco */
+  background-color: #235A33 !important;
   color: #ffffff !important;
   font-weight: 600 !important;
 }
 
 .newsletter-button:hover,
-.newsletter-button:focus {
-  background-color: #00B875 !important;
+.newsletter-button:hover .v-btn__content,
+.newsletter-button:focus,
+.newsletter-button:focus .v-btn__content {
+  background-color: #235A33 !important;
   color: #ffffff !important;
+}
+
+/* Garantir contraste no texto dentro do span do botão */
+.newsletter-button .v-btn__content span {
+  color: #ffffff !important;
+  font-weight: 600 !important;
 }
 </style>
