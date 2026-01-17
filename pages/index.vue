@@ -35,7 +35,7 @@
             </div>
 
             <img src="/img/logo-financiadores.svg"
-              alt="Logos e marcas dos parceiros e organizações financiadoras do projeto TEIA"
+              alt="Gráfico horizontal exibindo os logos dos parceiros e financiadores do projeto TEIA. As organizações representadas são: Mover-se na Web, uma iniciativa do Comitê Gestor da Internet no Brasil (CGI.br) executada pelo Núcleo de Informação e Coordenação do Ponto BR (NIC.br) através do Centro de Estudos sobre Tecnologias Web (Ceweb.br), LIRA/IPÊ - Instituto de Pesquisas Ecológicas, e Gordon and Betty Moore Foundation"
               style="max-width: 560px;" />
           </div>
         </div>
@@ -72,7 +72,7 @@
             </div>
             <div class="d-flex flex-row align-center justify-center gap-4">
               <img src="/img/logo-financiadores.svg"
-                alt="Logos e marcas dos parceiros e organizações financiadoras do projeto TEIA"
+                alt="Gráfico horizontal exibindo os logos dos parceiros e financiadores do projeto TEIA. As organizações representadas são: Mover-se na Web, uma iniciativa do Comitê Gestor da Internet no Brasil (CGI.br) executada pelo Núcleo de Informação e Coordenação do Ponto BR (NIC.br) através do Centro de Estudos sobre Tecnologias Web (Ceweb.br), LIRA/IPÊ - Instituto de Pesquisas Ecológicas, e Gordon and Betty Moore Foundation"
                 style="max-width: 200px;" />
             </div>
           </div>
