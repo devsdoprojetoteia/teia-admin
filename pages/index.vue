@@ -170,99 +170,102 @@
     </v-container>
   </div>
 
-  <div style="background-color: #242424;" id="contato" role="none">
-    <v-container style="max-width: 1024px;">
-      <!-- Newsletter e Rodapé -->
-      <v-footer class="footer-section pa-8 mt-8 text-white" style="background-color: #242424;">
-        <div>
-          <Row>
-            <Col cols="12" md="4" class="mb-6 mb-md-0">
-              <h3 class="mb-2" style="font-weight: bold; font-size: 1.25rem;">Onde estamos</h3>
-              <address style="font-style: normal;">
-                <strong>
-                  Sede Nazaré
-                </strong>
-                <div>Rod. Dom Pedro I, km 47</div>
-                <div>Nazaré Paulista, SP, Brasil</div>
-                <div>Caixa Postal 47 - 12960-000</div>
-                <div>Tel: <a href="tel:+551135900341" class="text-white text-decoration-none">+55 (11) 3590-0341</a>
+  <!-- Teleport do footer para fora do main (ARIA11 - WCAG) -->
+  <Teleport to="#footer-teleport-target">
+    <div style="background-color: #242424;" id="contato">
+      <v-container style="max-width: 1024px;">
+        <!-- Newsletter e Rodapé -->
+        <v-footer class="footer-section pa-8 mt-8 text-white" style="background-color: #242424;">
+          <div>
+            <Row>
+              <Col cols="12" md="4" class="mb-6 mb-md-0">
+                <h3 class="mb-2" style="font-weight: bold; font-size: 1.25rem;">Onde estamos</h3>
+                <address style="font-style: normal;">
+                  <strong>
+                    Sede Nazaré
+                  </strong>
+                  <div>Rod. Dom Pedro I, km 47</div>
+                  <div>Nazaré Paulista, SP, Brasil</div>
+                  <div>Caixa Postal 47 - 12960-000</div>
+                  <div>Tel: <a href="tel:+551135900341" class="text-white text-decoration-none">+55 (11) 3590-0341</a>
+                  </div>
+                </address>
+                <div class="mt-2">
+                  <div>
+                    <a href="https://ipe.org.br/?page_id=6064"
+                      class="text-white font-weight-bold text-decoration-none">Mapa para o IPÊ</a>
+                  </div>
+                  <div>
+                    <a href="https://ipe.org.br/?page_id=6064"
+                      class="text-white font-weight-bold text-decoration-none">Escritórios</a>
+                  </div>
                 </div>
-              </address>
-              <div class="mt-2">
-                <div>
-                  <a href="https://ipe.org.br/?page_id=6064"
-                    class="text-white font-weight-bold text-decoration-none">Mapa para o IPÊ</a>
+              </Col>
+              <Col cols="12" md="4" class="mb-6 mb-md-0" style="background-color: #111111;">
+                <div class="text-center">
+                  <h3 class="mb-2" style="font-weight: bold; font-size: 1.25rem;">News IPÊ</h3>
+                  <div class="mb-2">Cadastre-se para ficar por dentro das novidades!</div>
                 </div>
-                <div>
-                  <a href="https://ipe.org.br/?page_id=6064"
-                    class="text-white font-weight-bold text-decoration-none">Escritórios</a>
-                </div>
-              </div>
-            </Col>
-            <Col cols="12" md="4" class="mb-6 mb-md-0" style="background-color: #111111;">
-              <div class="text-center">
-                <h3 class="mb-2" style="font-weight: bold; font-size: 1.25rem;">News IPÊ</h3>
-                <div class="mb-2">Cadastre-se para ficar por dentro das novidades!</div>
-              </div>
-              <!-- <v-form action="https://cta-redirect.rdstation.com/v2/conversions" method="post"> -->
-              <!-- <v-text-field label="Nome" variant="solo" class="mb-2" density="compact" hide-details />
+                <!-- <v-form action="https://cta-redirect.rdstation.com/v2/conversions" method="post"> -->
+                <!-- <v-text-field label="Nome" variant="solo" class="mb-2" density="compact" hide-details />
               <v-text-field label="Email" variant="solo" class="mb-2" density="compact" hide-details /> -->
-              <Button color="success" block href="https://ipe.org.br#conversion-form-newsletter-rodape-site"
-                target="_blank" class="newsletter-button"
-                aria-label="Quero me inscrever :). Ir para página de cadastro na newsletter do IPÊ para receber novidades">Quero
-                me inscrever :)</Button>
-              <!-- </v-form> -->
-              <div class="mt-2" style="font-size: 0.8rem; color: #bbb;">
-                Prometemos não utilizar suas informações de contato para enviar qualquer tipo de SPAM.
-              </div>
-            </Col>
-            <Col cols="12" md="4">
-              <h3 class="mb-2" style="font-weight: bold; font-size: 1.25rem;">Redes Sociais</h3>
-              <div class="d-flex flex-column gap-2">
-                <a href="https://www.facebook.com/ipe.instituto.pesquisas.ecologicas" target="_blank"
-                  style="color: #fff;" class="text-decoration-none"
-                  aria-label="Acesse a página do IPÊ no Facebook (abre em nova aba)">
-                  <Icon icon="mdi-facebook" class="mr-2" />
-                  Facebook
-                </a>
-                <a href="https://twitter.com/InstitutoIPE" target="_blank" style="color: #fff;"
-                  class="text-decoration-none" aria-label="Acesse a página do IPÊ no Twitter (abre em nova aba)">
-                  <Icon icon="mdi-twitter" class="mr-2" />
-                  Twitter
-                </a>
-                <a href="https://www.instagram.com/institutoipe/" target="_blank" style="color: #fff;"
-                  class="text-decoration-none" aria-label="Acesse a página do IPÊ no Instagram (abre em nova aba)">
-                  <Icon icon="mdi-instagram" class="mr-2" />
-                  Instagram
-                </a>
-                <a href="https://www.youtube.com/channel/UCxsLeAueuL-eMIJy6qif9_g/videos" target="_blank"
-                  style="color: #fff;" class="text-decoration-none"
-                  aria-label="Acesse o canal do IPÊ no YouTube (abre em nova aba)">
-                  <Icon icon="mdi-youtube" class="mr-2" />
-                  Youtube
-                </a>
-                <a href="https://www.linkedin.com/company/ip%C3%AA---instituto-de-pesquisas-ecol%C3%B3gicas"
-                  target="_blank" style="color: #fff;" class="text-decoration-none"
-                  aria-label="Acesse a página do IPÊ no LinkedIn (abre em nova aba)">
-                  <Icon icon="mdi-linkedin" class="mr-2" />
-                  Linkedin
-                </a>
-              </div>
-            </Col>
-          </Row>
-          <v-divider class="my-6" />
-          <div class="text-center" style="font-size: 0.9rem; color: #bbb;">
-            <a href="/termos-de-uso.html" class="text-decoration-none text-white" target="_blank">Termos de Uso</a>
-            | <a href="/politica-de-privacidade.html" target="_blank" class="text-decoration-none text-white">Política
-              de privacidade</a> | <a href="https://ipe.org.br/?page_id=8937" target="_blank"
-              class="text-decoration-none text-white">Contate-nos</a><br />
-            Copyright © IPÊ - Instituto de Pesquisas Ecológicas.<br />
-            Email: redelira@ipe.org.br
+                <Button color="success" block href="https://ipe.org.br#conversion-form-newsletter-rodape-site"
+                  target="_blank" class="newsletter-button"
+                  aria-label="Quero me inscrever :). Ir para página de cadastro na newsletter do IPÊ para receber novidades">Quero
+                  me inscrever :)</Button>
+                <!-- </v-form> -->
+                <div class="mt-2" style="font-size: 0.8rem; color: #bbb;">
+                  Prometemos não utilizar suas informações de contato para enviar qualquer tipo de SPAM.
+                </div>
+              </Col>
+              <Col cols="12" md="4">
+                <h3 class="mb-2" style="font-weight: bold; font-size: 1.25rem;">Redes Sociais</h3>
+                <div class="d-flex flex-column gap-2">
+                  <a href="https://www.facebook.com/ipe.instituto.pesquisas.ecologicas" target="_blank"
+                    style="color: #fff;" class="text-decoration-none"
+                    aria-label="Acesse a página do IPÊ no Facebook (abre em nova aba)">
+                    <Icon icon="mdi-facebook" class="mr-2" />
+                    Facebook
+                  </a>
+                  <a href="https://twitter.com/InstitutoIPE" target="_blank" style="color: #fff;"
+                    class="text-decoration-none" aria-label="Acesse a página do IPÊ no Twitter (abre em nova aba)">
+                    <Icon icon="mdi-twitter" class="mr-2" />
+                    Twitter
+                  </a>
+                  <a href="https://www.instagram.com/institutoipe/" target="_blank" style="color: #fff;"
+                    class="text-decoration-none" aria-label="Acesse a página do IPÊ no Instagram (abre em nova aba)">
+                    <Icon icon="mdi-instagram" class="mr-2" />
+                    Instagram
+                  </a>
+                  <a href="https://www.youtube.com/channel/UCxsLeAueuL-eMIJy6qif9_g/videos" target="_blank"
+                    style="color: #fff;" class="text-decoration-none"
+                    aria-label="Acesse o canal do IPÊ no YouTube (abre em nova aba)">
+                    <Icon icon="mdi-youtube" class="mr-2" />
+                    Youtube
+                  </a>
+                  <a href="https://www.linkedin.com/company/ip%C3%AA---instituto-de-pesquisas-ecol%C3%B3gicas"
+                    target="_blank" style="color: #fff;" class="text-decoration-none"
+                    aria-label="Acesse a página do IPÊ no LinkedIn (abre em nova aba)">
+                    <Icon icon="mdi-linkedin" class="mr-2" />
+                    Linkedin
+                  </a>
+                </div>
+              </Col>
+            </Row>
+            <v-divider class="my-6" />
+            <div class="text-center" style="font-size: 0.9rem; color: #bbb;">
+              <a href="/termos-de-uso.html" class="text-decoration-none text-white" target="_blank">Termos de Uso</a>
+              | <a href="/politica-de-privacidade.html" target="_blank" class="text-decoration-none text-white">Política
+                de privacidade</a> | <a href="https://ipe.org.br/?page_id=8937" target="_blank"
+                class="text-decoration-none text-white">Contate-nos</a><br />
+              Copyright © IPÊ - Instituto de Pesquisas Ecológicas.<br />
+              Email: redelira@ipe.org.br
+            </div>
           </div>
-        </div>
-      </v-footer>
-    </v-container>
-  </div>
+        </v-footer>
+      </v-container>
+    </div>
+  </Teleport>
 
 
 </template>

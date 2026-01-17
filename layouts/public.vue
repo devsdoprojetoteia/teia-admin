@@ -61,6 +61,8 @@
 
       <NuxtPage />
     </v-main>
+    <!-- Slot para footer fora do main (ARIA11 - WCAG) -->
+    <div id="footer-teleport-target"></div>
     <Snackbar />
     <v-divider />
     <!-- <v-footer
