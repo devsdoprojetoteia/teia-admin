@@ -323,16 +323,30 @@ onMounted(async () => {
   z-index: 2;
 }
 
+/* Melhorias de contraste para textos sobre o vídeo de fundo */
+.hero-overlay .text-h6,
+.hero-overlay Text {
+  /* Sombra de texto para garantir legibilidade mesmo em áreas claras do vídeo */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.6);
+  color: #ffffff !important;
+}
+
+/* Texto pequeno precisa de mais contraste */
+.hero-overlay Text[style*="font-size: 12px"] {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9), 0 0 6px rgba(0, 0, 0, 0.7);
+  font-weight: 600 !important;
+}
+
 .hero-dark-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  /* Ajuste a opacidade da camada escura alterando o último valor (0.4) */
+  /* Opacidade ajustada para equilibrar visibilidade do vídeo e contraste do texto */
+  /* As sombras de texto garantem contraste WCAG AA mesmo com opacidade menor */
   /* Valores: 0 = transparente, 1 = totalmente preto */
-  /* Recomendado: entre 0.3 e 0.6 para boa legibilidade */
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.55);
   z-index: 1;
   /* Entre o vídeo (z-index: 1) e o conteúdo (z-index: 2) */
 }
