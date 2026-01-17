@@ -178,20 +178,25 @@
           <Row>
             <Col cols="12" md="4" class="mb-6 mb-md-0">
               <h3 class="mb-2" style="font-weight: bold; font-size: 1.25rem;">Onde estamos</h3>
-              <div>
+              <address style="font-style: normal;">
                 <strong>
                   Sede Nazaré
                 </strong>
-                <br />Rod. Dom Pedro I, km 47<br />Nazaré Paulista, SP, Brasil<br />Caixa Postal 47 -
-                12960-000<br />Tel: +55 (11) 3590-0341
-              </div>
+                <div>Rod. Dom Pedro I, km 47</div>
+                <div>Nazaré Paulista, SP, Brasil</div>
+                <div>Caixa Postal 47 - 12960-000</div>
+                <div>Tel: <a href="tel:+551135900341" class="text-white text-decoration-none">+55 (11) 3590-0341</a>
+                </div>
+              </address>
               <div class="mt-2">
-                <a href="https://ipe.org.br/?page_id=6064" class="text-white font-weight-bold text-decoration-none">Mapa
-                  para o
-                  IPÊ</a>
-                <br>
-                <a href="https://ipe.org.br/?page_id=6064"
-                  class="text-white font-weight-bold text-decoration-none">Escritórios</a>
+                <div>
+                  <a href="https://ipe.org.br/?page_id=6064"
+                    class="text-white font-weight-bold text-decoration-none">Mapa para o IPÊ</a>
+                </div>
+                <div>
+                  <a href="https://ipe.org.br/?page_id=6064"
+                    class="text-white font-weight-bold text-decoration-none">Escritórios</a>
+                </div>
               </div>
             </Col>
             <Col cols="12" md="4" class="mb-6 mb-md-0" style="background-color: #111111;">
