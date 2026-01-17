@@ -208,7 +208,7 @@
               <!-- <v-text-field label="Nome" variant="solo" class="mb-2" density="compact" hide-details />
               <v-text-field label="Email" variant="solo" class="mb-2" density="compact" hide-details /> -->
               <Button color="success" block href="https://ipe.org.br#conversion-form-newsletter-rodape-site"
-                target="_blank"
+                target="_blank" class="newsletter-button"
                 aria-label="Quero me inscrever :). Ir para página de cadastro na newsletter do IPÊ para receber novidades">Quero
                 me inscrever :)</Button>
               <!-- </v-form> -->
@@ -362,5 +362,19 @@ onMounted(async () => {
   color: #fff;
   border-radius: 16px;
   min-height: 220px;
+}
+
+/* Garantir contraste adequado no botão da newsletter (WCAG 1.4.3 - Nível AA) */
+.newsletter-button {
+  /* Cor de fundo mais clara para garantir contraste mínimo de 4.5:1 com texto branco */
+  background-color: #00D084 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+.newsletter-button:hover,
+.newsletter-button:focus {
+  background-color: #00B875 !important;
+  color: #ffffff !important;
 }
 </style>
