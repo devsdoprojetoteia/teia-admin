@@ -1,5 +1,5 @@
 <template>
-  <div id="main-content" class="course-page container py-8 px-4" tabindex="-1">
+  <div class="course-page container py-8 px-4">
     <div v-if="pending">
       <Loading />
     </div>
