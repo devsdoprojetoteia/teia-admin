@@ -80,3 +80,51 @@ p, h1, h2, h3, h4, h5, h6
     font-size: 18px !important
   .text-h6
     font-size: 16px !important
+
+// Estilos de acessibilidade para foco visível do teclado
+// Garante que o foco seja claramente visível para navegação por teclado
+
+// Foco visível para botões do Vuetify
+.v-btn:focus-visible
+  outline: 3px solid #FF5C00 !important
+  outline-offset: 2px !important
+  box-shadow: 0 0 0 4px rgba(255, 92, 0, 0.3) !important
+
+// Foco visível para links
+a:focus-visible
+  outline: 3px solid #FF5C00 !important
+  outline-offset: 2px !important
+  border-radius: 2px !important
+
+// Foco visível para elementos interativos nos cards de curso
+.course-card .v-btn:focus-visible
+  outline: 3px solid #FFD700 !important
+  outline-offset: 3px !important
+  box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.4) !important
+
+// Foco visível para seção News IPÊ
+.v-footer a:focus-visible,
+.v-footer .v-btn:focus-visible
+  outline: 3px solid #00D4AA !important
+  outline-offset: 2px !important
+  box-shadow: 0 0 0 4px rgba(0, 212, 170, 0.3) !important
+
+// Foco visível para elementos de formulário
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+.v-field__input:focus-visible
+  outline: 3px solid #FF5C00 !important
+  outline-offset: 2px !important
+
+// Remover outline padrão do navegador apenas quando não for foco por teclado
+*:focus:not(:focus-visible)
+  outline: none
+
+// Garantir que elementos customizados também tenham foco visível
+button:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible
+  outline: 3px solid #FF5C00 !important
+  outline-offset: 2px !important
+  box-shadow: 0 0 0 4px rgba(255, 92, 0, 0.3) !important

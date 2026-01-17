@@ -118,12 +118,12 @@
           <Text variant="h4" weight="bold" class="mb-8 text-center" style="color: #215c2e;">Cursos</Text>
           <Row class="mb-8">
             <Col v-for="(course, index) in courses" :key="course.id" cols="12" md="6">
-            <Card class="course-card pa-6 d-flex flex-column justify-space-between rounded-0 h-100"
-              :color="(Math.floor(index / 2) + index) % 2 === 0 ? '#235A33' : '#00644A'">
-              <div class="mb-4">
-                <Text variant="h5" weight="bold" class="mb-4 text-center">{{ course.name }}</Text>
-                <div class="d-flex align-center justify-start" style="width: 100%;">
-                  <Text style="
+              <Card class="course-card pa-6 d-flex flex-column justify-space-between rounded-0 h-100"
+                :color="(Math.floor(index / 2) + index) % 2 === 0 ? '#235A33' : '#00644A'">
+                <div class="mb-4">
+                  <Text variant="h5" weight="bold" class="mb-4 text-center">{{ course.name }}</Text>
+                  <div class="d-flex align-center justify-start" style="width: 100%;">
+                    <Text style="
                       font-size: 14px;
                       display: -webkit-box;
                       -webkit-line-clamp: 3;
@@ -135,18 +135,18 @@
                       max-height: calc(1.5em * 3);
                       white-space: normal;
                     ">{{ course.description }}</Text>
+                  </div>
                 </div>
-              </div>
-              <div class="text-center">
-                <div class="mb-4" v-if="course.duration">
-                  <Icon icon="mdi-clock-outline" class="mr-1" />
-                  <small>{{ course.duration }}</small>
+                <div class="text-center">
+                  <div class="mb-4" v-if="course.duration">
+                    <Icon icon="mdi-clock-outline" class="mr-1" />
+                    <small>{{ course.duration }}</small>
+                  </div>
+                  <Button :to="`/curso/${course.id}`" rounded="lg"
+                    :aria-label="`Ver detalhes sobre o curso ${course.name}`">Ver Detalhes</Button>
                 </div>
-                <Button :to="`/curso/${course.id}`" rounded="lg"
-                  :aria-label="`Ver detalhes sobre o curso ${course.name}`">Ver Detalhes</Button>
-              </div>
 
-            </Card>
+              </Card>
             </Col>
           </Row>
         </section>
@@ -176,68 +176,72 @@
         <section>
           <Row>
             <Col cols="12" md="4" class="mb-6 mb-md-0">
-            <Text weight="bold" class="mb-2 text-h6">Onde estamos</Text>
-            <div>
-              <strong>
-                Sede Nazaré
-              </strong>
-              <br />Rod. Dom Pedro I, km 47<br />Nazaré Paulista, SP, Brasil<br />Caixa Postal 47 -
-              12960-000<br />Tel: +55 (11) 3590-0341
-            </div>
-            <div class="mt-2">
-              <a href="https://ipe.org.br/?page_id=6064" class="text-white font-weight-bold text-decoration-none">Mapa
-                para o
-                IPÊ</a>
-              <br>
-              <a href="https://ipe.org.br/?page_id=6064"
-                class="text-white font-weight-bold text-decoration-none">Escritórios</a>
-            </div>
+              <Text weight="bold" class="mb-2 text-h6">Onde estamos</Text>
+              <div>
+                <strong>
+                  Sede Nazaré
+                </strong>
+                <br />Rod. Dom Pedro I, km 47<br />Nazaré Paulista, SP, Brasil<br />Caixa Postal 47 -
+                12960-000<br />Tel: +55 (11) 3590-0341
+              </div>
+              <div class="mt-2">
+                <a href="https://ipe.org.br/?page_id=6064" class="text-white font-weight-bold text-decoration-none">Mapa
+                  para o
+                  IPÊ</a>
+                <br>
+                <a href="https://ipe.org.br/?page_id=6064"
+                  class="text-white font-weight-bold text-decoration-none">Escritórios</a>
+              </div>
             </Col>
             <Col cols="12" md="4" class="mb-6 mb-md-0" style="background-color: #111111;">
-            <div class="text-center">
-              <Text weight="bold" class="mb-2 text-h6">News IPÊ</Text>
-              <div class="mb-2">Cadastre-se para ficar por dentro das novidades!</div>
-            </div>
-            <!-- <v-form action="https://cta-redirect.rdstation.com/v2/conversions" method="post"> -->
-            <!-- <v-text-field label="Nome" variant="solo" class="mb-2" density="compact" hide-details />
+              <div class="text-center">
+                <Text weight="bold" class="mb-2 text-h6">News IPÊ</Text>
+                <div class="mb-2">Cadastre-se para ficar por dentro das novidades!</div>
+              </div>
+              <!-- <v-form action="https://cta-redirect.rdstation.com/v2/conversions" method="post"> -->
+              <!-- <v-text-field label="Nome" variant="solo" class="mb-2" density="compact" hide-details />
               <v-text-field label="Email" variant="solo" class="mb-2" density="compact" hide-details /> -->
-            <Button color="success" block href="https://ipe.org.br#conversion-form-newsletter-rodape-site"
-              target="_blank" aria-label="Ir para página de cadastro na newsletter do IPÊ para receber novidades">Quero
-              me inscrever :)</Button>
-            <!-- </v-form> -->
-            <div class="mt-2" style="font-size: 0.8rem; color: #bbb;">
-              Prometemos não utilizar suas informações de contato para enviar qualquer tipo de SPAM.
-            </div>
+              <Button color="success" block href="https://ipe.org.br#conversion-form-newsletter-rodape-site"
+                target="_blank"
+                aria-label="Ir para página de cadastro na newsletter do IPÊ para receber novidades">Quero
+                me inscrever :)</Button>
+              <!-- </v-form> -->
+              <div class="mt-2" style="font-size: 0.8rem; color: #bbb;">
+                Prometemos não utilizar suas informações de contato para enviar qualquer tipo de SPAM.
+              </div>
             </Col>
             <Col cols="12" md="4">
-            <Text weight="bold" class="mb-2 text-h6">Redes Sociais</Text>
-            <div class="d-flex flex-column gap-2">
-              <a href="https://www.facebook.com/ipe.instituto.pesquisas.ecologicas" target="_blank" style="color: #fff;"
-                class="text-decoration-none">
-                <Icon icon="mdi-facebook" class="mr-2" />
-                Facebook
-              </a>
-              <a href="https://twitter.com/InstitutoIPE" target="_blank" style="color: #fff;"
-                class="text-decoration-none">
-                <Icon icon="mdi-twitter" class="mr-2" />
-                Twitter
-              </a>
-              <a href="https://www.instagram.com/institutoipe/" target="_blank" style="color: #fff;"
-                class="text-decoration-none">
-                <Icon icon="mdi-instagram" class="mr-2" />
-                Instagram
-              </a>
-              <a href="https://www.youtube.com/channel/UCxsLeAueuL-eMIJy6qif9_g/videos" target="_blank"
-                style="color: #fff;" class="text-decoration-none">
-                <Icon icon="mdi-youtube" class="mr-2" />
-                Youtube
-              </a>
-              <a href="https://www.linkedin.com/company/ip%C3%AA---instituto-de-pesquisas-ecol%C3%B3gicas"
-                target="_blank" style="color: #fff;" class="text-decoration-none">
-                <Icon icon="mdi-linkedin" class="mr-2" />
-                Linkedin
-              </a>
-            </div>
+              <Text weight="bold" class="mb-2 text-h6">Redes Sociais</Text>
+              <div class="d-flex flex-column gap-2">
+                <a href="https://www.facebook.com/ipe.instituto.pesquisas.ecologicas" target="_blank"
+                  style="color: #fff;" class="text-decoration-none"
+                  aria-label="Acesse a página do IPÊ no Facebook (abre em nova aba)">
+                  <Icon icon="mdi-facebook" class="mr-2" />
+                  Facebook
+                </a>
+                <a href="https://twitter.com/InstitutoIPE" target="_blank" style="color: #fff;"
+                  class="text-decoration-none" aria-label="Acesse a página do IPÊ no Twitter (abre em nova aba)">
+                  <Icon icon="mdi-twitter" class="mr-2" />
+                  Twitter
+                </a>
+                <a href="https://www.instagram.com/institutoipe/" target="_blank" style="color: #fff;"
+                  class="text-decoration-none" aria-label="Acesse a página do IPÊ no Instagram (abre em nova aba)">
+                  <Icon icon="mdi-instagram" class="mr-2" />
+                  Instagram
+                </a>
+                <a href="https://www.youtube.com/channel/UCxsLeAueuL-eMIJy6qif9_g/videos" target="_blank"
+                  style="color: #fff;" class="text-decoration-none"
+                  aria-label="Acesse o canal do IPÊ no YouTube (abre em nova aba)">
+                  <Icon icon="mdi-youtube" class="mr-2" />
+                  Youtube
+                </a>
+                <a href="https://www.linkedin.com/company/ip%C3%AA---instituto-de-pesquisas-ecol%C3%B3gicas"
+                  target="_blank" style="color: #fff;" class="text-decoration-none"
+                  aria-label="Acesse a página do IPÊ no LinkedIn (abre em nova aba)">
+                  <Icon icon="mdi-linkedin" class="mr-2" />
+                  Linkedin
+                </a>
+              </div>
             </Col>
           </Row>
           <v-divider class="my-6" />
