@@ -57,3 +57,13 @@ O [TEIA Admin](https://github.com/devsdoprojetoteia/teia-admin) é o backend do 
 
 ![](./docs/assets/colaboradores.svg)
 
+## Licença
+
+Este projeto é licenciado sob a **GNU Affero General Public License v3.0 (AGPL-3.0)**.
+
+Você pode usar, modificar e redistribuir este software, desde que:
+- O código-fonte completo seja disponibilizado
+- Alterações também sejam licenciadas sob AGPL
+- O código seja disponibilizado mesmo em uso via rede (SaaS)
+
+Consulte o arquivo [LICENSE](./LICENSE) para mais detalhes.
