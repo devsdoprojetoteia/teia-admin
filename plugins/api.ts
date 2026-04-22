@@ -24,12 +24,13 @@ export default defineNuxtPlugin((nuxtApp) => {
     // "Content-Type": "application/json",
   };
 
+  // useCookie must run in plugin/setup context — not inside $fetch onRequest (SSR loses Nuxt context after await).
+  const authCookie = useCookie<Auth | null>("auth");
+
   const apiFetcher = $fetch.create({
     baseURL: nuxtApp.$config.public.apiURL as string,
     headers,
     onRequest: (config) => {
-      const authCookie = useCookie<Auth | null>("auth");
-
       const token = authCookie.value?.token;
       if (token) {
         if (config.options.headers instanceof Headers) {
