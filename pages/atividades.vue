@@ -44,23 +44,23 @@
         </div>
 
         <!-- Tabela de Relatórios -->
-        <v-card elevation="2" v-else>
-            <v-card-text>
-                <div class="d-flex justify-center pa-10" v-if="loading">
-                    <Loading />
+        <div v-else>
+            <div class="d-flex justify-center pa-10" v-if="loading">
+                <Loading />
+            </div>
+            <div v-if="!loading">
+                <div v-if="answers.length === 0" class="pa-4 text-center">
+                    <Alert>Nenhuma atividade encontrada</Alert>
                 </div>
-                <div v-if="!loading">
-                    <div v-if="answers.length === 0" class="pa-4 text-center">
-                        <Alert>Nenhuma atividade encontrada</Alert>
-                    </div>
 
-                    <div v-for="answer in answers" :key="answer.id">
+                <v-card v-for="answer in answers" :key="answer.id" class="mb-4 bg-gray p-4 rounded-lg">
+                    <v-card-text>
                         <v-row class="mb-2">
                             <v-col cols="12" md="4">
                                 <strong>Curso:</strong> {{ answer.course.name }}
                             </v-col>
                             <v-col cols="12" md="4">
-                                <strong>Estudante:</strong> {{ answer.user.name }}
+                                <strong>Estudante:</strong> {{ answer.user?.name || 'N/A' }}
                             </v-col>
                             <v-col cols="12" md="4">
                                 <strong>Data:</strong> {{ $utils.formatDate(answer.createdAt) }}
@@ -68,11 +68,11 @@
                         </v-row>
                         <div class="mb-4"><strong>Questão:</strong> {{ answer.question }}</div>
                         <div><strong>Resposta:</strong> {{ answer.answer }}</div>
-                    </div>
+                    </v-card-text>
+                </v-card>
 
-                </div>
-            </v-card-text>
-        </v-card>
+            </div>
+        </div>
     </v-container>
 </template>
 
