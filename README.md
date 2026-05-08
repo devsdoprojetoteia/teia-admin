@@ -159,6 +159,7 @@ Arquivos enviados pelos usuários (geralmente ignorados pelo git)
 [Atores](./docs/atores.md)
 [Casos de Uso](./docs/casos_de_uso.md)
 [Divisão de módulos](./docs/divisão_de_módulos.md)
+[Arquitetura da aplicação](./docs/arquitetura_aplicacao.md)
 
 ## Design (UX/UI)
 [Figma](https://www.figma.com/design/nMztAvNEU8KpG0HocEu4sk/Portal-TEIA?node-id=0-1&p=f&t=lVjwHLjAovrlAtKa-0)
