@@ -1,10 +1,11 @@
 import { defineEventHandler, createError, getQuery } from "h3";
 import UserCourseProgress from "~/server/models/user_course_progress";
 import User from "~/server/models/user";
-import authorize from "~/server/utils/authorize";
+import authorize, { BOT_ROLE } from "~/server/utils/authorize";
+import { normalizePhone } from "~/server/utils/input";
 
 export default defineEventHandler(async (event) => {
-  const authenticatedUser = authorize(event, ["administrador"]);
+  const authenticatedUser = authorize(event, ["administrador", BOT_ROLE]);
 
   const id = event.context.params!["id"];
 
@@ -21,16 +22,13 @@ export default defineEventHandler(async (event) => {
   };
 
   if (userPhone) {
-    let phone = userPhone?.toString() || "";
-    // se o telefone não estiver nesse formato "(11) 11111-1111" formatar para esse formato
-    if (!phone.match(/^\(\d{2}\) \d{5}-\d{4}$/)) {
-      phone = phone.replace(/\D/g, "");
-      phone = `(${phone.slice(0, 2)}) ${phone.slice(2, 7)}-${phone.slice(7)}`;
-    }
+    const phone = normalizePhone(userPhone);
     const user = await User.findOne({ phone });
-    if (user) {
-      query.user = user.id;
+    if (!user) {
+      // Telefone sem usuário: não devolver o progresso dos outros alunos
+      return [];
     }
+    query.user = user.id;
   }
 
 

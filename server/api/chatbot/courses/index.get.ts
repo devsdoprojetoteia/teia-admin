@@ -1,9 +1,9 @@
 import { defineEventHandler, readBody, createError } from "h3";
-import authorize from "~/server/utils/authorize";
+import authorize, { BOT_ROLE } from "~/server/utils/authorize";
 import Course from "~~/server/models/course";
 
 export default defineEventHandler(async (event) => {
-  const authenticatedUser = authorize(event, ["administrador"]);
+  const authenticatedUser = authorize(event, ["administrador", BOT_ROLE]);
 
   const query = getQuery(event)
   const filters: {

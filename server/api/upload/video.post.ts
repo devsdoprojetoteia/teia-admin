@@ -1,6 +1,9 @@
 import { uploadToS3 } from '~/server/utils/upload'
+import { authorizeUpload, safeFilename, UPLOAD_LIMITS, validateUpload } from '~/server/utils/upload-guard'
 
 export default defineEventHandler(async (event) => {
+  authorizeUpload(event)
+
   const files = await readMultipartFormData(event)
   if (!files || files.length === 0) {
     throw createError({
@@ -10,15 +13,8 @@ export default defineEventHandler(async (event) => {
   }
 
   const file = files[0]
-  const filename = file.filename || `${Date.now()}-${Math.random().toString(36).substring(7)}`
-  const mimeType = file.type || 'application/octet-stream'
-
-  if (!mimeType.startsWith('video/')) {
-    throw createError({
-      statusCode: 400,
-      message: 'Invalid file type. Only videos are allowed.'
-    })
-  }
+  const mimeType = validateUpload(file, UPLOAD_LIMITS.video, (type) => type.startsWith('video/'))
+  const filename = safeFilename(file.filename)
 
   const key = `videos/${filename}`
   const url = await uploadToS3(file.data, key, mimeType)
@@ -27,4 +23,4 @@ export default defineEventHandler(async (event) => {
     type: 'video',
     url
   }
-}) 
+})

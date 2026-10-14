@@ -1,10 +1,11 @@
 import { defineEventHandler, createError } from "h3";
+import authorize, { BOT_ROLE } from "~/server/utils/authorize";
 import Course from "~~/server/models/course";
 import Module from "~~/server/models/module";
 import Topic from "~~/server/models/topic";
 
 export default defineEventHandler(async (event) => {
-  const authenticatedUser = authorize(event, ["administrador"]);
+  const authenticatedUser = authorize(event, ["administrador", BOT_ROLE]);
 
   const id = event.context.params!["id"];
 

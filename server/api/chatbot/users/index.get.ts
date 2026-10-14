@@ -1,9 +1,10 @@
 import { defineEventHandler, createError } from "h3";
-import authorize from "~/server/utils/authorize";
+import authorize, { BOT_ROLE } from "~/server/utils/authorize";
+import { normalizePhone } from "~/server/utils/input";
 import { UserCourseProgress, User, Course } from "~/server/models";
 
 export default defineEventHandler(async (event) => {
-  const authenticatedUser = authorize(event, ["administrador"]);
+  const authenticatedUser = authorize(event, ["administrador", BOT_ROLE]);
 
   const filters: {
     [key: string]: any;
@@ -17,13 +18,7 @@ export default defineEventHandler(async (event) => {
   }
 
   if (query.phone) {
-    let phone = query.phone.toString();
-    // se o telefone não estiver nesse formato "(11) 11111-1111" formatar para esse formato
-    if (!phone.match(/^\(\d{2}\) \d{5}-\d{4}$/)) {
-      phone = phone.replace(/\D/g, "");
-      phone = `(${phone.slice(0, 2)}) ${phone.slice(2, 7)}-${phone.slice(7)}`;
-    }
-    filters.phone = phone;
+    filters.phone = normalizePhone(query.phone);
   }
 
   const users = await User.find(filters).sort({ name: 1 });

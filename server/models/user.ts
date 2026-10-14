@@ -14,6 +14,8 @@ interface IUser extends Document {
   phone: string;
   password: string;
   passwordResetCode?: string;
+  passwordResetExpires?: Date;
+  passwordResetAttempts?: number;
   role: string;
   createdAt: Date;
   updatedAt: Date;
@@ -28,9 +30,21 @@ const UserSchema = new Schema<IUser>(
     role: { type: String, required: true, default: "estudante" },
     password: { type: String, required: true },
     passwordResetCode: { type: String },
+    passwordResetExpires: { type: Date },
+    passwordResetAttempts: { type: Number, default: 0 },
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields
+    // Nunca expor hash de senha nem dados de recuperação nas respostas da API
+    toJSON: {
+      transform: (_doc, ret: any) => {
+        delete ret.password;
+        delete ret.passwordResetCode;
+        delete ret.passwordResetExpires;
+        delete ret.passwordResetAttempts;
+        return ret;
+      },
+    },
   }
 );
 

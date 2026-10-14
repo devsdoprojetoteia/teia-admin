@@ -2,14 +2,15 @@ import { hashSync } from "bcrypt";
 import { defineEventHandler, readBody, createError } from "h3";
 import authorize from "~/server/utils/authorize";
 import User from "~~/server/models/user";
+import { requireString } from "~/server/utils/input";
 
 export default defineEventHandler(async (event) => {
   const authenticatedUser = authorize(event, ["administrador", "tutor"]);
 
   const body = await readBody(event);
 
-  const { name, phone, password } = body;
-  console.log(body);
+  const { name, password } = body;
+  const phone = requireString(body.phone, "phone");
 
   const existingUser = await User.findOne({ phone });
   if (existingUser) {

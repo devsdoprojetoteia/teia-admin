@@ -1,4 +1,5 @@
 import { defineEventHandler, createError } from "h3";
+import authorize from "~/server/utils/authorize";
 import Course from "~~/server/models/course";
 import Module from "~~/server/models/module";
 import Topic from "~~/server/models/topic";
@@ -15,16 +16,16 @@ export default defineEventHandler(async (event) => {
 
   const course = await Course.findOne(query)
 
-
-
-
-
-
   if (!course) {
     throw createError({
       statusCode: 400,
       message: "Curso não encontrado",
     });
+  }
+
+  // Cursos publicados são públicos (Portal TEIA); os demais só para a equipe
+  if (!course.published) {
+    authorize(event, ["administrador", "tutor"]);
   }
 
   const modules = await Module.find({ course: id }).sort({ order: 1 })
