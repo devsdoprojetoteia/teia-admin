@@ -1,835 +1,504 @@
-# DESCRIÇÃO DOS ENDPOINTS DA API
+# Contratos da API REST — TEIA Admin
 
-## Usuários
+> Documento gerado a partir do código em `server/api/` e revisado em 14/10/2026.
+> Endpoints exclusivos do chatbot estão em [CHATBOT-API.md](../CHATBOT-API.md).
+> Regras de autenticação, tokens e uploads estão detalhadas em [SEGURANCA.md](./SEGURANCA.md).
 
-### Listar Usuários
-```
-GET https://teia.ipe.org.br/api/users
-```
-**Permissão:** Administrador, Tutor  
-**Parâmetros:**  
-Nenhum.
+**URL base (produção):** `https://teia.ipe.org.br`
 
-**Retorno:**  
-```json
-[
-  {
-    "id": "string",
-    "name": "string",
-    "phone": "string",
-    "role": "string",
-    "createdAt": "Date",
-    "updatedAt": "Date"
-  }
-]
-```
+## Convenções
 
-### Criar Usuário
-```
-POST https://teia.ipe.org.br/api/users/create
-```
-**Permissão:** Administrador, Tutor  
-**Parâmetros:**  
-```json
-{
-  "name": "string",
-  "phone": "string",
-  "password": "string",
-  "role": "string (apenas para administradores)"
-}
-```
+- Autenticação: header `Authorization: Bearer <token>`, onde `<token>` é o JWT retornado por `/api/login` ou `/api/register`.
+- Papéis (`role`): `administrador`, `tutor`, `estudante`. O token fixo do chatbot só vale em `/api/chatbot/*` (ver [CHATBOT-API.md](../CHATBOT-API.md)).
+- Erros seguem o formato padrão do Nitro/h3:
+  ```json
+  { "statusCode": 400, "message": "Descrição do erro" }
+  ```
+  | Código | Quando ocorre |
+  |---|---|
+  | 400 | Parâmetro ausente ou inválido; também usado em vários endpoints para "registro não encontrado" |
+  | 401 | Token ausente, inválido ou expirado |
+  | 403 | Token válido, mas sem o papel exigido |
+  | 404 | Módulo/tópico não encontrado |
+  | 413 | Arquivo de upload acima do limite |
+  | 500 | Erro interno (inclusive `SECRET_KEY` não configurada) |
+- Campos de texto recebidos no body que são usados em consultas (telefone, código, IDs) precisam ser **strings**; objetos são rejeitados com 400.
+- Telefones de usuários são armazenados no formato `(11) 11111-1111`. **O login é feito por telefone e senha** — não há login por e-mail.
+- Respostas nunca incluem hash de senha nem dados de recuperação de senha.
 
-**Retorno:**  
-```json
-{
-  "id": "string",
-  "name": "string",
-  "phone": "string",
-  "role": "string",
-  "createdAt": "Date",
-  "updatedAt": "Date"
-}
-```
+### Resumo de permissões
 
-### Atualizar Usuário
-```
-PUT https://teia.ipe.org.br/api/users/[id]
-```
-**Permissão:** Administrador, Tutor  
-**Parâmetros:**  
-```json
-{
-  "name": "string",
-  "phone": "string",
-  "role": "string (opcional, apenas para administradores)"
-}
-```
+| Recurso | Público | Estudante | Tutor | Administrador |
+|---|---|---|---|---|
+| Cadastro, login, recuperação de senha | ✅ | ✅ | ✅ | ✅ |
+| Listar cursos publicados / ver curso publicado | ✅ | ✅ | ✅ | ✅ |
+| Ver curso não publicado | — | — | ✅ | ✅ |
+| Listar cursos, módulos, tópicos | — | — | ✅ | ✅ |
+| Criar/editar/excluir cursos, módulos, tópicos | — | — | — | ✅ |
+| Gerenciar usuários | — | — | ✅ (apenas estudantes) | ✅ (todos) |
+| Definir papel de usuário | — | — | — | ✅ |
+| Relatórios e progresso | — | — | ✅ | ✅ |
+| Registrar progresso (`/api/users/progress`) | — | ✅ (o próprio) | ✅ (qualquer) | ✅ (qualquer) |
+| Uploads | — | — | ✅ | ✅ |
 
-**Retorno:**  
-```json
-{
-  "id": "string",
-  "name": "string",
-  "phone": "string",
-  "role": "string",
-  "createdAt": "Date",
-  "updatedAt": "Date"
-}
-```
-
-### Alterar Senha do Usuário
-```
-PUT https://teia.ipe.org.br/api/users/password/[id]
-```
-**Permissão:** Administrador, Tutor  
-**Parâmetros:**  
-```json
-{
-  "password": "string"
-}
-```
-
-**Retorno:**  
-```json
-{
-  "id": "string",
-  "name": "string",
-  "phone": "string",
-  "role": "string",
-  "createdAt": "Date",
-  "updatedAt": "Date"
-}
-```
-
-### Deletar Usuário
-```
-DELETE https://teia.ipe.org.br/api/users/[id]
-```
-**Permissão:** Administrador, Tutor  
-**Parâmetros:**  
-Nenhum.
-
-**Retorno:**  
-```json
-{
-  "statusCode": 201
-}
-```
-
-### Registrar Progresso do Usuário
-```
-POST https://teia.ipe.org.br/api/users/progress
-```
-**Permissão:** Administrador, Tutor, Estudante  
-**Parâmetros:**  
-```json
-{
-  "courseId": "string",
-  "moduleId": "string",
-  "topicId": "string",
-  "userId": "string (opcional, apenas para administradores e tutores)"
-}
-```
-
-**Retorno:**  
-```json
-{
-  "id": "string",
-  "user": "string",
-  "course": "string",
-  "topics": [
-    {
-      "module": "string",
-      "topic": "string",
-      "createdAt": "Date"
-    }
-  ],
-  "createdAt": "Date",
-  "updatedAt": "Date"
-}
-```
+---
 
 ## Autenticação
 
-### Registrar Usuário
+### Cadastrar usuário
 ```
-POST https://teia.ipe.org.br/api/register
+POST /api/register
 ```
-**Permissão:** Público (sem autenticação)  
-**Parâmetros:**  
-```json
-{
-  "name": "string",
-  "phone": "string",
-  "password": "string"
-}
-```
+**Permissão:** Público. Cria sempre um usuário com papel `estudante`.
 
-**Retorno:**  
+**Body:**
+```json
+{ "name": "string", "phone": "string", "password": "string" }
+```
+**Retorno:**
 ```json
 {
-  "token": "string",
-  "user": {
-    "id": "string",
-    "name": "string",
-    "phone": "string",
-    "role": "string",
-    "createdAt": "Date",
-    "updatedAt": "Date"
-  }
+  "token": "string (JWT, validade de 1 ano)",
+  "user": { "id": "string", "name": "string", "phone": "string", "role": "estudante", "createdAt": "Date", "updatedAt": "Date" }
 }
 ```
+**Erros:** 400 se algum campo estiver ausente ou o telefone já estiver cadastrado.
 
 ### Login
 ```
-POST https://teia.ipe.org.br/api/login
+POST /api/login
 ```
-**Permissão:** Público (sem autenticação)  
-**Parâmetros:**  
+**Permissão:** Público.
+
+**Body:**
 ```json
-{
-  "phone": "string",
-  "password": "string"
-}
+{ "phone": "string", "password": "string" }
+```
+**Retorno:** igual ao de `/api/register`.
+
+**Erros:** 400 se campos ausentes/inválidos; 401 se telefone ou senha estiverem incorretos.
+
+### Solicitar código de recuperação de senha
+```
+POST /api/forgot-password
+```
+**Permissão:** Público.
+
+**Body:**
+```json
+{ "phone": "string" }
+```
+**Retorno:**
+```json
+{ "message": "Código de recuperação enviado" }
+```
+**Comportamento:** gera um código de 6 dígitos, válido por **30 minutos**, com no máximo **5 tentativas**. Um novo pedido substitui o código anterior.
+
+> ⚠️ **Limitação atual:** o código ainda **não é enviado** ao usuário (WhatsApp/SMS/e-mail); ele é registrado apenas no log do servidor.
+
+**Erros:** 400 se o telefone não estiver cadastrado.
+
+### Redefinir senha com código
+```
+POST /api/recover-password
+```
+**Permissão:** Público.
+
+**Body:**
+```json
+{ "phone": "string", "code": "string", "password": "string" }
+```
+**Retorno:**
+```json
+{ "message": "Senha alterada com sucesso" }
+```
+**Erros:** 400 se algum campo estiver ausente, se o código for inválido, estiver expirado, já tiver sido usado ou se as tentativas tiverem se esgotado.
+
+---
+
+## Usuários
+
+Objeto `User` retornado pelos endpoints abaixo:
+```json
+{ "_id": "string", "name": "string", "phone": "string", "role": "administrador | tutor | estudante", "createdAt": "Date", "updatedAt": "Date" }
 ```
 
-**Retorno:**  
-```json
-{
-  "token": "string",
-  "user": {
-    "id": "string",
-    "name": "string",
-    "phone": "string",
-    "role": "string",
-    "createdAt": "Date",
-    "updatedAt": "Date"
-  }
-}
+### Listar usuários
 ```
+GET /api/users
+```
+**Permissão:** Administrador (todos os usuários), Tutor (apenas estudantes).
 
-### Esqueci a Senha
-```
-POST https://teia.ipe.org.br/api/forgot-password
-```
-**Permissão:** Público (sem autenticação)  
-**Parâmetros:**  
-```json
-{
-  "phone": "string"
-}
-```
+**Retorno:** `User[]` ordenado por nome.
 
-**Retorno:**  
-```json
-{
-  "message": "Código de recuperação enviado"
-}
+### Criar usuário
 ```
+POST /api/users/create
+```
+**Permissão:** Administrador, Tutor.
 
-### Recuperar Senha
-```
-POST https://teia.ipe.org.br/api/recover-password
-```
-**Permissão:** Público (sem autenticação)  
-**Parâmetros:**  
+**Body:**
 ```json
-{
-  "phone": "string",
-  "code": "string",
-  "password": "string"
-}
+{ "name": "string", "phone": "string", "password": "string", "role": "string (considerado apenas quando o autor é administrador)" }
 ```
+Quando o autor é tutor, o usuário é sempre criado como `estudante`.
 
-**Retorno:**  
+**Retorno:**
 ```json
-{
-  "message": "Senha alterada com sucesso"
-}
+{ "statusCode": 201, "body": { "id": "string", "name": "string", "phone": "string", "role": "string", "createdAt": "Date", "updatedAt": "Date" } }
 ```
+**Erros:** 400 se o telefone já estiver cadastrado.
+
+### Atualizar usuário
+```
+PUT /api/users/[id]
+```
+**Permissão:** Administrador (qualquer usuário), Tutor (apenas estudantes).
+
+**Body:**
+```json
+{ "name": "string", "phone": "string", "role": "string (obrigatório quando o autor é administrador)" }
+```
+**Retorno:** `{ "statusCode": 201, "body": <dados públicos do usuário> }`
+
+**Erros:** 400 se a conta não existir (ou não estiver acessível ao tutor) ou se o telefone pertencer a outra conta.
+
+### Alterar senha de um usuário
+```
+PUT /api/users/password/[id]
+```
+**Permissão:** Administrador (qualquer usuário), Tutor (apenas estudantes).
+
+**Body:**
+```json
+{ "password": "string" }
+```
+**Retorno:** `{ "statusCode": 201, "body": <dados públicos do usuário> }`
+
+### Excluir usuário
+```
+DELETE /api/users/[id]
+```
+**Permissão:** Administrador (qualquer usuário), Tutor (apenas estudantes).
+
+**Retorno:** `{ "statusCode": 201 }`
+
+### Registrar progresso em um tópico
+```
+POST /api/users/progress
+```
+**Permissão:** Administrador, Tutor, Estudante.
+
+**Body:**
+```json
+{ "courseId": "string", "moduleId": "string", "topicId": "string", "userId": "string (usado apenas quando o autor não é estudante)" }
+```
+Estudantes registram o próprio progresso; administradores e tutores informam `userId`.
+
+**Retorno:** objeto `UserCourseProgress` (ver [Progresso de um curso](#progresso-dos-alunos-em-um-curso)).
+
+> ⚠️ **Problema conhecido:** este endpoint não é usado pelo Portal TEIA (o portal guarda os tópicos vistos apenas no navegador) e, quando chamado por um estudante, não identifica o usuário corretamente. O progresso oficial hoje é registrado pelo chatbot via `POST /api/chatbot/progress`.
+
+---
 
 ## Cursos
 
-### Listar Cursos
-```
-GET https://teia.ipe.org.br/api/courses
-```
-**Permissão:** Administrador, Tutor  
-**Parâmetros:**  
-Nenhum.
-
-**Retorno:**  
-```json
-[
-  {
-    "id": "string",
-    "name": "string",
-    "description": "string",
-    "phone": "string",
-    "published": "boolean",
-    "createdAt": "Date",
-    "updatedAt": "Date"
-  }
-]
-```
-
-### Listar Cursos Publicados
-```
-GET https://teia.ipe.org.br/api/courses/list-published
-```
-**Permissão:** Público (sem autenticação)  
-**Parâmetros:**  
-Nenhum.
-
-**Retorno:**  
-```json
-[
-  {
-    "id": "string",
-    "name": "string",
-    "description": "string",
-    "phone": "string",
-    "published": "boolean",
-    "createdAt": "Date",
-    "updatedAt": "Date"
-  }
-]
-```
-
-### Obter Curso
-```
-GET https://teia.ipe.org.br/api/courses/[id]
-```
-**Permissão:** Administrador, Tutor  
-**Parâmetros:**  
-Nenhum.
-
-**Retorno:**  
+Objeto `Course`:
 ```json
 {
   "id": "string",
-  "name": "string",
+  "name": "string (único)",
   "description": "string",
-  "phone": "string",
+  "phone": "string (telefone do chatbot do curso — não é único)",
   "published": "boolean",
+  "duration": "string",
+  "learning": ["string"],
+  "requirements": ["string"],
+  "team": [{ "avatar": "string", "name": "string", "role": "string", "linkedin": "string" }],
   "createdAt": "Date",
   "updatedAt": "Date"
 }
 ```
 
-### Criar Curso
+### Listar cursos
 ```
-POST https://teia.ipe.org.br/api/courses/create
+GET /api/courses
 ```
-**Permissão:** Administrador  
-**Parâmetros:**  
+**Permissão:** Administrador, Tutor.
+
+**Retorno:** `Course[]` ordenado por nome.
+
+### Listar cursos publicados
+```
+GET /api/courses/list-published
+```
+**Permissão:** Público.
+
+**Retorno:** `Course[]` com `published: true`, ordenado por nome.
+
+### Obter curso completo
+```
+GET /api/courses/[id]
+```
+**Permissão:** Público se o curso estiver publicado (usado pelo Portal TEIA); Administrador ou Tutor se não estiver.
+
+**Retorno:** `Course` com `modules[]`, e cada módulo com `topics[]`, ordenados por `order`.
+
+**Erros:** 400 se o curso não existir; 401/403 se o curso não estiver publicado e não houver token de administrador/tutor.
+
+### Criar curso
+```
+POST /api/courses/create
+```
+**Permissão:** Administrador.
+
+**Body:**
 ```json
-{
-  "name": "string",
-  "description": "string",
-  "phone": "string",
-  "published": "boolean"
-}
+{ "name": "string", "description": "string", "phone": "string", "published": "boolean" }
 ```
+Os demais campos (`duration`, `learning`, `requirements`, `team`) são preenchidos pela atualização.
 
-**Retorno:**  
-```json
-{
-  "id": "string",
-  "name": "string",
-  "description": "string",
-  "phone": "string",
-  "published": "boolean",
-  "createdAt": "Date",
-  "updatedAt": "Date"
-}
-```
+**Retorno:** `{ "statusCode": 201, "body": Course }`
 
-### Atualizar Curso
-```
-PUT https://teia.ipe.org.br/api/courses/[id]
-```
-**Permissão:** Administrador  
-**Parâmetros:**  
-```json
-{
-  "name": "string",
-  "description": "string",
-  "phone": "string",
-  "published": "boolean"
-}
-```
+**Erros:** 400 se já existir curso com o mesmo nome.
 
-**Retorno:**  
-```json
-{
-  "id": "string",
-  "name": "string",
-  "description": "string",
-  "phone": "string",
-  "published": "boolean",
-  "createdAt": "Date",
-  "updatedAt": "Date"
-}
+### Atualizar curso
 ```
+PUT /api/courses/[id]
+```
+**Permissão:** Administrador.
 
-### Deletar Curso
-```
-DELETE https://teia.ipe.org.br/api/courses/[id]
-```
-**Permissão:** Administrador  
-**Parâmetros:**  
-Nenhum.
+**Body:** todos os campos editáveis de `Course` (`name`, `description`, `phone`, `published`, `duration`, `learning`, `requirements`, `team`).
 
-**Retorno:**  
-```json
-{
-  "statusCode": 201
-}
-```
+**Retorno:** `{ "statusCode": 201, "body": Course }`
 
-### Obter Progresso dos Usuários em um Curso
-```
-GET https://teia.ipe.org.br/api/courses/[id]/progress
-```
-**Permissão:** Administrador, Tutor  
-**Parâmetros:**  
-Nenhum.
+**Erros:** 400 se o curso não existir ou se o novo nome já for usado por outro curso.
 
-**Retorno:**  
+### Excluir curso
+```
+DELETE /api/courses/[id]
+```
+**Permissão:** Administrador.
+
+**Retorno:** `{ "statusCode": 201 }`
+
+> Observação: a exclusão remove apenas o curso; módulos, tópicos e progresso vinculados não são removidos.
+
+### Listar módulos de um curso
+```
+GET /api/courses/[id]/modules
+```
+**Permissão:** Administrador, Tutor.
+
+**Retorno:** `Module[]` ordenado por `order`, cada um com `topics[]`.
+
+### Progresso dos alunos em um curso
+```
+GET /api/courses/[id]/progress
+```
+**Permissão:** Administrador, Tutor.
+
+**Retorno:**
 ```json
 [
   {
-    "id": "string",
-    "user": {
-      "id": "string",
-      "name": "string",
-      "phone": "string"
-    },
+    "_id": "string",
+    "user": { "_id": "string", "name": "string", "phone": "string" },
     "course": "string",
-    "topics": [
-      {
-        "module": "string",
-        "topic": "string",
-        "createdAt": "Date"
-      }
-    ],
+    "modules": [{ "module": "string", "createdAt": "Date" }],
+    "topics": [{ "module": "string", "topic": "string", "createdAt": "Date" }],
     "createdAt": "Date",
     "updatedAt": "Date"
   }
 ]
 ```
+
+---
 
 ## Módulos
 
-### Listar Módulos de um Curso
-```
-GET https://teia.ipe.org.br/api/courses/[id]/modules
-```
-**Permissão:** Administrador, Tutor  
-**Parâmetros:**  
-Nenhum.
-
-**Retorno:**  
+Objeto `Module`:
 ```json
-[
-  {
-    "id": "string",
-    "name": "string",
-    "description": "string",
-    "course": "string",
-    "order": "number",
-    "createdAt": "Date",
-    "updatedAt": "Date"
-  }
-]
+{ "_id": "string", "name": "string", "description": "string", "course": "string", "order": "number", "createdAt": "Date", "updatedAt": "Date" }
 ```
 
-### Obter Módulo
-```
-GET https://teia.ipe.org.br/api/modules/[id]
-```
-**Parâmetros:**  
-Nenhum.
+> Não existe endpoint para obter um módulo isolado. Use `GET /api/courses/[id]/modules` ou `GET /api/courses/[id]`.
 
-**Retorno:**  
+### Criar módulo
+```
+POST /api/modules/create
+```
+**Permissão:** Administrador.
+
+**Body:**
 ```json
-{
-  "id": "string",
-  "name": "string",
-  "description": "string",
-  "course": "string",
-  "order": "number",
-  "createdAt": "Date",
-  "updatedAt": "Date"
-}
+{ "name": "string", "description": "string", "course": "string" }
 ```
+A ordem é definida automaticamente (último + 1).
 
-### Criar Módulo
+**Retorno:** `Module`. **Erros:** 400 se `name` ou `course` estiverem ausentes.
+
+### Atualizar módulo
 ```
-POST https://teia.ipe.org.br/api/modules/create
+PUT /api/modules/[id]
 ```
-**Permissão:** Administrador  
-**Parâmetros:**  
+**Permissão:** Administrador.
+
+**Body (todos opcionais):**
 ```json
-{
-  "name": "string",
-  "description": "string",
-  "course": "string",
-  "order": "number"
-}
+{ "name": "string", "description": "string", "course": "string", "order": "number" }
 ```
+**Retorno:** `{ "statusCode": 200, "body": Module }`. **Erros:** 404 se o módulo não existir.
 
-**Retorno:**  
+### Excluir módulo
+```
+DELETE /api/modules/[id]
+```
+**Permissão:** Administrador.
+
+**Retorno:** `{ "statusCode": 200, "message": "Módulo removido com sucesso" }`. **Erros:** 404.
+
+### Reordenar módulo
+```
+POST /api/modules/reorder
+```
+**Permissão:** Administrador.
+
+**Body:**
 ```json
-{
-  "id": "string",
-  "name": "string",
-  "description": "string",
-  "course": "string",
-  "order": "number",
-  "createdAt": "Date",
-  "updatedAt": "Date"
-}
+{ "moduleId": "string", "direction": "up | down" }
 ```
+**Retorno:** `{ "success": true }`. **Erros:** 400 se não for possível mover nessa direção; 404 se o módulo não existir.
 
-### Atualizar Módulo
-```
-PUT https://teia.ipe.org.br/api/modules/[id]
-```
-**Permissão:** Administrador  
-**Parâmetros:**  
+---
+
+## Tópicos (conteúdo do módulo)
+
+Objeto `Topic`:
 ```json
 {
-  "name": "string",
-  "description": "string",
-  "course": "string",
-  "order": "number"
-}
-```
-
-**Retorno:**  
-```json
-{
-  "id": "string",
-  "name": "string",
-  "description": "string",
-  "course": "string",
-  "order": "number",
-  "createdAt": "Date",
-  "updatedAt": "Date"
-}
-```
-
-### Deletar Módulo
-```
-DELETE https://teia.ipe.org.br/api/modules/[id]
-```
-**Permissão:** Administrador  
-**Parâmetros:**  
-Nenhum.
-
-**Retorno:**  
-```json
-{
-  "statusCode": 200,
-  "message": "Módulo removido com sucesso"
-}
-```
-
-### Reordenar Módulo
-```
-POST https://teia.ipe.org.br/api/modules/reorder
-```
-**Permissão:** Administrador  
-**Parâmetros:**  
-```json
-{
-  "moduleId": "string",
-  "direction": "string (up | down)"
-}
-```
-
-**Retorno:**  
-```json
-{
-  "success": true
-}
-```
-
-## Tópicos
-
-### Listar Tópicos de um Módulo
-```
-GET https://teia.ipe.org.br/api/topics?module=[moduleId]
-```
-**Permissão:** Administrador, Tutor  
-**Parâmetros:**  
-Nenhum.
-
-**Retorno:**  
-```json
-[
-  {
-    "id": "string",
-    "title": "string",
-    "content": [
-      {
-        "type": "string (text | image | video | audio | document)",
-        "content": "string",
-        "order": "number"
-      }
-    ],
-    "module": "string",
-    "order": "number",
-    "createdAt": "Date",
-    "updatedAt": "Date"
-  }
-]
-```
-
-### Obter Tópico
-```
-GET https://teia.ipe.org.br/api/topics/[id]
-```
-**Permissão:** Administrador, Tutor  
-**Parâmetros:**  
-Nenhum.
-
-**Retorno:**  
-```json
-{
-  "id": "string",
+  "_id": "string",
   "title": "string",
-  "content": [
-    {
-      "type": "string (text | image | video | audio | document)",
-      "content": "string",
-      "order": "number"
-    }
-  ],
+  "type": "lesson | questionnaire",
+  "content": [{ "type": "text | image | video | audio | document", "content": "string", "order": "number" }],
+  "questions": [{ "question": "string", "options": ["string"], "correctAnswer": "number (índice da opção correta)" }],
   "module": "string",
   "order": "number",
   "createdAt": "Date",
   "updatedAt": "Date"
 }
 ```
+Tópicos do tipo `lesson` usam `content`; tópicos do tipo `questionnaire` usam `questions` (múltipla escolha).
 
-### Criar Tópico
+> Não existe endpoint para obter um tópico isolado. Use `GET /api/topics?module=[id]` ou `GET /api/courses/[id]`.
+
+### Listar tópicos
 ```
-POST https://teia.ipe.org.br/api/topics/create
+GET /api/topics?module=[moduleId]
 ```
-**Permissão:** Administrador  
-**Parâmetros:**  
+**Permissão:** Administrador, Tutor. Sem `module`, retorna todos os tópicos.
+
+**Retorno:** `Topic[]` ordenado por `order`.
+
+### Criar tópico
+```
+POST /api/topics/create
+```
+**Permissão:** Administrador.
+
+**Body:**
 ```json
-{
-  "title": "string",
-  "content": [
-    {
-      "type": "string (text | image | video | audio | document)",
-      "content": "string",
-      "order": "number"
-    }
-  ],
-  "module": "string",
-  "order": "number"
-}
+{ "title": "string", "module": "string", "type": "lesson | questionnaire", "content": [], "questions": [] }
 ```
+A ordem é definida automaticamente.
 
-**Retorno:**  
+**Retorno:** `Topic`. **Erros:** 400 se `title` ou `module` estiverem ausentes.
+
+### Atualizar tópico
+```
+PUT /api/topics/[id]
+```
+**Permissão:** Administrador.
+
+**Body (todos opcionais):** `title`, `content`, `order`, `type`, `questions`.
+
+**Retorno:** `Topic`. **Erros:** 404.
+
+### Excluir tópico
+```
+DELETE /api/topics/[id]
+```
+**Permissão:** Administrador.
+
+**Retorno:** `{ "statusCode": 200 }`. **Erros:** 404.
+
+### Reordenar tópico
+```
+POST /api/topics/reorder
+```
+**Permissão:** Administrador.
+
+**Body:**
 ```json
-{
-  "id": "string",
-  "title": "string",
-  "content": [
-    {
-      "type": "string (text | image | video | audio | document)",
-      "content": "string",
-      "order": "number"
-    }
-  ],
-  "module": "string",
-  "order": "number",
-  "createdAt": "Date",
-  "updatedAt": "Date"
-}
+{ "topicId": "string", "direction": "up | down" }
 ```
+**Retorno:** `{ "success": true }`.
 
-### Atualizar Tópico
+---
+
+## Relatórios
+
+Todos exigem **Administrador** ou **Tutor**.
+
+### Relatório de progresso por módulo
 ```
-PUT https://teia.ipe.org.br/api/topics/[id]
+GET /api/reports/progress?courseId=&userId=
 ```
-**Permissão:** Administrador  
-**Parâmetros:**  
+**Retorno:** uma linha por combinação curso × módulo × estudante:
 ```json
-{
-  "title": "string",
-  "content": [
-    {
-      "type": "string (text | image | video | audio | document)",
-      "content": "string",
-      "order": "number"
-    }
-  ],
-  "order": "number"
-}
+[{ "user": { "id": "string", "name": "string" }, "course": { "id": "string", "name": "string" }, "module": { "id": "string", "name": "string" }, "completed": "boolean" }]
 ```
+O painel permite exportar este relatório em CSV.
 
-**Retorno:**  
+### Opções de filtro do relatório de progresso
+```
+GET /api/reports/progress-filters
+```
+**Retorno:**
 ```json
-{
-  "id": "string",
-  "title": "string",
-  "content": [
-    {
-      "type": "string (text | image | video | audio | document)",
-      "content": "string",
-      "order": "number"
-    }
-  ],
-  "module": "string",
-  "order": "number",
-  "createdAt": "Date",
-  "updatedAt": "Date"
-}
+{ "courses": [{ "id": "string", "name": "string" }], "users": [{ "id": "string", "name": "string" }] }
 ```
 
-### Deletar Tópico
+### Relatório de respostas
 ```
-DELETE https://teia.ipe.org.br/api/topics/[id]
+GET /api/reports/answers?courseId=&userId=&search=
 ```
-**Permissão:** Administrador  
-**Parâmetros:**  
-Nenhum.
+Lista as respostas registradas pelo chatbot (`POST /api/chatbot/answers`). `search` filtra por nome do aluno, nome do curso ou texto da pergunta.
 
-**Retorno:**  
+**Retorno:**
 ```json
-{
-  "statusCode": 200
-}
+[{ "user": { "_id": "string", "name": "string" }, "course": { "_id": "string", "name": "string" }, "question": "string", "answer": "string", "createdAt": "Date" }]
 ```
 
-### Reordenar Tópico
+### Opções de filtro do relatório de respostas
 ```
-POST https://teia.ipe.org.br/api/topics/reorder
+GET /api/reports/answer-filters
 ```
-**Permissão:** Administrador  
-**Parâmetros:**  
-```json
-{
-  "topicId": "string",
-  "direction": "string (up | down)"
-}
-```
+**Retorno:** mesmo formato de `/api/reports/progress-filters`.
 
-**Retorno:**  
-```json
-{
-  "success": true
-}
-```
+---
 
 ## Uploads
 
-### Upload de Imagem
-```
-POST https://teia.ipe.org.br/api/upload/image
-```
-**Permissão:** Público (sem autenticação)  
-**Parâmetros:**  
-FormData com o arquivo no campo 'file'
+**Permissão:** Administrador, Tutor.
 
-**Retorno:**  
-```json
-{
-  "type": "image",
-  "url": "string",
-  "thumb": "string",
-  "average": "string"
-}
-```
+Todos recebem `multipart/form-data` com o arquivo no campo `file`. O nome do arquivo armazenado é **gerado pelo servidor** (o nome original não é usado como chave, evitando sobrescrita). Os arquivos são gravados no DigitalOcean Spaces com leitura pública, e a URL retornada é relativa ao bucket (`FILES_URL`).
 
-### Upload de Vídeo
-```
-POST https://teia.ipe.org.br/api/upload/video
-```
-**Permissão:** Público (sem autenticação)  
-**Parâmetros:**  
-FormData com o arquivo no campo 'file'
+| Endpoint | Tipos aceitos | Tamanho máximo | Retorno |
+|---|---|---|---|
+| `POST /api/upload/image` | `image/*`, exceto SVG | 15 MB | `{ "type": "image", "url", "thumb", "average" }` (miniatura 400×400 e versão até 1920 px de largura) |
+| `POST /api/upload/video` | `video/*` | 500 MB | `{ "type": "video", "url" }` |
+| `POST /api/upload/audio` | `audio/*` | 50 MB | `{ "type": "audio", "url" }` |
+| `POST /api/upload/document` | PDF, Word, Excel, PowerPoint, OpenDocument, ZIP, TXT, CSV | 50 MB | `{ "type": "document", "title", "url" }` (`title` = nome original sem extensão) |
 
-**Retorno:**  
-```json
-{
-  "type": "video",
-  "url": "string"
-}
-```
-
-### Upload de Áudio
-```
-POST https://teia.ipe.org.br/api/upload/audio
-```
-**Permissão:** Público (sem autenticação)  
-**Parâmetros:**  
-FormData com o arquivo no campo 'file'
-
-**Retorno:**  
-```json
-{
-  "type": "audio",
-  "url": "string"
-}
-```
-
-### Upload de Documento
-```
-POST https://teia.ipe.org.br/api/upload/document
-```
-**Permissão:** Público (sem autenticação)  
-**Parâmetros:**  
-FormData com o arquivo no campo 'file'
-
-**Retorno:**  
-```json
-{
-  "type": "document",
-  "title": "string",
-  "url": "string"
-}
-```
-
-## Autenticação e Autorização
-
-### Tokens
-- Todos os endpoints (exceto login, register, forgot-password, recover-password, list-published e uploads) requerem autenticação
-- O token deve ser enviado no header: `Authorization: Bearer <token>`
-
-### Roles (Papéis)
-- **estudante**: Acesso básico aos cursos e módulos
-- **tutor**: Acesso de monitoramento e gerenciamento de progresso
-- **administrador**: Acesso completo ao sistema
-
-### Permissões por Endpoint
-- **Criação/Edição/Exclusão de Cursos**: Apenas administradores
-- **Criação/Edição/Exclusão de Módulos**: Apenas administradores
-- **Criação/Edição/Exclusão de Tópicos**: Apenas administradores
-- **Gerenciamento de Usuários**: Administradores e tutores
-- **Visualização de Progresso**: Administradores e tutores
-- **Registro de Progresso**: Todos os usuários autenticados
-- **Uploads**: Público (sem autenticação)
-- **Cursos Publicados**: Público (sem autenticação)
-
-**Observações:**
-- Todos os endpoints de upload aceitam arquivos via FormData
-- O campo do arquivo deve ser nomeado como 'file'
-- Para imagens, são geradas versões em miniatura (thumb) e tamanho médio (average)
-- Os arquivos são armazenados no S3 e as URLs retornadas são públicas
-- Tipos de arquivo aceitos:
-  - Imagem: image/*
-  - Vídeo: video/*
-  - Áudio: audio/*
-  - Documento: application/pdf e outros tipos de documento
-- O campo `phone` nos cursos é único e serve como identificador
-- O progresso dos usuários é rastreado por tópico dentro de cada módulo
-- Os tópicos podem conter múltiplos tipos de conteúdo (texto, imagem, vídeo, áudio, documento)
-
+**Erros:** 400 se nenhum arquivo for enviado ou se o tipo não for permitido; 401/403 sem token válido; 413 se o arquivo exceder o limite.

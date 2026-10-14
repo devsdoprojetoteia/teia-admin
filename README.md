@@ -4,6 +4,9 @@
 ## Wiki
 - [Guia de instalação do projeto](./docs/Installation.md)
 - [Contratos da API Rest](./docs/API.md)
+- [API do Chatbot](./CHATBOT-API.md)
+- [Segurança](./docs/SEGURANCA.md)
+- [Arquitetura da aplicação](./docs/arquitetura_aplicacao.md)
 
 ## Apresentação
 O Projeto TEIA consiste em um ecossistema de aplicações idealizado pelo [Lira | IPÊ](https://lira.ipe.org.br) e desenvolvido pelo [Terrakrya](https://www.terrakrya.com). Tendo como principal objetivo democratizar o acesso à informação para parceiros de Organicações de Base Comunitária da Amazônia. 
@@ -18,29 +21,38 @@ Os principais pilares do projeto são:
 ### Sobre o projeto
 O [TEIA Admin](https://github.com/devsdoprojetoteia/teia-admin) é o backend do TEIAbot. Responsável por gerir os acessos de usuários e o conteúdo disponibilizado na plataforma, seja através do próprio chatbot (de maneira guiada) ou na web (não guiada), por meio do [Portal TEIA](https://teia.ipe.org.br).
 
-#### Funcionalidades disponíveis
-- ✅ Gerenciamento de Sessão/Login
+#### Situação dos módulos
+
+Situação conferida no código em 14/10/2026. O detalhamento de cada módulo está em [Divisão de módulos](./docs/divisão_de_módulos.md).
+
+**Concluídos**
 - ✅ CRUD de Alunos
 - ✅ CRUD de Administradores
+- ✅ CRUD de Tutores
 - ✅ CRUD de Cursos
-- ✅ CRUD de Conteúdo do módulo
 - ✅ CRUD de Módulos do curso
+- ✅ CRUD de Conteúdo do módulo (tópicos com texto, imagem, vídeo, áudio e documento)
+- ✅ Montagem dinâmica do Portal do Aluno (Portal TEIA)
 
-#### Próximos passos
-- ⌛ CRUD de Jornadas do Chatbot
-- ⌛ Integração com Mensageiro
-- ⌛ Montagem dinâmica do Portal do Aluno
-- ⌛ CRUD de Progresso do aluno
-- ⌛ CRUD de Exercícios do conteúdo
-- ⌛ PWA do Portal do Aluno
-- ⌛ CRUD de Respostas dos exercícios
-- ⌛ CRUD de Tutores
-- ⌛ CRUD de Atendentes de Suporte
-- ⌛ CRUD de Chamados de Suporte
-- ⌛ CRUD de Comentários do conteúdo
-- ⌛ Exportação de Relatórios
-- ⌛ Agendamento de Jobs
-- ⌛ Envio de e-mails
+**Atendidos pelo Typebot** (`teia-typebot.ipe.org.br`)
+- 🔁 CRUD de Jornadas do Chatbot
+- 🔁 Execução da Jornada do Chatbot
+- 🔁 Integração com Mensageiro (WhatsApp)
+
+**Parciais**
+- 🟡 Gerenciamento de Sessão/Login: login por telefone e senha. Falta enviar o código de redefinição de senha ao usuário.
+- 🟡 Progresso do aluno: é registrado pelo chatbot, com relatório em CSV.
+- 🟡 Exercícios do conteúdo: questionários de múltipla escolha.
+- 🟡 Respostas dos exercícios: as respostas do chatbot são gravadas e podem ser consultadas no painel.
+- 🟡 PWA do Portal do Aluno: o portal inteiro pode ser instalado.
+- 🟡 Exportação de Relatórios: CSV de progresso e de respostas. Faltam os certificados.
+
+**Não iniciados**
+- ⬜ CRUD de Atendentes de Suporte
+- ⬜ CRUD de Chamados de Suporte
+- ⬜ CRUD de Comentários do conteúdo
+- ⬜ Agendamento de Jobs
+- ⬜ Envio de e-mails
 
 #### Estrutura do Projeto
 
@@ -120,7 +132,7 @@ Padrão Repository para abstração de chamadas à API:
 **📁 `/server`**  
 Código executado apenas no servidor (Nuxt Server Engine):
 - `api/`: Rotas de API REST:
-  - `auth/`: Autenticação (login, registro, recuperação de senha)
+  - `login.post.ts`, `register.post.ts`, `forgot-password.ts`, `recover-password.ts`: Autenticação
   - `courses/`: CRUD de cursos
   - `modules/`: CRUD de módulos
   - `topics/`: CRUD de tópicos/conteúdos
@@ -131,7 +143,7 @@ Código executado apenas no servidor (Nuxt Server Engine):
 - `middleware/`: Middleware do servidor (ex: CORS)
 - `models/`: Modelos Mongoose para MongoDB
 - `plugins/`: Plugins do servidor (ex: conexão Mongoose)
-- `utils/`: Utilitários do servidor (autorização, upload, mongoose)
+- `utils/`: Utilitários do servidor (autorização, validação de entrada, upload, mongoose)
 
 **📁 `/service-worker`**  
 Service Worker para PWA (Progressive Web App):
@@ -160,6 +172,7 @@ Arquivos enviados pelos usuários (geralmente ignorados pelo git)
 [Casos de Uso](./docs/casos_de_uso.md)
 [Divisão de módulos](./docs/divisão_de_módulos.md)
 [Arquitetura da aplicação](./docs/arquitetura_aplicacao.md)
+[Segurança](./docs/SEGURANCA.md)
 
 ## Design (UX/UI)
 [Figma](https://www.figma.com/design/nMztAvNEU8KpG0HocEu4sk/Portal-TEIA?node-id=0-1&p=f&t=lVjwHLjAovrlAtKa-0)

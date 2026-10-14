@@ -1,106 +1,65 @@
-# DESCRIÇÃO DOS ENDPOINTS DA API DO CHATBOT
+# API do Chatbot — TEIA Admin
+
+> Documento gerado a partir do código em `server/api/chatbot/` e revisado em 14/10/2026.
+> Demais endpoints: [docs/API.md](./docs/API.md). Segurança: [docs/SEGURANCA.md](./docs/SEGURANCA.md).
+
+**URL base (produção):** `https://teia.ipe.org.br`
+
+O chatbot do TEIA é construído no **Typebot** (self-hosted em `teia-typebot.ipe.org.br`) e conversa com os alunos pelo **WhatsApp**. A lógica da conversa (mensagens, perguntas, desvios) fica no fluxo do Typebot; o TEIA Admin fornece os dados de cursos e registra progresso e respostas por meio dos endpoints abaixo.
+
+## Diagrama de sequência da integração Typebot ↔ TEIA
+
+O diagrama de sequência da integração, com as quatro fases como chamadas independentes, os caminhos de erro e os guardrails da API, está em [docs/arquitetura_aplicacao.md](./docs/arquitetura_aplicacao.md#sequência-de-interação-do-chatbot).
+
+## Autenticação e escopo
+
+- Header obrigatório: `Authorization: Bearer <BOT_TOKEN>`.
+- `BOT_TOKEN` é um token fixo configurado na variável de ambiente do servidor. Se a variável não estiver definida, o acesso via token do bot fica desativado.
+- **O token do bot só é aceito nas rotas `/api/chatbot/*`.** Em qualquer outra rota ele é recusado com **403** — ele não dá acesso à API administrativa (usuários, criação/edição de cursos, uploads etc.).
+- Dentro de `/api/chatbot/*`, o token do bot tem o papel `chatbot`. Usuários com papel `administrador` (JWT do painel) também podem chamar essas rotas.
+
+## Identificação do aluno
+
+O aluno é identificado pelo telefone (`userPhone`/`phone`), fornecido pelo Typebot a partir da sessão do WhatsApp. O servidor normaliza o número para o formato `(11) 11111-1111`, aceitando:
+
+- `(11) 11111-1111`
+- `11111111111`
+- `5511111111111` (com código do país, como vem do WhatsApp)
+
+O telefone deve ser string ou número; objetos são rejeitados com 400.
+
+> Como o token do bot pode ler e gravar dados de qualquer aluno informando o telefone, ele deve ser tratado como credencial sensível: guardado apenas nas variáveis do Typebot, com acesso restrito ao workspace, e trocado periodicamente. Ver [SEGURANCA.md](./docs/SEGURANCA.md).
+
+## Erros
+
+```json
+{ "statusCode": 400, "message": "Descrição do erro" }
+```
+
+| Código | Quando ocorre |
+|---|---|
+| 400 | Parâmetro obrigatório ausente ou inválido; aluno ou curso não encontrado |
+| 401 | Token ausente ou inválido |
+| 403 | Token sem permissão para a rota |
+
+O fluxo do Typebot deve tratar respostas diferentes de 2xx (ver [diagrama de sequência](./docs/arquitetura_aplicacao.md#sequência-de-interação-do-chatbot)).
+
+---
 
 ## Usuários
 
-### Diagrama de sequência da integração TYPEBOT <-> TEIA (este sistema)
-
-<img width="7874" height="8192" alt="Course Progression via-2026-09-23-132024" src="https://github.com/user-attachments/assets/628ff6bc-fbd9-48cc-947b-51fb88c5586f" />
-
-<details>
-<summary>
-  Diagrama criado no https://mermaid.ai/play
-</summary>
-
+### Listar alunos
 ```
----
-config:
-  theme: default
-  themeVariables:
-    background: #fff
-    dardMode: false
----
-sequenceDiagram
-    autonumber
-    actor Aluno as Aluno (WhatsApp)
-    participant ZAP as WhatsApp<br/>(canal do Typebot)
-    participant TB as Typebot<br/>(teia-typebot.ipe.org.br)
-    participant API as TEIA Admin API<br/>(Nuxt/Nitro /api/chatbot/*)
-    participant DB as MongoDB<br/>(User, Course, Module, Topic, Progress, Answer)
-
-    Aluno->>ZAP: Envia mensagem / escolhe opção
-    ZAP->>TB: Evento da conversa (telefone + texto)
-    activate TB
-    Note over TB: Executa a jornada do curso<br/>vinculado ao número (Course.phone)
-
-    rect rgb(240,248,255)
-    Note over TB,API: Fase 1 - Identificar aluno
-    TB->>API: GET /api/chatbot/users?phone=...
-    activate API
-    API->>API: authorize() valida Bearer <BOT_TOKEN>
-    API->>DB: User.find({role:"estudante", phone})
-    DB-->>API: Usuário(s) + courseProgresses
-    API-->>TB: [{id,name,phone,courseProgresses}]
-    deactivate API
-    end
-
-    rect rgb(245,255,245)
-    Note over TB,API: Fase 2 - Listar e abrir conteúdo
-    TB->>API: GET /api/chatbot/courses?published=true
-    API->>DB: Course.find({published:true})
-    DB-->>API: Cursos
-    API-->>TB: [{id,name,description,phone,published}]
-
-    TB->>API: GET /api/chatbot/courses/:id
-    API->>DB: Course + Module.find(order) + Topic.find(order)
-    DB-->>API: Curso, módulos, tópicos, content[]
-    API-->>TB: Curso completo (módulos->tópicos->conteúdo)
-    end
-
-    rect rgb(255,250,240)
-    Note over TB,API: Fase 3 - Consultar progresso
-    TB->>API: GET /api/chatbot/courses/:id/progress?userPhone=...
-    API->>API: Normaliza telefone -> "(XX) XXXXX-XXXX"
-    API->>DB: User.findOne({phone}) + UserCourseProgress.find({user,course})
-    alt Aluno encontrado
-        DB-->>API: Progresso (módulos, tópicos)
-        API-->>TB: [{user,course,topics,modules}]
-    else Não encontrado
-        API-->>TB: 400 "Usuário não encontrado"
-    end
-    end
-
-    rect rgb(255,240,245)
-    Note over TB,API: Fase 4 - Registrar avanço e respostas
-    TB->>API: POST /api/chatbot/progress {courseId,userPhone}
-    API->>DB: Progress.find/create + push próximo módulo + tópicos
-    DB-->>API: Progresso atualizado
-    API-->>TB: {id,user,course,topics,modules}
-
-    TB->>API: POST /api/chatbot/answers {courseId,userPhone,question,answer}
-    API->>DB: Answer.find/create + push {question,answer}
-    DB-->>API: Respostas atualizadas
-    API-->>TB: {id,user,course,answers[]}
-    end
-
-    Note over TB: Formata mensagem rica<br/>(texto, link, imagem, vídeo, áudio, documento)
-    TB-->>ZAP: Resposta formatada do fluxo
-    ZAP-->>Aluno: Entrega no WhatsApp
-    deactivate TB
+GET /api/chatbot/users
 ```
+**Parâmetros (query, opcionais):**
+- `phone`: telefone do aluno
+- `course`: ID do curso — retorna apenas alunos com progresso nesse curso
+- `user`: ID do aluno
 
-</details>
+Retorna apenas usuários com papel `estudante`. Se nenhum aluno corresponder aos filtros, retorna `[]`.
 
-### Listar Usuários para Chatbot
-```
-GET https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/users
-```
-**Permissão:** Administrador, Tutor  
-**Parâmetros:**  
-- `phone` (opcional): Número de telefone do usuário (formato: "(11) 11111-1111" ou "11111111111")
-- `course` (opcional): ID do curso para filtrar usuários que tem progresso naquele curso
-- `user` (opcional): ID específico do usuário
-
-**Retorno:**  
+**Retorno:**
 ```json
 [
   {
@@ -109,19 +68,11 @@ GET https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/users
     "phone": "string",
     "courseProgresses": [
       {
-        "id": "string",
+        "_id": "string",
         "user": "string",
-        "course": {
-          "id": "string",
-          "name": "string"
-        },
-        "topics": [
-          {
-            "module": "string",
-            "topic": "string",
-            "createdAt": "Date"
-          }
-        ],
+        "course": { "_id": "string", "name": "string" },
+        "modules": [{ "module": "string", "createdAt": "Date" }],
+        "topics": [{ "module": "string", "topic": "string", "createdAt": "Date" }],
         "createdAt": "Date",
         "updatedAt": "Date"
       }
@@ -132,207 +83,104 @@ GET https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/users
 
 ## Cursos
 
-### Listar Cursos para Chatbot
+### Listar cursos
 ```
-GET https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/courses
+GET /api/chatbot/courses
 ```
-**Permissão:** Administrador  
-**Parâmetros:**  
-- `published` (opcional): "true" para filtrar apenas cursos publicados
+**Parâmetros (query, opcionais):**
+- `published`: `"true"` para retornar apenas cursos publicados
 
-**Retorno:**  
+**Retorno:** lista de cursos (mesmo objeto `Course` de [docs/API.md](./docs/API.md#cursos)), ordenada por nome.
+
+### Obter curso completo
+```
+GET /api/chatbot/courses/[id]
+```
+**Retorno:** `Course` com `modules[]`, e cada módulo com `topics[]` (conteúdo e questionários), ordenados por `order`.
+
+**Erros:** 400 se o curso não existir.
+
+### Progresso dos alunos em um curso
+```
+GET /api/chatbot/courses/[id]/progress
+```
+**Parâmetros (query, opcionais):**
+- `userPhone`: telefone do aluno
+
+Sem `userPhone`, retorna o progresso de todos os alunos do curso. Com `userPhone`, retorna apenas o progresso daquele aluno — e **retorna `[]` se o telefone não pertencer a nenhum usuário** (nunca devolve o progresso de outros alunos).
+
+**Retorno:**
 ```json
 [
   {
-    "id": "string",
-    "name": "string",
-    "description": "string",
-    "phone": "string",
-    "published": "boolean",
-    "createdAt": "Date",
-    "updatedAt": "Date"
-  }
-]
-```
-
-### Obter Curso Completo para Chatbot
-```
-GET https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/courses/[id]
-```
-**Permissão:** Administrador  
-**Parâmetros:**  
-Nenhum.
-
-**Retorno:**  
-```json
-{
-  "id": "string",
-  "name": "string",
-  "description": "string",
-  "phone": "string",
-  "published": "boolean",
-  "createdAt": "Date",
-  "updatedAt": "Date",
-  "modules": [
-    {
-      "id": "string",
-      "name": "string",
-      "description": "string",
-      "course": "string",
-      "order": "number",
-      "createdAt": "Date",
-      "updatedAt": "Date",
-      "topics": [
-        {
-          "id": "string",
-          "title": "string",
-          "content": [
-            {
-              "type": "string (text | image | video | audio | document)",
-              "content": "string",
-              "order": "number"
-            }
-          ],
-          "module": "string",
-          "order": "number",
-          "createdAt": "Date",
-          "updatedAt": "Date"
-        }
-      ]
-    }
-  ]
-}
-```
-
-### Obter Progresso dos Usuários em um Curso para Chatbot
-```
-GET https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/courses/[id]/progress
-```
-**Permissão:** Administrador  
-**Parâmetros:**  
-- `userPhone` (opcional): Número de telefone do usuário para filtrar o progresso (formato: "(11) 11111-1111" ou "11111111111")
-
-**Retorno:**  
-```json
-[
-  {
-    "id": "string",
-    "user": {
-      "id": "string",
-      "name": "string",
-      "phone": "string"
-    },
+    "_id": "string",
+    "user": { "_id": "string", "name": "string", "phone": "string" },
     "course": "string",
-    "topics": [
-      {
-        "module": "string",
-        "topic": "string",
-        "createdAt": "Date"
-      }
-    ],
-    "modules": [
-      {
-        "module": "string",
-        "createdAt": "Date"
-      }
-    ],
+    "modules": [{ "module": "string", "createdAt": "Date" }],
+    "topics": [{ "module": "string", "topic": "string", "createdAt": "Date" }],
     "createdAt": "Date",
     "updatedAt": "Date"
   }
 ]
 ```
 
-### Avançar Progresso do Usuário em um Curso para Chatbot
+## Progresso
+
+### Avançar o aluno para o próximo módulo
 ```
-POST https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/progress
+POST /api/chatbot/progress
 ```
-**Permissão:** Administrador  
-**Body:**  
+**Body:**
 ```json
-{
-  "courseId": "string",
-  "userPhone": "string"
-}
+{ "courseId": "string", "userPhone": "string" }
 ```
 
-**Parâmetros do Body:**  
-- `courseId` (obrigatório): ID do curso
-- `userPhone` (obrigatório): Número de telefone do usuário (formato: "(11) 11111-1111" ou "11111111111")
+**Comportamento:**
+1. Localiza o aluno pelo telefone (400 se não existir).
+2. Cria o registro de progresso do aluno no curso, se ainda não houver.
+3. Marca como concluído o **primeiro módulo ainda não concluído** (na ordem do curso) e todos os seus tópicos.
+4. Se todos os módulos já estiverem concluídos, não altera nada e retorna o progresso atual.
 
-**Retorno:**  
+Cada chamada avança no máximo um módulo.
+
+**Retorno:**
 ```json
 {
-  "id": "string",
+  "_id": "string",
   "user": "string",
   "course": "string",
-  "topics": [
-    {
-      "module": "string",
-      "topic": "string",
-      "createdAt": "Date"
-    }
-  ],
-  "modules": [
-    {
-      "module": "string",
-      "createdAt": "Date"
-    }
-  ],
+  "modules": [{ "module": "string", "createdAt": "Date" }],
+  "topics": [{ "module": "string", "topic": "string", "createdAt": "Date" }],
   "createdAt": "Date",
   "updatedAt": "Date"
 }
 ```
 
-**Descrição:**  
-Avança o progresso do usuário no curso especificado (hardcoded no chatbot), adicionando o próximo módulo e todos os seus tópicos ao progresso do usuário. Se o usuário não possui progresso no curso, cria um novo registro. Se o usuário não for encontrado, retorna erro 400.
+**Erros:** 400 se `courseId` ou `userPhone` estiverem ausentes/inválidos ou se o aluno não existir.
 
-### Salvar Resposta do Usuário em um Curso para Chatbot
+## Respostas
+
+### Registrar resposta do aluno
 ```
-POST https://teia-admin-2rphc.ondigitalocean.app/api/chatbot/answers
+POST /api/chatbot/answers
 ```
-**Permissão:** Administrador  
-**Body:**  
+**Body:**
+```json
+{ "courseId": "string", "userPhone": "string", "question": "string", "answer": "string" }
+```
+
+**Comportamento:** localiza o aluno pelo telefone (400 se não existir) e acrescenta a pergunta/resposta ao registro de respostas do aluno no curso, criando o registro se necessário. As respostas aparecem no relatório de atividades do painel (`GET /api/reports/answers`).
+
+**Retorno:**
 ```json
 {
-  "courseId": "string",
-  "userPhone": "string",
-  "question": "string",
-  "answer": "string"
-}
-```
-
-**Parâmetros do Body:**  
-- `courseId` (obrigatório): ID do curso
-- `userPhone` (obrigatório): Número de telefone do usuário (formato: "(11) 11111-1111" ou "11111111111")
-- `question` (opcional): Pergunta relacionada ao curso
-- `answer` (opcional): Resposta do usuário à pergunta
-
-**Retorno:**  
-```json
-{
-  "id": "string",
+  "_id": "string",
   "user": "string",
   "course": "string",
-  "answers": [
-    {
-      "question": "string",
-      "answer": "string",
-      "createdAt": "Date"
-    }
-  ],
+  "answers": [{ "question": "string", "answer": "string", "createdAt": "Date" }],
   "createdAt": "Date",
   "updatedAt": "Date"
 }
 ```
 
-**Descrição:**  
-Salva uma resposta do usuário relacionada a um curso. O telefone do usuário é formatado automaticamente para o padrão "(XX) XXXXX-XXXX" se necessário. Se o usuário não for encontrado, retorna erro 400. Se não existir um registro de respostas para o usuário e curso, cria um novo registro. Caso contrário, adiciona a nova pergunta/resposta ao array de respostas existente.
-
-## Autenticação e Autorização
-
-### Tokens
-- Todos os endpoints do chatbot requerem autenticação
-- O token deve ser enviado no header: `Authorization: Bearer <token>`
-
-### Permissões por Endpoint
-- **Todas as rotas**: Apenas Administradores (token fixo para o chatbot)
+**Erros:** 400 se `courseId` ou `userPhone` estiverem ausentes/inválidos ou se o aluno não existir. `question` e `answer` são obrigatórios no banco: se vierem vazios, a gravação falha com erro 500.
