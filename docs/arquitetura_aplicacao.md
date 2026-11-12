@@ -21,7 +21,6 @@ flowchart TB
   %% Canais
   WhatsApp[WhatsApp<br/>API oficial da Meta<br/>Cloud API]
   Portal[Portal TEIA<br/>Web/PWA]
-  Client[typebot-client-whatsapp<br/>Node.js + SQLite<br/>ponte WhatsApp ↔ Typebot]
 
   %% DigitalOcean
   subgraph DO[DigitalOcean]
@@ -42,6 +41,7 @@ flowchart TB
     end
 
     subgraph Compute[Droplet]
+      Client[typebot-client-whatsapp<br/>Node.js + SQLite<br/>ponte WhatsApp ↔ Typebot]
       Typebot[Typebot self-hosted<br/>teia-typebot.ipe.org.br]
     end
 
@@ -79,7 +79,7 @@ flowchart TB
 | API REST (`server/api`) | App Platform (mesmo app) | Autenticação, CRUDs, uploads, relatórios e endpoints do chatbot. Contratos em [API.md](./API.md) e [CHATBOT-API.md](../CHATBOT-API.md) |
 | Portal TEIA | App Platform (mesmo app) | Páginas públicas dos cursos publicados (`/curso/[id]`), renderizadas sob demanda e instaláveis como PWA |
 | Typebot | Droplet (`teia-typebot.ipe.org.br`) | Construção e execução dos fluxos de conversa |
-| `typebot-client-whatsapp` | Serviço Node.js próprio ([repositório](https://github.com/devsdoprojetoteia/typebot-client-whatsapp)) | Ponte entre a API da Meta e o Typebot: recebe o webhook, mantém a sessão de cada aluno, repassa as mensagens ao Typebot (com o telefone do aluno) e envia as respostas (texto, imagem, vídeo, botões e listas) pelo WhatsApp |
+| `typebot-client-whatsapp` | Droplet, junto com o Typebot ([repositório](https://github.com/devsdoprojetoteia/typebot-client-whatsapp)) | Ponte entre a API da Meta e o Typebot: recebe o webhook, mantém a sessão de cada aluno, repassa as mensagens ao Typebot (com o telefone do aluno) e envia as respostas (texto, imagem, vídeo, botões e listas) pelo WhatsApp |
 | WhatsApp Business Platform (Meta) | Serviço da Meta | Canal com o aluno, pela API oficial (Cloud API) |
 | MongoDB | Managed Database | Usuários, cursos, módulos, tópicos, progresso e respostas |
 | Spaces | Object Storage | Imagens (original, miniatura e média), vídeos, áudios e documentos |
