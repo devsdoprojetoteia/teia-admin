@@ -1,11 +1,12 @@
 # Arquitetura da Aplicação TEIA
 
-> Revisado em 14/10/2026.
+> Revisado em 12/11/2026.
 
-O ecossistema TEIA tem três frentes:
+O ecossistema TEIA tem quatro frentes:
 
 - **TEIA Admin** (este repositório): painel administrativo, Portal TEIA (portal público do aluno) e API REST, numa única aplicação Nuxt 3.
-- **Chatbot**: fluxos de conversa construídos no **Typebot** (ferramenta open source, self-hosted em `teia-typebot.ipe.org.br`) e entregues aos alunos pelo **WhatsApp**, por meio da **API oficial da Meta** (WhatsApp Business Platform / Cloud API), conectada diretamente ao Typebot.
+- **Chatbot**: fluxos de conversa construídos no **Typebot** (ferramenta open source, self-hosted em `teia-typebot.ipe.org.br`) e entregues aos alunos pelo **WhatsApp**, por meio da **API oficial da Meta** (WhatsApp Business Platform / Cloud API).
+- **typebot-client-whatsapp** ([repositório](https://github.com/devsdoprojetoteia/typebot-client-whatsapp)): serviço próprio, em Node.js, que faz a ponte entre a API da Meta e o Typebot. Ele recebe as mensagens dos alunos pelo webhook da Meta, repassa ao Typebot e envia as respostas de volta pelo WhatsApp, cobrindo recursos que a integração nativa do Typebot não atende (envio de vídeos, transcrição de áudio, comandos de ajuda etc.).
 - **Infraestrutura** na DigitalOcean: App Platform, MongoDB gerenciado e Spaces.
 
 ## Visão de Arquitetura (Aplicação + Infraestrutura)
@@ -20,6 +21,7 @@ flowchart TB
   %% Canais
   WhatsApp[WhatsApp<br/>API oficial da Meta<br/>Cloud API]
   Portal[Portal TEIA<br/>Web/PWA]
+  Client[typebot-client-whatsapp<br/>Node.js + SQLite<br/>ponte WhatsApp ↔ Typebot]
 
   %% DigitalOcean
   subgraph DO[DigitalOcean]
@@ -55,7 +57,8 @@ flowchart TB
 
   %% Fluxo do chatbot
   Student <--> WhatsApp
-  WhatsApp <--> Typebot
+  WhatsApp <-->|Webhook / envio de mensagens| Client
+  Client <-->|startChat / continueChat<br/>telefone do aluno| Typebot
   Typebot -->|HTTPS + BOT_TOKEN<br/>somente /api/chatbot/*| ApiRoutes
 
   %% Persistência
@@ -76,40 +79,48 @@ flowchart TB
 | API REST (`server/api`) | App Platform (mesmo app) | Autenticação, CRUDs, uploads, relatórios e endpoints do chatbot. Contratos em [API.md](./API.md) e [CHATBOT-API.md](../CHATBOT-API.md) |
 | Portal TEIA | App Platform (mesmo app) | Páginas públicas dos cursos publicados (`/curso/[id]`), renderizadas sob demanda e instaláveis como PWA |
 | Typebot | Droplet (`teia-typebot.ipe.org.br`) | Construção e execução dos fluxos de conversa |
-| WhatsApp Business Platform (Meta) | Serviço da Meta | Canal com o aluno. O Typebot usa a integração nativa com a API oficial da Meta (Cloud API); não há gateway intermediário |
+| `typebot-client-whatsapp` | Serviço Node.js próprio ([repositório](https://github.com/devsdoprojetoteia/typebot-client-whatsapp)) | Ponte entre a API da Meta e o Typebot: recebe o webhook, mantém a sessão de cada aluno, repassa as mensagens ao Typebot (com o telefone do aluno) e envia as respostas (texto, imagem, vídeo, botões e listas) pelo WhatsApp |
+| WhatsApp Business Platform (Meta) | Serviço da Meta | Canal com o aluno, pela API oficial (Cloud API) |
 | MongoDB | Managed Database | Usuários, cursos, módulos, tópicos, progresso e respostas |
 | Spaces | Object Storage | Imagens (original, miniatura e média), vídeos, áudios e documentos |
 
-## Responsabilidades: Typebot × TEIA Admin
+## Responsabilidades: ponte do WhatsApp × Typebot × TEIA Admin
 
 O Typebot **não é uma LLM**: os fluxos são determinísticos, desenhados no editor visual do Typebot pela equipe. A divisão de responsabilidades é:
 
-| Responsabilidade | Typebot | TEIA Admin (API) |
-|---|---|---|
-| Enviar mensagens, mídias e perguntas ao aluno | ✅ | — |
-| Decidir o próximo passo da conversa (desvios, repetições, validação da resposta digitada) | ✅ | — |
-| Fornecer o conteúdo do curso (módulos, tópicos, questionários) | — | ✅ |
-| Identificar o aluno pelo telefone e validar se ele existe | — | ✅ |
-| Persistir progresso e respostas | — | ✅ |
-| Autenticar o bot e limitar seu acesso às rotas do chatbot | — | ✅ |
-| Tratar falhas da API (fallback para o aluno) | ✅ | Retorna códigos de erro explícitos |
+| Responsabilidade | typebot-client-whatsapp | Typebot | TEIA Admin (API) |
+|---|---|---|---|
+| Receber e enviar mensagens no WhatsApp (API da Meta) | ✅ | — | — |
+| Manter a sessão de conversa de cada aluno | ✅ | ✅ | — |
+| Transcrever áudios e reconhecer a opção escolhida | ✅ | — | — |
+| Comandos de apoio (VOLTAR, AJUDA) | ✅ | — | — |
+| Decidir o próximo passo da conversa (desvios, repetições, validação da resposta digitada) | — | ✅ | — |
+| Fornecer o conteúdo do curso (módulos, tópicos, questionários) | — | — | ✅ |
+| Identificar o aluno pelo telefone e validar se ele existe | — | — | ✅ |
+| Persistir progresso e respostas | — | — | ✅ |
+| Autenticar o bot e limitar seu acesso às rotas do chatbot | — | — | ✅ |
+| Tratar falhas (fallback para o aluno) | Retentativas e aviso de erro | Caminhos de erro no fluxo | Retorna códigos de erro explícitos |
 
 ## Sequência de interação do chatbot
 
 Cada etapa abaixo é uma chamada independente à API: o Typebot faz uma requisição por etapa e só segue para a próxima depois de receber a resposta. Não há uma chamada única que execute todas as fases.
+
+Toda mensagem entre o aluno e o Typebot passa pelo `typebot-client-whatsapp`: na ida, ele recebe o webhook da Meta e chama o Typebot (`startChat` na primeira mensagem, `continueChat` nas seguintes, enviando o telefone do aluno na variável `phoneNumber`); na volta, ele converte as mensagens do Typebot para o formato do WhatsApp e as envia pela API da Meta.
 
 ```mermaid
 sequenceDiagram
   autonumber
   actor Aluno
   participant WA as WhatsApp<br/>(API oficial da Meta)
+  participant CL as typebot-client-whatsapp
   participant TB as Typebot
   participant API as TEIA Admin API
   participant DB as MongoDB
 
   Note over Aluno,DB: Fase 1 — Identificação do aluno
   Aluno->>WA: Envia mensagem
-  WA->>TB: Mensagem + telefone do remetente
+  WA->>CL: Webhook: mensagem + telefone do remetente
+  CL->>TB: startChat / continueChat (phoneNumber)
   TB->>API: GET /api/chatbot/users?phone=...
   API->>API: Valida BOT_TOKEN e escopo /api/chatbot/*
   API->>DB: Busca estudante pelo telefone normalizado
@@ -118,7 +129,8 @@ sequenceDiagram
     API-->>TB: 200 [aluno + progresso por curso]
   else Telefone não cadastrado
     API-->>TB: 200 []
-    TB-->>WA: Fallback: orienta o cadastro / encaminha à equipe
+    TB-->>CL: Fallback: orienta o cadastro / encaminha à equipe
+    CL-->>WA: Envia a mensagem
   end
 
   Note over Aluno,DB: Fase 2 — Carregar curso e posição do aluno
@@ -131,12 +143,15 @@ sequenceDiagram
 
   Note over Aluno,DB: Fase 3 — Entrega do conteúdo e coleta de respostas
   loop Para cada tópico do módulo
-    TB-->>WA: Conteúdo (texto, imagem, áudio, vídeo, documento)
+    TB-->>CL: Conteúdo (texto, imagem, áudio, vídeo, documento)
+    CL-->>WA: Envia no formato do WhatsApp
     WA-->>Aluno: Exibe conteúdo
     opt Tópico com pergunta
-      TB-->>WA: Pergunta
-      Aluno->>WA: Resposta
-      WA->>TB: Resposta
+      TB-->>CL: Pergunta (botões ou lista)
+      CL-->>WA: Envia a pergunta
+      Aluno->>WA: Resposta (texto, botão ou áudio)
+      WA->>CL: Webhook com a resposta
+      CL->>TB: continueChat (áudio transcrito, se for o caso)
       TB->>API: POST /api/chatbot/answers {courseId, userPhone, question, answer}
       API->>DB: Acrescenta resposta
       API-->>TB: 200 registro de respostas
@@ -147,7 +162,8 @@ sequenceDiagram
   TB->>API: POST /api/chatbot/progress {courseId, userPhone}
   API->>DB: Marca o próximo módulo pendente e seus tópicos
   API-->>TB: 200 progresso atualizado
-  TB-->>WA: Confirma a conclusão / apresenta o próximo módulo
+  TB-->>CL: Confirma a conclusão / apresenta o próximo módulo
+  CL-->>WA: Envia a mensagem
 
   Note over TB,API: Em qualquer chamada: 400 (dados inválidos ou aluno/curso inexistente),<br/>401/403 (token inválido ou fora do escopo). O fluxo do Typebot deve<br/>tratar respostas diferentes de 2xx e informar o aluno, sem avançar o progresso.
 ```
@@ -158,6 +174,14 @@ sequenceDiagram
 - **Identificação do aluno:** progresso e respostas só são gravados para telefones de usuários existentes (400 caso contrário). Consultas com telefone inexistente retornam vazio, nunca dados de outros alunos.
 - **Validação de entrada:** IDs e telefones precisam ser strings; objetos são rejeitados (proteção contra NoSQL injection).
 - **Avanço controlado:** cada `POST /api/chatbot/progress` avança no máximo um módulo, sempre na ordem do curso, e não altera nada quando o curso já foi concluído.
+
+### Fallbacks no typebot-client-whatsapp
+
+- **Retentativas:** chamadas ao Typebot e à API da Meta são repetidas até 3 vezes, com intervalo crescente.
+- **Sessão expirada:** se a sessão do aluno no Typebot expirou, o serviço inicia uma nova conversa automaticamente.
+- **Aviso ao aluno:** cada mensagem recebe uma reação indicando o estado (na fila, processando, concluída ou erro), de modo que o aluno sabe quando algo falhou.
+- **Comandos de apoio:** `VOLTAR` reinicia a conversa no fluxo principal; `AJUDA` envia o contato do suporte.
+- **Áudio:** quando habilitada, a transcrição converte o áudio em texto e reconhece a opção escolhida; se falhar, o aluno recebe uma mensagem de erro.
 
 ### Fallbacks no Typebot
 
