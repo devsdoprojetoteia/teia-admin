@@ -5,7 +5,7 @@
 
 **URL base (produção):** `https://teia.ipe.org.br`
 
-O chatbot do TEIA é construído no **Typebot** (self-hosted em `teia-typebot.ipe.org.br`) e conversa com os alunos pelo **WhatsApp**. A lógica da conversa (mensagens, perguntas, desvios) fica no fluxo do Typebot; o TEIA Admin fornece os dados de cursos e registra progresso e respostas por meio dos endpoints abaixo.
+O chatbot do TEIA é construído no **Typebot** (self-hosted em `teia-typebot.ipe.org.br`) e conversa com os alunos pelo **WhatsApp**, usando a API oficial da Meta (Cloud API) integrada diretamente ao Typebot. A lógica da conversa (mensagens, perguntas, desvios) fica no fluxo do Typebot; o TEIA Admin fornece os dados de cursos e registra progresso e respostas por meio dos endpoints abaixo.
 
 ## Diagrama de sequência da integração Typebot ↔ TEIA
 

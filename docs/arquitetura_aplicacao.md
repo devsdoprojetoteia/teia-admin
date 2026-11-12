@@ -5,7 +5,7 @@
 O ecossistema TEIA tem três frentes:
 
 - **TEIA Admin** (este repositório): painel administrativo, Portal TEIA (portal público do aluno) e API REST, numa única aplicação Nuxt 3.
-- **Chatbot**: fluxos de conversa construídos no **Typebot** (ferramenta open source, self-hosted em `teia-typebot.ipe.org.br`) e entregues aos alunos pelo **WhatsApp**.
+- **Chatbot**: fluxos de conversa construídos no **Typebot** (ferramenta open source, self-hosted em `teia-typebot.ipe.org.br`) e entregues aos alunos pelo **WhatsApp**, por meio da **API oficial da Meta** (WhatsApp Business Platform / Cloud API), conectada diretamente ao Typebot.
 - **Infraestrutura** na DigitalOcean: App Platform, MongoDB gerenciado e Spaces.
 
 ## Visão de Arquitetura (Aplicação + Infraestrutura)
@@ -18,7 +18,7 @@ flowchart TB
   Student[Aluno]
 
   %% Canais
-  WhatsApp[WhatsApp]
+  WhatsApp[WhatsApp<br/>API oficial da Meta<br/>Cloud API]
   Portal[Portal TEIA<br/>Web/PWA]
 
   %% DigitalOcean
@@ -75,7 +75,8 @@ flowchart TB
 | `teia-admin` | App Platform | Painel administrativo (cursos, módulos, tópicos, usuários, relatórios), Portal TEIA e API REST |
 | API REST (`server/api`) | App Platform (mesmo app) | Autenticação, CRUDs, uploads, relatórios e endpoints do chatbot. Contratos em [API.md](./API.md) e [CHATBOT-API.md](../CHATBOT-API.md) |
 | Portal TEIA | App Platform (mesmo app) | Páginas públicas dos cursos publicados (`/curso/[id]`), renderizadas sob demanda e instaláveis como PWA |
-| Typebot | Droplet (`teia-typebot.ipe.org.br`) | Construção e execução dos fluxos de conversa; integração com o WhatsApp |
+| Typebot | Droplet (`teia-typebot.ipe.org.br`) | Construção e execução dos fluxos de conversa |
+| WhatsApp Business Platform (Meta) | Serviço da Meta | Canal com o aluno. O Typebot usa a integração nativa com a API oficial da Meta (Cloud API); não há gateway intermediário |
 | MongoDB | Managed Database | Usuários, cursos, módulos, tópicos, progresso e respostas |
 | Spaces | Object Storage | Imagens (original, miniatura e média), vídeos, áudios e documentos |
 
@@ -101,7 +102,7 @@ Cada etapa abaixo é uma chamada independente à API: o Typebot faz uma requisi�
 sequenceDiagram
   autonumber
   actor Aluno
-  participant WA as WhatsApp
+  participant WA as WhatsApp<br/>(API oficial da Meta)
   participant TB as Typebot
   participant API as TEIA Admin API
   participant DB as MongoDB
